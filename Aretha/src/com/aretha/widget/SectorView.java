@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Tank
+ * Copyright 2012 Tang Ke
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,13 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Scroller;
 
+/**
+ * A {@link ViewGroup} that position the children in a point and can be
+ * expanded.
+ * 
+ * @author Tank
+ * 
+ */
 public class SectorView extends ViewGroup implements OnClickListener {
 	private int mChildCount;
 	private boolean mIsExpand;
@@ -391,6 +398,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		savedState.isExpand = mIsExpand ? 1 : 0;
 		savedState.quadrant = mQuadrant;
 		savedState.radius = mRadius;
+		savedState.animationOffset = mAnimationOffset;
+		savedState.duration = mDuration;
 		return savedState;
 	}
 
@@ -403,6 +412,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		mIsExpand = savedState.isExpand == 0 ? false : true;
 		mQuadrant = savedState.quadrant;
 		mRadius = savedState.radius;
+		mAnimationOffset = savedState.animationOffset;
+		mDuration = savedState.duration;
 	}
 
 	/**
@@ -468,11 +479,19 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		public boolean onSectorClick(View sector);
 	}
 
+	/**
+	 * Base class for save the state of this view.
+	 * 
+	 * @author Tank
+	 * 
+	 */
 	static class SavedState extends BaseSavedState {
 		public int quadrant;
 		public int radius;
 		public int currentRadius;
 		public int isExpand;
+		public int animationOffset;
+		public int duration;
 
 		SavedState(Parcelable superState) {
 			super(superState);
@@ -487,6 +506,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			currentRadius = in.readInt();
 			in.setDataPosition(3);
 			isExpand = in.readInt();
+			in.setDataPosition(4);
+			animationOffset = in.readInt();
+			in.setDataPosition(5);
+			duration = in.readInt();
 		}
 
 		@Override
@@ -496,6 +519,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			out.writeInt(radius);
 			out.writeInt(currentRadius);
 			out.writeInt(isExpand);
+			out.writeInt(animationOffset);
+			out.writeInt(duration);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
