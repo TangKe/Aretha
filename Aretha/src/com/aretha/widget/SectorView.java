@@ -40,7 +40,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	private int mChildCount;
 	private boolean mIsExpand;
 	private int mCurrentRadius;
-	private int mRadius = 250;
+	private int mRadius = 300;
 	private int mQuadrant = 1;
 	private int mAnimationOffset = 30;
 	private int mDuration = 600;
@@ -144,7 +144,6 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		final int childCount = mChildCount;
 		final int currentRadius = mCurrentRadius;
 		final int radius = mRadius;
-		final int minBorderSize = Math.min(r - l, b - t);
 		final int quadrant = mQuadrant;
 		final int animationOffset = mAnimationOffset;
 		final Interpolator interpolator = mInterpolator;
@@ -156,11 +155,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			int halfChildWidth = Math.round(childView.getMeasuredWidth() / 2);
 			int halfChildHeight = Math.round(childView.getMeasuredHeight() / 2);
 
-			int childRadius = Math.max(
-					0,
-					Math.min(currentRadius - animationOffset * index,
-							Math.min(radius, minBorderSize)));
-
+			int childRadius = Math.max(0,
+					Math.min(currentRadius - animationOffset * index, radius));
 			float interpolation = interpolator
 					.getInterpolation((childRadius * 1.0f) / radius);
 			childRadius = (int) (interpolation * radius);
