@@ -169,11 +169,8 @@ public class PageIndicator extends View {
 		public SavedState(Parcel source) {
 			super(source);
 			activeDotIndex = source.readInt();
-			source.setDataPosition(1);
 			dotRadius = source.readInt();
-			source.setDataPosition(2);
 			dotSpacing = source.readInt();
-			source.setDataPosition(3);
 			dotNumber = source.readInt();
 		}
 
@@ -225,8 +222,6 @@ public class PageIndicator extends View {
 		mDotNumber = savedState.dotNumber;
 		mDotRadius = savedState.dotRadius;
 		mDotSpacing = savedState.dotSpacing;
-		
-		Log.e("Tank", mActiveDotIndex + " " + mDotNumber + " " + mDotRadius + " " + mDotSpacing);
 	}
 
 	public OnPageChangeListener getOnPageChangeListener() {

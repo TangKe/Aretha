@@ -496,15 +496,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		private SavedState(Parcel in) {
 			super(in);
 			quadrant = in.readInt();
-			in.setDataPosition(1);
 			radius = in.readInt();
-			in.setDataPosition(2);
 			currentRadius = in.readInt();
-			in.setDataPosition(3);
 			isExpand = in.readInt();
-			in.setDataPosition(4);
 			animationOffset = in.readInt();
-			in.setDataPosition(5);
 			duration = in.readInt();
 		}
 
