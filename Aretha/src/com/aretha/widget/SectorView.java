@@ -135,6 +135,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 					+ (isFifthQuadrant ? maxChildHeight : maxChildHeight / 2),
 					measuredHeight);
 		}
+		
+		measuredWidth += (getPaddingLeft() + getPaddingRight());
+		measuredHeight += (getPaddingTop() + getPaddingBottom());
+		
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}
