@@ -149,12 +149,13 @@ public class PageIndicator extends View {
 					&& y - mDownPoint[1] <= touchSlop) {
 				int pageIndex = mActiveDotIndex;
 				if (x < getLeft() + getWidth() / 2) {
-					if (onPageChangeListener != null) {
+					if (onPageChangeListener != null && pageIndex > 0) {
 						onPageChangeListener.onPrevPage();
 					}
 					pageIndex--;
 				} else {
-					if (onPageChangeListener != null) {
+					if (onPageChangeListener != null
+							&& pageIndex < Math.max(0, mDotNumber - 1)) {
 						onPageChangeListener.onNextPage();
 					}
 					pageIndex++;
@@ -168,12 +169,16 @@ public class PageIndicator extends View {
 	}
 
 	public void setActivePage(int index) {
-		this.mActiveDotIndex = Math.max(0, Math.min(index, mDotNumber));
-		invalidate();
+		int resolveIndex = Math.max(0, Math.min(index, mDotNumber - 1));
 
-		if (mOnPageChangeListener != null) {
+		if (mOnPageChangeListener != null
+				&& resolveIndex != this.mActiveDotIndex) {
 			mOnPageChangeListener.onPageChange(this.mActiveDotIndex);
 		}
+		
+		this.mActiveDotIndex = resolveIndex;
+		invalidate();
+
 	}
 
 	public int getActivePageIndex() {
