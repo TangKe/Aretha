@@ -1,6 +1,7 @@
 package com.arethademo.widget;
 
 import com.aretha.widget.SectorView;
+import com.aretha.widget.SectorView.OnSectorClickListener;
 import com.arethademo.R;
 
 import android.app.Activity;
@@ -10,8 +11,10 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
-public class SectorViewDemo extends Activity implements OnClickListener {
+public class SectorViewDemo extends Activity implements OnClickListener,
+		OnSectorClickListener {
 	private SectorView mSectorView;
 
 	@Override
@@ -20,6 +23,7 @@ public class SectorViewDemo extends Activity implements OnClickListener {
 		setContentView(R.layout.sectorview);
 
 		mSectorView = (SectorView) findViewById(R.id.sectorview);
+		mSectorView.setOnSectorClickListener(this); 
 	}
 
 	public void onClick(View v) {
@@ -56,5 +60,13 @@ public class SectorViewDemo extends Activity implements OnClickListener {
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		mSectorView.setQuadrant(++which);
+	}
+
+	@Override
+	public boolean onSectorClick(View sector) {
+		Toast.makeText(getApplicationContext(),
+				String.format("Chind %s clicked!", mSectorView.indexOfChild(sector)),
+				Toast.LENGTH_SHORT).show();
+		return false;
 	}
 }
