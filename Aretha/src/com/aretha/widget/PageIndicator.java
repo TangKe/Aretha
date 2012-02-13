@@ -187,6 +187,7 @@ public class PageIndicator extends View {
 
 	public void setPageNumber(int number) {
 		this.mDotNumber = Math.max(0, number);
+		setActivePage(this.mActiveDotIndex);
 		invalidate();
 	}
 

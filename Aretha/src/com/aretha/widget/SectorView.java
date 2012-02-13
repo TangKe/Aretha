@@ -313,7 +313,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	}
 
 	public void setRadius(int radius) {
-		this.mRadius = radius;
+		this.mRadius = Math.max(0, radius);
 		requestLayout();
 	}
 
