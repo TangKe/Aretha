@@ -240,7 +240,7 @@ public class PageIndicator extends View {
 		mDotNumber = savedState.dotNumber;
 		mDotRadius = savedState.dotRadius;
 		mDotSpacing = savedState.dotSpacing;
-		mDotColor = savedState.dotColor;
+		setDotColor(savedState.dotColor);
 	}
 
 	public OnPageChangeListener getOnPageChangeListener() {
