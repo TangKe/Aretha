@@ -20,9 +20,9 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.sectorview);
+		setContentView(R.layout.sector_view);
 
-		mSectorView = (SectorView) findViewById(R.id.sectorview);
+		mSectorView = (SectorView) findViewById(R.id.sector_view);
 		mSectorView.setOnSectorClickListener(this); 
 	}
 
@@ -42,7 +42,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 			break;
 		}
 	}
-
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder builder = new Builder(this);

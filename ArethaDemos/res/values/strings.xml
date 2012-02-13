@@ -5,7 +5,7 @@
     <string name="app_name">ArethaDemos</string>
     
     <!-- SectorView -->
-	<string name="sectorview">SectorView</string>
+	<string name="sector_view">SectorView</string>
 	<string name="toggle">Toggle</string>
 	<string name="position">Position</string>
 	<string name="radius_plus">Radius+</string>
@@ -18,4 +18,12 @@
 	    <item>Center</item>
 	</string-array>
 	
+	<!-- PageIndicator -->
+	<string name="page_indicator">PageIndicator</string>
+	<string name="page_plus">Page+</string>
+	<string name="page_minus">Page-</string>
+	<string name="red">Red</string>
+	<string name="white">White</string>
+	<string name="dot_radius">Dot Radius</string>
+	<string name="dot_spacing">Dot Spacing</string>
 </resources>

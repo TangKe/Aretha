@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <com.aretha.widget.SectorView
-        android:id="@+id/sectorview"
+        android:id="@+id/sector_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 

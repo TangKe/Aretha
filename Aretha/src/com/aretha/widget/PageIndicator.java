@@ -35,9 +35,9 @@ public class PageIndicator extends View {
 
 	private int mActiveDotIndex;
 	private int mDotNumber;
-
 	private int mDotRadius;
 	private int mDotSpacing;
+	private int mDotColor = Color.WHITE;
 
 	private Paint mPaint;
 
@@ -66,7 +66,7 @@ public class PageIndicator extends View {
 		mDotRadius = (int) (DEFUALT_DOT_RADIUS * mScreenScale);
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mPaint.setColor(Color.WHITE);
+		mPaint.setColor(mDotColor);
 
 		mTouchSlop = new ViewConfiguration().getScaledTouchSlop();
 	}
@@ -113,16 +113,18 @@ public class PageIndicator extends View {
 
 		if (widthMode == MeasureSpec.AT_MOST) {
 			int dotWidth = (int) (dotRadius * 2);
-			measuredWidth = mDotNumber * dotWidth + (mDotNumber - 1)
-					* mDotSpacing + getPaddingLeft() + getPaddingRight();
+			measuredWidth = Math.min(mDotNumber * dotWidth + (mDotNumber - 1)
+					* mDotSpacing + getPaddingLeft() + getPaddingRight(),
+					measuredWidth);
 		}
 
 		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = 2 * dotRadius + getPaddingTop()
-					+ getPaddingBottom();
+			measuredHeight = Math.min(2 * dotRadius + getPaddingTop()
+					+ getPaddingBottom(), measuredHeight);
 		}
 
-		setMeasuredDimension(measuredWidth, measuredHeight);
+		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
+				resolveSize(measuredHeight, heightMeasureSpec));
 	}
 
 	@Override
@@ -165,14 +167,80 @@ public class PageIndicator extends View {
 		invalidate();
 	}
 
+	public int getActivePageIndex() {
+		return mActiveDotIndex;
+	}
+
 	public void setPageNumber(int number) {
-		this.mDotNumber = number;
+		this.mDotNumber = Math.max(0, number);
+		invalidate();
+	}
+
+	public int getPageNumber() {
+		return this.mDotNumber;
+	}
+
+	public void setDotColor(int color) {
+		this.mDotColor = color;
+		mPaint.setColor(color);
+		invalidate();
+	}
+
+	public int getDotColor() {
+		return this.mDotColor;
+	}
+
+	public void setDotRadius(int radius) {
+		this.mDotRadius = radius;
 		requestLayout();
 		invalidate();
 	}
 
-	public int getActivePageIndex() {
-		return mActiveDotIndex;
+	public int getDotRadius() {
+		return this.mDotRadius;
+	}
+
+	public void setDotSpacing(int spacing) {
+		this.mDotSpacing = spacing;
+		invalidate();
+	}
+	
+	public int getDotSpacing() {
+		return this.mDotSpacing;
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		SavedState savedState = new SavedState(super.onSaveInstanceState());
+
+		savedState.activeDotIndex = mActiveDotIndex;
+		savedState.dotNumber = mDotNumber;
+		savedState.dotRadius = mDotRadius;
+		savedState.dotSpacing = mDotSpacing;
+		savedState.dotColor = mDotColor;
+
+		return savedState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		SavedState savedState = (SavedState) state;
+		super.onRestoreInstanceState(savedState.getSuperState());
+
+		mActiveDotIndex = savedState.activeDotIndex;
+		mDotNumber = savedState.dotNumber;
+		mDotRadius = savedState.dotRadius;
+		mDotSpacing = savedState.dotSpacing;
+		mDotColor = savedState.dotColor;
+	}
+
+	public OnPageChangeListener getOnPageChangeListener() {
+		return mOnPageChangeListener;
+	}
+
+	public void setOnPageChangeListener(
+			OnPageChangeListener onPageChangeListener) {
+		this.mOnPageChangeListener = onPageChangeListener;
 	}
 
 	static class SavedState extends BaseSavedState {
@@ -180,6 +248,7 @@ public class PageIndicator extends View {
 		int dotRadius;
 		int dotSpacing;
 		int dotNumber;
+		int dotColor;
 
 		public SavedState(Parcel source) {
 			super(source);
@@ -187,6 +256,7 @@ public class PageIndicator extends View {
 			dotRadius = source.readInt();
 			dotSpacing = source.readInt();
 			dotNumber = source.readInt();
+			dotColor = source.readInt();
 		}
 
 		public SavedState(Parcelable superState) {
@@ -200,6 +270,7 @@ public class PageIndicator extends View {
 			dest.writeInt(dotRadius);
 			dest.writeInt(dotSpacing);
 			dest.writeInt(dotNumber);
+			dest.writeInt(dotColor);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR = new Creator<PageIndicator.SavedState>() {
@@ -214,38 +285,6 @@ public class PageIndicator extends View {
 				return new SavedState(source);
 			}
 		};
-	}
-
-	@Override
-	protected Parcelable onSaveInstanceState() {
-		SavedState savedState = new SavedState(super.onSaveInstanceState());
-		
-		savedState.activeDotIndex = mActiveDotIndex;
-		savedState.dotNumber = mDotNumber;
-		savedState.dotRadius = mDotRadius;
-		savedState.dotSpacing = mDotSpacing;
-		
-		return savedState;
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Parcelable state) {
-		SavedState savedState = (SavedState) state;
-		super.onRestoreInstanceState(savedState.getSuperState());
-
-		mActiveDotIndex = savedState.activeDotIndex;
-		mDotNumber = savedState.dotNumber;
-		mDotRadius = savedState.dotRadius;
-		mDotSpacing = savedState.dotSpacing;
-	}
-
-	public OnPageChangeListener getOnPageChangeListener() {
-		return mOnPageChangeListener;
-	}
-
-	public void setOnPageChangeListener(
-			OnPageChangeListener onPageChangeListener) {
-		this.mOnPageChangeListener = onPageChangeListener;
 	}
 
 	public static interface OnPageChangeListener {

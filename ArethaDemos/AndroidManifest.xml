@@ -19,8 +19,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/sectorview"
+            android:label="@string/sector_view"
             android:name=".widget.SectorViewDemo" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:label="@string/page_indicator"
+            android:name=".widget.PageIndicatorDemo" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
