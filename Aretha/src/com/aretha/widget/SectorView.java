@@ -313,14 +313,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	}
 
 	public void setRadius(int radius) {
-		boolean needExpand = radius > this.mRadius;
 		this.mRadius = radius;
-
-		if (needExpand) {
-			expand();
-		} else {
-			shrink();
-		}
+		requestLayout();
 	}
 
 	public int getQuadrant() {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, ArethaDemosActivity!</string>
+    <string name="app_name">ArethaDemos</string>
+    
+    <!-- SectorView -->
+	<string name="sectorview">SectorView</string>
+	<string name="toggle">Toggle</string>
+	<string name="position">Position</string>
+	<string name="radius_plus">Radius+</string>
+	<string name="radius_minus">Radius-</string>
+	<string-array name="position_item">
+	    <item>Bottom Left</item>
+	    <item>Bottom Right</item>
+	    <item>Right Top</item>
+	    <item>Left Top</item>
+	    <item>Center</item>
+	</string-array>
+	
+</resources>
