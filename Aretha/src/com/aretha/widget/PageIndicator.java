@@ -130,9 +130,6 @@ public class PageIndicator extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		final OnPageChangeListener onPageChangeListener = mOnPageChangeListener;
-		if (onPageChangeListener == null) {
-			return super.onTouchEvent(event);
-		}
 
 		int action = event.getAction();
 		float y = event.getY();
@@ -150,11 +147,19 @@ public class PageIndicator extends View {
 		case MotionEvent.ACTION_UP:
 			if (x - mDownPoint[0] <= touchSlop
 					&& y - mDownPoint[1] <= touchSlop) {
+				int pageIndex = mActiveDotIndex;
 				if (x < getLeft() + getWidth() / 2) {
-					onPageChangeListener.onPrevPage();
+					if (onPageChangeListener != null) {
+						onPageChangeListener.onPrevPage();
+					}
+					pageIndex--;
 				} else {
-					onPageChangeListener.onNextPage();
+					if (onPageChangeListener != null) {
+						onPageChangeListener.onNextPage();
+					}
+					pageIndex++;
 				}
+				setActivePage(pageIndex);
 			}
 		default:
 			break;
@@ -165,6 +170,10 @@ public class PageIndicator extends View {
 	public void setActivePage(int index) {
 		this.mActiveDotIndex = Math.max(0, Math.min(index, mDotNumber));
 		invalidate();
+
+		if (mOnPageChangeListener != null) {
+			mOnPageChangeListener.onPageChange(this.mActiveDotIndex);
+		}
 	}
 
 	public int getActivePageIndex() {
@@ -204,7 +213,7 @@ public class PageIndicator extends View {
 		this.mDotSpacing = spacing;
 		invalidate();
 	}
-	
+
 	public int getDotSpacing() {
 		return this.mDotSpacing;
 	}

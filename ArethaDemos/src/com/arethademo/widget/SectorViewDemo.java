@@ -23,7 +23,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 		setContentView(R.layout.sector_view);
 
 		mSectorView = (SectorView) findViewById(R.id.sector_view);
-		mSectorView.setOnSectorClickListener(this); 
+		mSectorView.setOnSectorClickListener(this);
 	}
 
 	public void onClick(View v) {
@@ -42,7 +42,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 			break;
 		}
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder builder = new Builder(this);
@@ -64,9 +64,11 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onSectorClick(View sector) {
-		Toast.makeText(getApplicationContext(),
-				String.format("Chind %s clicked!", mSectorView.indexOfChild(sector)),
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(
+				getApplicationContext(),
+				getString(R.string.sector_click,
+						mSectorView.indexOfChild(sector)), Toast.LENGTH_SHORT)
+				.show();
 		return false;
 	}
 }

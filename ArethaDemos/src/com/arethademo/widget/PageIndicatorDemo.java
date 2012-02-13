@@ -1,14 +1,16 @@
 package com.arethademo.widget;
 
 import com.aretha.widget.PageIndicator;
+import com.aretha.widget.PageIndicator.OnPageChangeListener;
 import com.arethademo.R;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
-public class PageIndicatorDemo extends Activity {
+public class PageIndicatorDemo extends Activity implements OnPageChangeListener {
 	private PageIndicator mPageIndicator;
 
 	@Override
@@ -18,6 +20,7 @@ public class PageIndicatorDemo extends Activity {
 		setContentView(R.layout.page_indicator);
 
 		mPageIndicator = (PageIndicator) findViewById(R.id.page_indicator);
+		mPageIndicator.setOnPageChangeListener(this);
 	}
 
 	public void onClick(View v) {
@@ -43,5 +46,23 @@ public class PageIndicatorDemo extends Activity {
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onPageChange(int pageIndex) {
+		Toast.makeText(this, getString(R.string.page_change, pageIndex),
+				Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onNextPage() {
+		Toast.makeText(this, getString(R.string.next_page), Toast.LENGTH_SHORT)
+				.show();
+	}
+
+	@Override
+	public void onPrevPage() {
+		Toast.makeText(this, getString(R.string.prev_page), Toast.LENGTH_SHORT)
+				.show();
 	}
 }
