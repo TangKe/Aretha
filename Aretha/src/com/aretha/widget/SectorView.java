@@ -135,10 +135,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 					+ (isFifthQuadrant ? maxChildHeight : maxChildHeight / 2),
 					measuredHeight);
 		}
-		
+
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
 		measuredHeight += (getPaddingTop() + getPaddingBottom());
-		
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}
@@ -176,9 +176,12 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 	/**
 	 * <pre>
-	 *  2 | 1
-	 * ---5---
-	 *  3 | 4
+	 * 
+	 *  2  5  1
+	 *     |
+	 *  6--0--8
+	 *     |
+	 *  3  7  4
 	 * </pre>
 	 * 
 	 * The default quadrant is 4th quadrant, the origin point in the left-top
@@ -199,10 +202,15 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 * @param quadrant
 	 *            determine the origin of coordinates
 	 *            <ul>
+	 *            <li>0: center</li>
 	 *            <li>1: left-bottom</li>
 	 *            <li>2: right-bottom</li>
 	 *            <li>3: right-top</li>
 	 *            <li>4: right-bottom</li>
+	 *            <li>5: top</li>
+	 *            <li>6: left</li>
+	 *            <li>7: bottom</li>
+	 *            <li>8: right</li>
 	 *            </ul>
 	 * @return
 	 */
@@ -211,8 +219,11 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		double degreePerChild;
 		double degree;
 
-		if (quadrant == 5) {
+		if (quadrant == 0) {
 			degreePerChild = Math.PI * 2 / childCount;
+		} else if (quadrant == 5 || quadrant == 6 || quadrant == 7
+				|| quadrant == 8) {
+			degreePerChild = Math.PI / (childCount + 1);
 		} else {
 			degreePerChild = Math.PI / 2 / (childCount + 1);
 		}
@@ -222,6 +233,11 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		int yRange = (int) Math.round(radius * Math.sin(degree));
 		int x, y;
 		switch (quadrant) {
+		default:
+		case 0:
+			x = (right - left) / 2 + xRange;
+			y = (bottom - top) / 2 + yRange;
+			break;
 		case 1:
 			x = left + xRange;
 			y = bottom - yRange;
@@ -231,17 +247,28 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			y = bottom - yRange;
 			break;
 		case 3:
-			x = right - yRange;
-			y = top + xRange;
+			x = right - xRange;
+			y = top + yRange;
 			break;
-		default:
 		case 4:
-			x = left + yRange;
-			y = top + xRange;
+			x = left + xRange;
+			y = top + yRange;
 			break;
 		case 5:
 			x = (right - left) / 2 + xRange;
-			y = (bottom - top) / 2 + yRange;
+			y = top + yRange;
+			break;
+		case 6:
+			x = left + yRange;
+			y = (bottom - top) / 2 + xRange;
+			break;
+		case 7:
+			x = (right - left) / 2 + xRange;
+			y = bottom - yRange;
+			break;
+		case 8:
+			x = right - yRange;
+			y = (bottom - top) / 2 + xRange;
 			break;
 		}
 
