@@ -10,27 +10,36 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:label="@string/app_name"
-            android:name=".ArethaDemos" >
-            <intent-filter >
+            android:name=".ArethaDemos"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/sector_view"
-            android:name=".widget.SectorViewDemo" >
-            <intent-filter >
+            android:name=".widget.SectorViewDemo"
+            android:label="@string/sector_view" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/page_indicator"
-            android:name=".widget.PageIndicatorDemo" >
-            <intent-filter >
+            android:name=".widget.PageIndicatorDemo"
+            android:label="@string/page_indicator" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.ShelfGalleryDemo"
+            android:label="@string/shelf_gallery" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.SAMPLE_CODE" />

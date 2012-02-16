@@ -34,4 +34,7 @@
 	<string name="page_change">Page index changed, current index is %1$s!</string>
 	<string name="next_page">Next page action callback!</string>
 	<string name="prev_page">Previous page action callback!</string>
+	
+	<!-- ShelfGallery -->
+	<string name="shelf_gallery">Shelf Gallery</string>
 </resources>
