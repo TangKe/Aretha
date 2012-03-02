@@ -7,6 +7,7 @@ import com.arethademo.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -38,10 +39,12 @@ public class PageIndicatorDemo extends Activity implements OnPageChangeListener 
 			mPageIndicator.setDotColor(Color.WHITE);
 			break;
 		case R.id.dot_radius:
-			mPageIndicator.setDotRadius(mPageIndicator.getDotRadius() + 2);
+			mPageIndicator.setDotRadius(mPageIndicator.getDotRadius() + 2,
+					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		case R.id.dot_spacing:
-			mPageIndicator.setDotSpacing(mPageIndicator.getDotSpacing() + 2);
+			mPageIndicator.setDotSpacing(mPageIndicator.getDotSpacing() + 2,
+					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		default:
 			break;

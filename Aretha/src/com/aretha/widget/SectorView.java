@@ -17,9 +17,11 @@
 package com.aretha.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +41,8 @@ import android.widget.Scroller;
 public class SectorView extends ViewGroup implements OnClickListener {
 	private int mChildCount;
 	private boolean mIsExpand;
-	private int mCurrentRadius;
-	private int mRadius = 300;
+	private float mCurrentRadius;
+	private float mRadius = 300;
 	private int mQuadrant = 1;
 	private int mAnimationOffset = 30;
 	private int mDuration = 600;
@@ -85,7 +87,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		final int childCount = mChildCount;
-		final int radius = mRadius;
+		final float radius = mRadius;
 		final int width = MeasureSpec.getSize(widthMeasureSpec);
 		final int height = MeasureSpec.getSize(heightMeasureSpec);
 		final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
@@ -125,15 +127,17 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		final boolean isFifthQuadrant = quadrant == 5;
 
 		if (widthMode == MeasureSpec.AT_MOST) {
-			measuredWidth = Math.min((isFifthQuadrant ? 2 * radius : radius)
+			measuredWidth = Math.round(Math.min((isFifthQuadrant ? 2 * radius
+					: radius)
 					+ (isFifthQuadrant ? maxChildWidth : maxChildWidth / 2),
-					measuredWidth);
+					measuredWidth));
 		}
 
 		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = Math.min((isFifthQuadrant ? 2 * radius : radius)
+			measuredHeight = Math.round(Math.min((isFifthQuadrant ? 2 * radius
+					: radius)
 					+ (isFifthQuadrant ? maxChildHeight : maxChildHeight / 2),
-					measuredHeight);
+					measuredHeight));
 		}
 
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
@@ -146,8 +150,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		final int childCount = mChildCount;
-		final int currentRadius = mCurrentRadius;
-		final int radius = mRadius;
+		final float currentRadius = mCurrentRadius;
+		final float radius = mRadius;
 		final int quadrant = mQuadrant;
 		final int animationOffset = mAnimationOffset;
 		final Interpolator interpolator = mInterpolator;
@@ -159,8 +163,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			int halfChildWidth = Math.round(childView.getMeasuredWidth() / 2);
 			int halfChildHeight = Math.round(childView.getMeasuredHeight() / 2);
 
-			int childRadius = Math.max(0,
-					Math.min(currentRadius - animationOffset * index, radius));
+			int childRadius = Math.round(Math.max(0,
+					Math.min(currentRadius - animationOffset * index, radius)));
 			float interpolation = interpolator
 					.getInterpolation((childRadius * 1.0f) / radius);
 			childRadius = (int) (interpolation * radius);
@@ -319,9 +323,9 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	/**
 	 * Return the radius of this view group
 	 * 
-	 * @return
+	 * @return the size (in pixels).
 	 */
-	public int getRadius() {
+	public float getRadius() {
 		return mRadius;
 	}
 
@@ -339,8 +343,28 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		this.mOnSectorClickListener = onSectorClickListener;
 	}
 
-	public void setRadius(int radius) {
-		this.mRadius = Math.max(0, radius);
+	/**
+	 * Set radius (in scaled pixel)
+	 * 
+	 * @param radius
+	 */
+	public void setRadius(float radius) {
+		setRadius(radius, TypedValue.COMPLEX_UNIT_DIP);
+	}
+
+	/**
+	 * Set radius
+	 * 
+	 * @param radius
+	 * @param unit
+	 *            the unit to use, see {@link TypedValue}
+	 */
+	public void setRadius(float radius, int unit) {
+		final Resources resources = getContext().getResources();
+		this.mRadius = Math.max(
+				0,
+				TypedValue.applyDimension(unit, radius,
+						resources.getDisplayMetrics()));
 		requestLayout();
 	}
 
@@ -394,6 +418,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		}
 	}
 
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		int action = event.getAction();
 		switch (action) {
@@ -466,18 +491,24 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		public void toggle(boolean toggle) {
 			mIsExpand = toggle;
 			Scroller scroller = mScroller;
-			final int currentRadius = mCurrentRadius;
+			final float currentRadius = mCurrentRadius;
 
 			if (mIsAnimating) {
 				removeCallbacks(this);
 				scroller.abortAnimation();
 			}
 			if (toggle) {
-				scroller.startScroll(currentRadius, 0, mRadius + mChildCount
-						* mAnimationOffset - currentRadius, 0, mDuration);
+				scroller.startScroll(
+						Math.round(currentRadius),
+						0,
+						Math.round(mRadius + mChildCount * mAnimationOffset
+								- currentRadius), 0, mDuration);
 			} else {
-				scroller.startScroll(currentRadius, 0, 0 - mChildCount
-						* mAnimationOffset - currentRadius, 0, mDuration);
+				scroller.startScroll(
+						Math.round(currentRadius),
+						0,
+						Math.round(0 - mChildCount * mAnimationOffset
+								- currentRadius), 0, mDuration);
 			}
 			mIsAnimating = true;
 			post(this);
@@ -508,8 +539,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 */
 	static class SavedState extends BaseSavedState {
 		public int quadrant;
-		public int radius;
-		public int currentRadius;
+		public float radius;
+		public float currentRadius;
 		public int isExpand;
 		public int animationOffset;
 		public int duration;
@@ -532,18 +563,20 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
 			out.writeInt(quadrant);
-			out.writeInt(radius);
-			out.writeInt(currentRadius);
+			out.writeFloat(radius);
+			out.writeFloat(currentRadius);
 			out.writeInt(isExpand);
 			out.writeInt(animationOffset);
 			out.writeInt(duration);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			@Override
 			public SavedState createFromParcel(Parcel in) {
 				return new SavedState(in);
 			}
 
+			@Override
 			public SavedState[] newArray(int size) {
 				return new SavedState[size];
 			}

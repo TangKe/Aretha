@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,10 +36,12 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 			mSectorView.toggle(!mSectorView.isExpanded());
 			break;
 		case R.id.radius_plus:
-			mSectorView.setRadius(mSectorView.getRadius() + 50);
+			mSectorView.setRadius(mSectorView.getRadius() + 50,
+					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		case R.id.radius_minus:
-			mSectorView.setRadius(mSectorView.getRadius() - 50);
+			mSectorView.setRadius(mSectorView.getRadius() - 50,
+					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		}
 	}

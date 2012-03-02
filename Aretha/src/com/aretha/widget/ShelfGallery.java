@@ -49,26 +49,27 @@ public class ShelfGallery extends Gallery {
 		final int childWidth = child.getWidth();
 		final int childLeft = child.getLeft();
 		final float rotateDegree = mRotateDegree;
+		final Camera camera = mCamera;
 
 		t.clear();
 		t.setTransformationType(Transformation.TYPE_BOTH);
 
-		float degree = 0;
+		float degree = 0.0f;
+		float alpha = 1.0f;
 		if (childLeft <= 0) {
 			degree = (-90 - rotateDegree) / childWidth * Math.abs(childLeft)
 					+ rotateDegree;
-			t.setAlpha(1.0f - 1.0f / childWidth * Math.abs(childLeft));
+			alpha = 1.0f - 1.0f / childWidth * Math.abs(childLeft);
 		} else {
 			degree = mRotateDegree;
 		}
-
+		t.setAlpha(alpha);
 		Matrix matrix = t.getMatrix();
-		final Camera camera = mCamera;
 		camera.save();
 		camera.rotateY(degree);
 		if (childLeft <= 0) {
-			camera.translate(0, 0, childLeft);
-		}else{
+			camera.translate(0, 0, childLeft * 1.5f);
+		} else {
 			camera.translate(0, 0, Math.abs(childLeft) * 1.5f);
 		}
 

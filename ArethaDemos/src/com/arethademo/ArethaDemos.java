@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -99,6 +98,7 @@ public class ArethaDemos extends ListActivity {
 	private final static Comparator<Map> sDisplayNameComparator = new Comparator<Map>() {
 		private final Collator collator = Collator.getInstance();
 
+		@Override
 		public int compare(Map map1, Map map2) {
 			return collator.compare(map1.get("title"), map2.get("title"));
 		}

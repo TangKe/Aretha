@@ -15,9 +15,9 @@
 package com.aretha.content;
 
 import java.lang.ref.SoftReference;
-import java.util.HashMap;
 import java.util.UUID;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A simple cache util for global manage the RAM data and use
@@ -35,10 +35,10 @@ public class CacheManager {
 		return mAppDataManager;
 	}
 
-	private HashMap<String, SoftReference<Object>> mDataMap;
+	private ConcurrentHashMap<String, SoftReference<Object>> mDataMap;
 
 	private CacheManager() {
-		mDataMap = new HashMap<String, SoftReference<Object>>();
+		mDataMap = new ConcurrentHashMap<String, SoftReference<Object>>();
 	}
 
 	/**
@@ -57,15 +57,14 @@ public class CacheManager {
 	 * Add data with customize tag
 	 * 
 	 * @param data
-	 * @param customizedTag
+	 * @param tag
 	 */
-	public void addData(Object data, String customizedTag) {
-		if (null == data || null == customizedTag
-				|| 0 == customizedTag.length()) {
+	public void addData(Object data, String tag) {
+		if (null == data || null == tag || 0 == tag.length()) {
 			return;
 		}
 
-		mDataMap.put(customizedTag, new SoftReference<Object>(data));
+		mDataMap.put(tag, new SoftReference<Object>(data));
 	}
 
 	/**
@@ -78,7 +77,7 @@ public class CacheManager {
 	/**
 	 * Get specified data by tag
 	 * 
-	 * @param CustomizedTag
+	 * @param tag
 	 * @return
 	 */
 	public Object getData(String tag) {

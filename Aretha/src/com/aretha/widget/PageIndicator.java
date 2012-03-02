@@ -17,12 +17,14 @@
 package com.aretha.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -35,8 +37,8 @@ public class PageIndicator extends View {
 
 	private int mActiveDotIndex;
 	private int mDotNumber;
-	private int mDotRadius;
-	private int mDotSpacing;
+	private float mDotRadius;
+	private float mDotSpacing;
 	private int mDotColor = Color.WHITE;
 
 	private Paint mPaint;
@@ -76,9 +78,9 @@ public class PageIndicator extends View {
 		final int width = getWidth();
 		final int height = getHeight();
 		final int dotNumber = mDotNumber;
-		final int dotSpacing = mDotSpacing;
+		final float dotSpacing = mDotSpacing;
 		final float dotRadius = mDotRadius;
-		int spacingLeft = (width - dotNumber * mDotRadius * 2 - (dotNumber - 1)
+		float spacingLeft = (width - dotNumber * mDotRadius * 2 - (dotNumber - 1)
 				* dotSpacing) / 2;
 		int spacingTop = (height - getPaddingTop() - getPaddingBottom()) / 2
 				+ getPaddingTop();
@@ -109,18 +111,18 @@ public class PageIndicator extends View {
 		int measuredWidth = width;
 		int measuredHeight = height;
 
-		final int dotRadius = mDotRadius;
+		final float dotRadius = mDotRadius;
 
 		if (widthMode == MeasureSpec.AT_MOST) {
-			int dotWidth = (int) (dotRadius * 2);
-			measuredWidth = Math.min(mDotNumber * dotWidth + (mDotNumber - 1)
-					* mDotSpacing + getPaddingLeft() + getPaddingRight(),
-					measuredWidth);
+			float dotWidth = dotRadius * 2;
+			measuredWidth = Math.round(Math.min(mDotNumber * dotWidth
+					+ (mDotNumber - 1) * mDotSpacing + getPaddingLeft()
+					+ getPaddingRight(), measuredWidth));
 		}
 
 		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = Math.min(2 * dotRadius + getPaddingTop()
-					+ getPaddingBottom(), measuredHeight);
+			measuredHeight = Math.round(Math.min(2 * dotRadius
+					+ getPaddingTop() + getPaddingBottom(), measuredHeight));
 		}
 
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
@@ -175,7 +177,7 @@ public class PageIndicator extends View {
 				&& resolveIndex != this.mActiveDotIndex) {
 			mOnPageChangeListener.onPageChange(this.mActiveDotIndex);
 		}
-		
+
 		this.mActiveDotIndex = resolveIndex;
 		invalidate();
 
@@ -205,22 +207,68 @@ public class PageIndicator extends View {
 		return this.mDotColor;
 	}
 
-	public void setDotRadius(int radius) {
+	/**
+	 * Set the radius of every dot(in scaled pixel)
+	 * 
+	 * @param radius
+	 */
+	public void setDotRadius(float radius) {
 		this.mDotRadius = radius;
 		requestLayout();
 		invalidate();
 	}
 
-	public int getDotRadius() {
-		return this.mDotRadius;
-	}
-
-	public void setDotSpacing(int spacing) {
-		this.mDotSpacing = spacing;
+	/**
+	 * Set the radius of every dot
+	 * 
+	 * @param radius
+	 * @param unit
+	 *            See {@link TypedValue}
+	 */
+	public void setDotRadius(float radius, int unit) {
+		final Resources resources = getContext().getResources();
+		this.mDotRadius = TypedValue.applyDimension(unit, radius,
+				resources.getDisplayMetrics());
+		requestLayout();
 		invalidate();
 	}
 
-	public int getDotSpacing() {
+	/**
+	 * 
+	 * @return the dot radius(in pixel)
+	 */
+	public float getDotRadius() {
+		return this.mDotRadius;
+	}
+
+	/**
+	 * Set dot spacing(in scaled pixel)
+	 * 
+	 * @param spacing
+	 */
+	public void setDotSpacing(float spacing) {
+		setDotSpacing(spacing, TypedValue.COMPLEX_UNIT_DIP);
+	}
+
+	/**
+	 * Set dot spacing
+	 * 
+	 * @param spacing
+	 * @param unit
+	 *            See {@link TypedValue}
+	 */
+	public void setDotSpacing(float spacing, int unit) {
+		final Resources resources = getContext().getResources();
+		this.mDotSpacing = TypedValue.applyDimension(unit, spacing,
+				resources.getDisplayMetrics());
+		invalidate();
+	}
+
+	/**
+	 * 
+	 * @return the dot spacing(in pixel)
+	 */
+	public float getDotSpacing() {
 		return this.mDotSpacing;
 	}
 
@@ -260,8 +308,8 @@ public class PageIndicator extends View {
 
 	static class SavedState extends BaseSavedState {
 		int activeDotIndex;
-		int dotRadius;
-		int dotSpacing;
+		float dotRadius;
+		float dotSpacing;
 		int dotNumber;
 		int dotColor;
 
@@ -282,8 +330,8 @@ public class PageIndicator extends View {
 		public void writeToParcel(Parcel dest, int flags) {
 			super.writeToParcel(dest, flags);
 			dest.writeInt(activeDotIndex);
-			dest.writeInt(dotRadius);
-			dest.writeInt(dotSpacing);
+			dest.writeFloat(dotRadius);
+			dest.writeFloat(dotSpacing);
 			dest.writeInt(dotNumber);
 			dest.writeInt(dotColor);
 		}
