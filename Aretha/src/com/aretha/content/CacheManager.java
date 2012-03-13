@@ -20,8 +20,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * A simple cache util for global manage the RAM data and use
- * {@link SoftReference} to avoid {@link OutOfMemoryError}.
+ * A simple cache utility for global manage the RAM data and use
+ * {@link SoftReference} to avoid {@link OutOfMemoryError}
  * 
  * @author Tank
  */
@@ -48,6 +48,11 @@ public class CacheManager {
 	 * @return Generated tag
 	 */
 	public String addData(Object data) {
+		String containTag = getTag(data);
+		if (null != containTag) {
+			return containTag;
+		}
+
 		String uuidTag = UUID.randomUUID().toString();
 		addData(data, uuidTag);
 		return uuidTag;
@@ -111,7 +116,7 @@ public class CacheManager {
 
 		for (Entry<String, SoftReference<Object>> entry : mDataMap.entrySet()) {
 			Object reference = (entry.getValue()).get();
-			if (reference != null && reference.equals(data)) {
+			if (reference != null && reference == data) {
 				return entry.getKey();
 			}
 		}
