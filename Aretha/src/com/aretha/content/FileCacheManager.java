@@ -127,6 +127,21 @@ public class FileCacheManager {
 	}
 
 	/**
+	 * Clear all cached files
+	 * 
+	 * @return
+	 */
+	public boolean clearAllCaches() {
+		File[] files = mCacheFilePath.listFiles();
+		for (File file : files) {
+			if (!file.isDirectory()) {
+				file.delete();
+			}
+		}
+		return mCacheFilePath.delete();
+	}
+
+	/**
 	 * Create a {@link File} as the rule
 	 * 
 	 * @param cacheIdentifier

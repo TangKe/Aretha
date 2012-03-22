@@ -49,7 +49,7 @@ public class AsyncImageLoader {
 
 	private static AsyncImageLoader mImageLoader;
 
-	private FileCacheManager mCacheManager;
+	private FileCacheManager mFileCacheManager;
 
 	private ThreadPoolExecutor mExecutor;
 	private ArrayBlockingQueue<Runnable> mRunnableQueue;
@@ -76,7 +76,7 @@ public class AsyncImageLoader {
 	}
 
 	private AsyncImageLoader(Context context) {
-		mCacheManager = new FileCacheManager(context);
+		mFileCacheManager = new FileCacheManager(context);
 		mRunnableQueue = new ArrayBlockingQueue<Runnable>(100);
 		mExecutor = new ThreadPoolExecutor(1, MAX_LOADING_THREAD, 0,
 				TimeUnit.MILLISECONDS, mRunnableQueue);
@@ -157,7 +157,7 @@ public class AsyncImageLoader {
 	 */
 	public boolean saveBitmapStream(String imageIdentifier,
 			InputStream inputStream) {
-		return mCacheManager.writeCacheFile(imageIdentifier, inputStream);
+		return mFileCacheManager.writeCacheFile(imageIdentifier, inputStream);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class AsyncImageLoader {
 	 * @return The cached bitmap, or null not found.
 	 */
 	public Bitmap readCachedBitmap(String imageIdentifier, int sampleSize) {
-		InputStream inputStream = mCacheManager.readCacheFile(imageIdentifier);
+		InputStream inputStream = mFileCacheManager.readCacheFile(imageIdentifier);
 
 		if (inputStream == null) {
 			return null;
@@ -243,6 +243,9 @@ public class AsyncImageLoader {
 					saveBitmapStream(uri.toString(), response.getEntity()
 							.getContent());
 					bitmap = readCachedBitmap(uri.toString(), 1);
+					if (null == bitmap) {
+						mFileCacheManager.deleteCache(uri.toString());
+					}
 					handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS,
 							this));
 				} else {
