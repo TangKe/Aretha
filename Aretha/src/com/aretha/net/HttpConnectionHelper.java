@@ -87,7 +87,7 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 		schemeRegistry.register(new Scheme("https", SSLSocketFactory
 				.getSocketFactory(), 443));
 
-		SingleClientConnManager singleClientConnManager = new SingleClientConnManager(
+		ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager(
 				params, schemeRegistry);
 
 		HttpConnectionParams.setConnectionTimeout(params,
@@ -97,7 +97,7 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 
 		HttpConnectionParams.setSocketBufferSize(params, 8192);
 
-		mHttpClient = new DefaultHttpClient(singleClientConnManager, params);
+		mHttpClient = new DefaultHttpClient(threadSafeClientConnManager, params);
 
 		mHttpClient.addRequestInterceptor(this);
 		mHttpClient.addResponseInterceptor(this);
