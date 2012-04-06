@@ -114,6 +114,9 @@ public class AsyncImageLoader {
 	 * @param url
 	 */
 	public void cancel(String url) {
+		if (null == url) {
+			return;
+		}
 		cancel(URI.create(url));
 	}
 
@@ -174,7 +177,8 @@ public class AsyncImageLoader {
 	 * @return The cached bitmap, or null not found.
 	 */
 	public Bitmap readCachedBitmap(String imageIdentifier, int sampleSize) {
-		InputStream inputStream = mFileCacheManager.readCacheFile(imageIdentifier);
+		InputStream inputStream = mFileCacheManager
+				.readCacheFile(imageIdentifier);
 
 		if (inputStream == null) {
 			return null;
@@ -245,6 +249,8 @@ public class AsyncImageLoader {
 					bitmap = readCachedBitmap(uri.toString(), 1);
 					if (null == bitmap) {
 						mFileCacheManager.deleteCache(uri.toString());
+						handler.sendEmptyMessage(STATUS_ERROR);
+						return;
 					}
 					handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS,
 							this));
