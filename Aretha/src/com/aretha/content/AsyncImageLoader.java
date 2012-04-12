@@ -17,6 +17,7 @@ package com.aretha.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -53,13 +54,16 @@ public class AsyncImageLoader {
 
 	private ThreadPoolExecutor mExecutor;
 	private ArrayBlockingQueue<Runnable> mRunnableQueue;
+	private LinkedList<ImageLoadingTask> mTaskList;
 
 	private Handler mImageLoadedHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
 			switch (msg.what) {
 			case STATUS_SUCCESS:
-				task.listener.onLoaded(task.bitmap);
+				if (mTaskList.remove(task)) {
+					task.listener.onLoaded(task.bitmap, task.uri.toString());
+				}
 				break;
 			case STATUS_ERROR:
 
@@ -80,6 +84,7 @@ public class AsyncImageLoader {
 		mRunnableQueue = new ArrayBlockingQueue<Runnable>(100);
 		mExecutor = new ThreadPoolExecutor(1, MAX_LOADING_THREAD, 0,
 				TimeUnit.MILLISECONDS, mRunnableQueue);
+		mTaskList = new LinkedList<ImageLoadingTask>();
 	}
 
 	/**
@@ -147,6 +152,7 @@ public class AsyncImageLoader {
 			return;
 		}
 
+		mTaskList.add(imageLoadingTask);
 		mExecutor.execute(imageLoadingTask);
 	}
 
@@ -209,7 +215,7 @@ public class AsyncImageLoader {
 	 * 
 	 */
 	public interface OnImageLoadedListener {
-		public void onLoaded(Bitmap bitmap);
+		public void onLoaded(Bitmap bitmap, String loadedImageUrl);
 	}
 
 	private class ImageLoadingTask implements Runnable {
@@ -248,6 +254,9 @@ public class AsyncImageLoader {
 							.getContent());
 					bitmap = readCachedBitmap(uri.toString(), 1);
 					if (null == bitmap) {
+						Log.d(LOG_TAG, String.format(
+								"Delete the broken image cache! url: %s",
+								uri.toString()));
 						mFileCacheManager.deleteCache(uri.toString());
 						handler.sendEmptyMessage(STATUS_ERROR);
 						return;
@@ -255,7 +264,7 @@ public class AsyncImageLoader {
 					handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS,
 							this));
 				} else {
-
+					handler.sendEmptyMessage(STATUS_ERROR);
 				}
 			} catch (IOException e) {
 				handler.sendEmptyMessage(STATUS_ERROR);
