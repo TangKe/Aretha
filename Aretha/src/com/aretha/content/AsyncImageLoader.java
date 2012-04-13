@@ -57,6 +57,7 @@ public class AsyncImageLoader {
 	private LinkedList<ImageLoadingTask> mTaskList;
 
 	private Handler mImageLoadedHandler = new Handler() {
+		@Override
 		public void handleMessage(Message msg) {
 			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
 			switch (msg.what) {

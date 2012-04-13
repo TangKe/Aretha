@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <com.aretha.widget.AccelerateLinearDecelerateProgressBar
+        android:id="@+id/accelerate_linear_decelerate_progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/dot_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="@string/dot_plus" />
+
+        <Button
+            android:id="@+id/dot_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/dot_plus"
+            android:onClick="onClick"
+            android:text="@string/dot_minus" />
+
+        <Button
+            android:id="@+id/space_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/dot_minus"
+            android:onClick="onClick"
+            android:text="@string/space_plus" />
+
+        <Button
+            android:id="@+id/space_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/space_plus"
+            android:onClick="onClick"
+            android:text="@string/space_minus" />
+
+        <Button
+            android:id="@+id/radius_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dot_plus"
+            android:onClick="onClick"
+            android:text="@string/dot_radius_plus" />
+
+        <Button
+            android:id="@+id/radius_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dot_minus"
+            android:layout_toRightOf="@+id/radius_plus"
+            android:onClick="onClick"
+            android:text="@string/dot_radius_minus" />
+
+        <Button
+            android:id="@+id/duration_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/radius_minus"
+            android:layout_alignBottom="@+id/radius_minus"
+            android:layout_toRightOf="@+id/radius_minus"
+            android:onClick="onClick"
+            android:text="@string/duration_plus" />
+
+        <Button
+            android:id="@+id/duration_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/space_minus"
+            android:layout_toRightOf="@+id/duration_plus"
+            android:onClick="onClick"
+            android:text="@string/duration_minus" />
+
+        <Button
+            android:id="@+id/yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/space_minus"
+            android:onClick="onClick"
+            android:text="@string/yellow" />
+    </RelativeLayout>
+
+</LinearLayout>

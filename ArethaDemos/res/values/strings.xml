@@ -3,38 +3,52 @@
 
     <string name="hello">Hello World, ArethaDemosActivity!</string>
     <string name="app_name">ArethaDemos</string>
-    
+
     <!-- SectorView -->
-	<string name="sector_view">SectorView</string>
-	<string name="toggle">Toggle</string>
-	<string name="position">Position</string>
-	<string name="radius_plus">Radius+</string>
-	<string name="radius_minus">Radius-</string>
-	<string name="sector_click">Child %1$s clicked!</string>
-	<string-array name="position_item">
-	    <item>Center</item>
-	    <item>Bottom Left</item>
-	    <item>Bottom Right</item>
-	    <item>Right Top</item>
-	    <item>Left Top</item>
-	    <item>Top</item>
-	    <item>Left</item>
-	    <item>Bottom</item>
-	    <item>Right</item>
-	</string-array>
-	
-	<!-- PageIndicator -->
-	<string name="page_indicator">PageIndicator</string>
-	<string name="page_plus">Page+</string>
-	<string name="page_minus">Page-</string>
-	<string name="red">Red</string>
-	<string name="white">White</string>
-	<string name="dot_radius">Dot Radius</string>
-	<string name="dot_spacing">Dot Spacing</string>
-	<string name="page_change">Page index changed, current index is %1$s!</string>
-	<string name="next_page">Next page action callback!</string>
-	<string name="prev_page">Previous page action callback!</string>
-	
-	<!-- ShelfGallery -->
-	<string name="shelf_gallery">Shelf Gallery</string>
+    <string name="sector_view">SectorView</string>
+    <string name="toggle">Toggle</string>
+    <string name="position">Position</string>
+    <string name="radius_plus">Radius+</string>
+    <string name="radius_minus">Radius-</string>
+    <string name="sector_click">Child %1$s clicked!</string>
+
+    <string-array name="position_item">
+        <item>Center</item>
+        <item>Bottom Left</item>
+        <item>Bottom Right</item>
+        <item>Right Top</item>
+        <item>Left Top</item>
+        <item>Top</item>
+        <item>Left</item>
+        <item>Bottom</item>
+        <item>Right</item>
+    </string-array>
+
+    <!-- PageIndicator -->
+    <string name="page_indicator">PageIndicator</string>
+    <string name="page_plus">Page+</string>
+    <string name="page_minus">Page-</string>
+    <string name="red">Red</string>
+    <string name="white">White</string>
+    <string name="dot_radius">Dot Radius</string>
+    <string name="dot_spacing">Dot Spacing</string>
+    <string name="page_change">Page index changed, current index is %1$s!</string>
+    <string name="next_page">Next page action callback!</string>
+    <string name="prev_page">Previous page action callback!</string>
+
+    <!-- ShelfGallery -->
+    <string name="shelf_gallery">Shelf Gallery</string>
+
+    <!-- AccelerateLinearDecelerateProgressBar -->
+    <string name="accelerate_linear_decelerate_progressbar">Accelerate Linear Decelerate Progress Bar</string>
+    <string name="dot_plus">Dot+</string>
+    <string name="dot_minus">Dot-</string>
+    <string name="dot_radius_plus">Radius+</string>
+    <string name="dot_radius_minus">Radius-</string>
+    <string name="space_plus">Space+</string>
+    <string name="space_minus">Space-</string>
+    <string name="duration_plus">Duration+</string>
+    <string name="duration_minus">Duration-</string>
+    <string name="yellow">yellow</string>
+
 </resources>
