@@ -88,57 +88,31 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		final int childCount = mChildCount;
 		final float radius = mRadius;
-		final int width = MeasureSpec.getSize(widthMeasureSpec);
-		final int height = MeasureSpec.getSize(heightMeasureSpec);
-		final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 		final int quadrant = mQuadrant;
 
 		int maxChildWidth = 0;
 		int maxChildHeight = 0;
 
+		measureChildren(widthMeasureSpec, heightMeasureSpec);
+
 		for (int index = 0; index < childCount; index++) {
 			View childView = getChildAt(index);
-			LayoutParams layoutParams = childView.getLayoutParams();
 
-			int childWidth = layoutParams.width > 0 ? layoutParams.width
-					: width;
-			int childHeight = layoutParams.height > 0 ? layoutParams.height
-					: height;
-
-			int childWidthMode = layoutParams.width > 0 ? MeasureSpec.EXACTLY
-					: MeasureSpec.AT_MOST;
-			int childHeightMode = layoutParams.height > 0 ? MeasureSpec.EXACTLY
-					: MeasureSpec.AT_MOST;
-
-			childView.measure(
-					MeasureSpec.makeMeasureSpec(childWidth, childWidthMode),
-					MeasureSpec.makeMeasureSpec(childHeight, childHeightMode));
-
-			int childMeasuredWidth = childView.getMeasuredWidth();
-			int childMeasuredHeight = childView.getMeasuredHeight();
-
-			maxChildWidth = Math.max(maxChildWidth, childMeasuredWidth);
-			maxChildHeight = Math.max(maxChildHeight, childMeasuredHeight);
+			maxChildWidth = Math.max(maxChildWidth,
+					childView.getMeasuredWidth());
+			maxChildHeight = Math.max(maxChildHeight,
+					childView.getMeasuredHeight());
 		}
 
-		int measuredWidth = width;
-		int measuredHeight = height;
-		final boolean isFifthQuadrant = quadrant == 5;
+		final boolean isCenter = quadrant == 0;
+		final boolean isLeftOrRightQuadrant = (quadrant == 6 || quadrant == 8);
+		final boolean isTopOrBottomQuadrant = (quadrant == 5 || quadrant == 7);
 
-		if (widthMode == MeasureSpec.AT_MOST) {
-			measuredWidth = Math.round(Math.min((isFifthQuadrant ? 2 * radius
-					: radius)
-					+ (isFifthQuadrant ? maxChildWidth : maxChildWidth / 2),
-					measuredWidth));
-		}
+		int measuredWidth = Math.round((isCenter || isTopOrBottomQuadrant ? 2 * radius : radius)
+				+ (isCenter || isLeftOrRightQuadrant ? maxChildWidth : maxChildWidth / 2));
 
-		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = Math.round(Math.min((isFifthQuadrant ? 2 * radius
-					: radius)
-					+ (isFifthQuadrant ? maxChildHeight : maxChildHeight / 2),
-					measuredHeight));
-		}
+		int measuredHeight = Math.round((isCenter || isLeftOrRightQuadrant ? 2 * radius : radius)
+				+ (isCenter || isLeftOrRightQuadrant ? maxChildHeight : maxChildHeight / 2));
 
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
 		measuredHeight += (getPaddingTop() + getPaddingBottom());
