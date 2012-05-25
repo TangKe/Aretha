@@ -15,8 +15,11 @@
  */
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -39,10 +42,11 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	private Interpolator mLinearInterpolator;
 	private Interpolator mDecelerateInterpolator;
 
-	private float mDotRadius = 2;
-	private float mDotSpace = 20;
-	private float mDotCount = 5;
-	private int mDuration = 4000;
+	private float mDotRadius;
+	private float mDotSpacing;
+	private int mDotCount;
+	private int mDuration;
+	private int mDotColor;
 
 	private int mHeight;
 	private int mWidht;
@@ -56,18 +60,36 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	public AccelerateLinearDecelerateProgressBar(Context context,
 			AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.AccelerateLinearDecelerateProgressBar);
+
+		mDotRadius = a.getDimension(
+				R.styleable.AccelerateLinearDecelerateProgressBar_dotRadius, 2);
+		mDotSpacing = a.getDimension(
+				R.styleable.AccelerateLinearDecelerateProgressBar_dotSpacing,
+				20);
+		mDotCount = a.getInt(
+				R.styleable.AccelerateLinearDecelerateProgressBar_dotCount, 5);
+		mDuration = a.getInt(
+				R.styleable.AccelerateLinearDecelerateProgressBar_duration,
+				4000);
+		mDotColor = a.getColor(
+				R.styleable.AccelerateLinearDecelerateProgressBar_dotColor,
+				Color.WHITE);
+
+		a.recycle();
+
 		initialize();
 	}
 
 	public AccelerateLinearDecelerateProgressBar(Context context,
 			AttributeSet attrs) {
-		super(context, attrs);
-		initialize();
+		this(context, attrs, 0);
 	}
 
 	public AccelerateLinearDecelerateProgressBar(Context context) {
-		super(context);
-		initialize();
+		this(context, null);
 	}
 
 	private void initialize() {
@@ -76,7 +98,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		mDecelerateInterpolator = new DecelerateInterpolator(2f);
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mPaint.setColor(Color.WHITE);
+		mPaint.setColor(mDotColor);
 
 		mScroller = new Scroller(getContext(), mLinearInterpolator);
 	}
@@ -118,11 +140,11 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		final Interpolator decelerateInterpolator = mDecelerateInterpolator;
 		final int endX = computeEndX();
 		final int startXABS = Math.abs(computeStartX());
-		final float dotCount = mDotCount;
-		final float dotSpace = mDotSpace;
+		final int dotCount = mDotCount;
+		final float dotSpacing = mDotSpacing;
 
 		for (int i = 0; i < dotCount; i++) {
-			float dotXDelta = scroller.getCurrX() - i * dotSpace;
+			float dotXDelta = scroller.getCurrX() - i * dotSpacing;
 			if (dotXDelta < linearRegionStartX) {
 				dotXDelta = accelerateInterpolator
 						.getInterpolation((dotXDelta + startXABS)
@@ -155,6 +177,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * @param color
 	 */
 	public void setDotColor(int color) {
+		this.mDotColor = color;
 		this.mPaint.setColor(color);
 	}
 
@@ -164,7 +187,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * @return
 	 */
 	public int getDotColor() {
-		return this.mPaint.getColor();
+		return this.mDotColor;
 	}
 
 	/**
@@ -204,8 +227,8 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * @param space
 	 *            (size in scaled pixel)
 	 */
-	public void setDotSpace(float space) {
-		setDotSpace(space, TypedValue.COMPLEX_UNIT_DIP);
+	public void setDotSpacing(float space) {
+		setDotSpacing(space, TypedValue.COMPLEX_UNIT_DIP);
 	}
 
 	/**
@@ -214,9 +237,9 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * @param space
 	 * @param unit
 	 */
-	public void setDotSpace(float space, int unit) {
+	public void setDotSpacing(float space, int unit) {
 		final Resources resources = getContext().getResources();
-		this.mDotSpace = TypedValue.applyDimension(unit, space,
+		this.mDotSpacing = TypedValue.applyDimension(unit, space,
 				resources.getDisplayMetrics());
 	}
 
@@ -244,8 +267,8 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * 
 	 * @return (size in pixel)
 	 */
-	public float getDotSpace() {
-		return this.mDotSpace;
+	public float getDotSpacing() {
+		return this.mDotSpacing;
 	}
 
 	/**
@@ -263,7 +286,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	 * @return
 	 */
 	public int getDotCount() {
-		return (int) this.mDotCount;
+		return this.mDotCount;
 	}
 
 	private void prepareScroll() {
@@ -274,12 +297,12 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	}
 
 	protected int computeStartX() {
-		return (int) (0 - mDotRadius - (mDotRadius * 2 + mDotSpace
+		return (int) (0 - mDotRadius - (mDotRadius * 2 + mDotSpacing
 				* (mDotCount - 1)));
 	}
 
 	protected int computeEndX() {
-		return (int) (mWidht + mDotRadius * 2 * mDotCount + mDotSpace
+		return (int) (mWidht + mDotRadius * 2 * mDotCount + mDotSpacing
 				* (mDotCount - 1));
 	}
 
@@ -287,9 +310,10 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	protected Parcelable onSaveInstanceState() {
 		SavedState savedState = new SavedState(super.onSaveInstanceState());
 		savedState.dotRadius = mDotRadius;
-		savedState.dotSpace = mDotSpace;
+		savedState.dotSpace = mDotSpacing;
 		savedState.dotCount = mDotCount;
 		savedState.duration = mDuration;
+		savedState.dotColor = mDotColor;
 		return savedState;
 	}
 
@@ -298,9 +322,10 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		SavedState savedState = (SavedState) state;
 		super.onRestoreInstanceState(savedState.getSuperState());
 		mDotRadius = savedState.dotRadius;
-		mDotSpace = savedState.dotSpace;
+		mDotSpacing = savedState.dotSpace;
 		mDotCount = savedState.dotCount;
 		mDuration = savedState.duration;
+		mDotColor = savedState.dotColor;
 	}
 
 	/**
@@ -312,8 +337,9 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	static class SavedState extends BaseSavedState {
 		public float dotRadius;
 		public float dotSpace;
-		public float dotCount;
+		public int dotCount;
 		public int duration;
+		public int dotColor;
 
 		SavedState(Parcelable superState) {
 			super(superState);
@@ -323,8 +349,9 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 			super(in);
 			dotRadius = in.readFloat();
 			dotSpace = in.readFloat();
-			dotCount = in.readFloat();
+			dotCount = in.readInt();
 			duration = in.readInt();
+			dotColor = in.readInt();
 		}
 
 		@Override
@@ -334,6 +361,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 			out.writeFloat(dotSpace);
 			out.writeFloat(dotCount);
 			out.writeInt(duration);
+			out.writeInt(dotColor);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {

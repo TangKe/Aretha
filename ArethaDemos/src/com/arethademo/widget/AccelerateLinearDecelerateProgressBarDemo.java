@@ -34,13 +34,13 @@ public class AccelerateLinearDecelerateProgressBarDemo extends Activity {
 					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		case R.id.space_plus:
-			accelerateLinearDecelerateProgressBar.setDotSpace(
-					accelerateLinearDecelerateProgressBar.getDotSpace() + 1,
+			accelerateLinearDecelerateProgressBar.setDotSpacing(
+					accelerateLinearDecelerateProgressBar.getDotSpacing() + 1,
 					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		case R.id.space_minus:
-			accelerateLinearDecelerateProgressBar.setDotSpace(
-					accelerateLinearDecelerateProgressBar.getDotSpace() - 1,
+			accelerateLinearDecelerateProgressBar.setDotSpacing(
+					accelerateLinearDecelerateProgressBar.getDotSpacing() - 1,
 					TypedValue.COMPLEX_UNIT_PX);
 			break;
 		case R.id.duration_plus:

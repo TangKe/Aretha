@@ -16,8 +16,11 @@
 
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -42,10 +45,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	private int mChildCount;
 	private boolean mIsExpand;
 	private float mCurrentRadius;
-	private float mRadius = 300;
-	private int mQuadrant = 1;
-	private int mAnimationOffset = 30;
-	private int mDuration = 600;
+	private float mRadius;
+	private int mQuadrant;
+	private int mAnimationOffset;
+	private int mDuration;
 	// private boolean mOrder = false;
 
 	private Scroller mScroller;
@@ -56,17 +59,26 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 	public SectorView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.SectorView);
+
+		mRadius = a.getDimension(R.styleable.SectorView_radius, 300);
+		mQuadrant = a.getInt(R.styleable.SectorView_quadrant, 1);
+		mAnimationOffset = a.getInt(R.styleable.SectorView_animationOffset, 30);
+		mDuration = a.getInt(R.styleable.SectorView_duration, 600);
+
+		a.recycle();
+
 		initialize();
 	}
 
 	public SectorView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initialize();
+		this(context, attrs, 0);
 	}
 
 	public SectorView(Context context) {
-		super(context);
-		initialize();
+		this(context, null);
 	}
 
 	private void initialize() {
@@ -108,11 +120,15 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		final boolean isLeftOrRightQuadrant = (quadrant == 6 || quadrant == 8);
 		final boolean isTopOrBottomQuadrant = (quadrant == 5 || quadrant == 7);
 
-		int measuredWidth = Math.round((isCenter || isTopOrBottomQuadrant ? 2 * radius : radius)
-				+ (isCenter || isLeftOrRightQuadrant ? maxChildWidth : maxChildWidth / 2));
+		int measuredWidth = Math
+				.round((isCenter || isTopOrBottomQuadrant ? 2 * radius : radius)
+						+ (isCenter || isLeftOrRightQuadrant ? maxChildWidth
+								: maxChildWidth / 2));
 
-		int measuredHeight = Math.round((isCenter || isLeftOrRightQuadrant ? 2 * radius : radius)
-				+ (isCenter || isLeftOrRightQuadrant ? maxChildHeight : maxChildHeight / 2));
+		int measuredHeight = Math
+				.round((isCenter || isLeftOrRightQuadrant ? 2 * radius : radius)
+						+ (isCenter || isLeftOrRightQuadrant ? maxChildHeight
+								: maxChildHeight / 2));
 
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
 		measuredHeight += (getPaddingTop() + getPaddingBottom());
@@ -144,7 +160,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			childRadius = (int) (interpolation * radius);
 
 			int[] childCoordinate = getChildCenterCoordinate(childRadius,
-					index, l, t, r, b, childCount, quadrant);
+					index, r - l, b - t, childCount, quadrant);
 			childView.layout(childCoordinate[0] - halfChildWidth,
 					childCoordinate[1] - halfChildHeight, childCoordinate[0]
 							+ halfChildWidth, childCoordinate[1]
@@ -192,8 +208,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 *            </ul>
 	 * @return
 	 */
-	protected int[] getChildCenterCoordinate(int radius, int index, int left,
-			int top, int right, int bottom, int childCount, int quadrant) {
+	protected int[] getChildCenterCoordinate(int radius, int index, int width,
+			int height, int childCount, int quadrant) {
 		double degreePerChild;
 		double degree;
 
@@ -213,40 +229,40 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		switch (quadrant) {
 		default:
 		case 0:
-			x = (right - left) / 2 + xRange;
-			y = (bottom - top) / 2 + yRange;
+			x = width / 2 + xRange;
+			y = height / 2 + yRange;
 			break;
 		case 1:
-			x = left + xRange;
-			y = bottom - yRange;
+			x = xRange;
+			y = height - yRange;
 			break;
 		case 2:
-			x = right - xRange;
-			y = bottom - yRange;
+			x = width - xRange;
+			y = height - yRange;
 			break;
 		case 3:
-			x = right - xRange;
-			y = top + yRange;
+			x = width - xRange;
+			y = yRange;
 			break;
 		case 4:
-			x = left + xRange;
-			y = top + yRange;
+			x = xRange;
+			y = yRange;
 			break;
 		case 5:
-			x = (right - left) / 2 + xRange;
-			y = top + yRange;
+			x = width / 2 + xRange;
+			y = yRange;
 			break;
 		case 6:
-			x = left + yRange;
-			y = (bottom - top) / 2 + xRange;
+			x = yRange;
+			y = height / 2 + xRange;
 			break;
 		case 7:
-			x = (right - left) / 2 + xRange;
-			y = bottom - yRange;
+			x = width / 2 + xRange;
+			y = height - yRange;
 			break;
 		case 8:
-			x = right - yRange;
-			y = (bottom - top) / 2 + xRange;
+			x = width - yRange;
+			y = height / 2 + xRange;
 			break;
 		}
 
@@ -398,6 +414,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			if (isExpanded()) {
+				requestDisallowInterceptTouchEvent(true);
 				return true;
 			}
 			break;
@@ -405,6 +422,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			if (isExpanded()) {
 				shrink();
 			}
+			requestDisallowInterceptTouchEvent(false);
 		default:
 			break;
 		}

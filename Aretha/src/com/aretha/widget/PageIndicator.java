@@ -16,8 +16,11 @@
 
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,16 +33,11 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 public class PageIndicator extends View {
-	private final static int DEFUALT_DOT_SPACING = 8;
-	private final static int DEFUALT_DOT_RADIUS = 3;
-
-	private float mScreenScale;
-
 	private int mActiveDotIndex;
 	private int mDotNumber;
 	private float mDotRadius;
 	private float mDotSpacing;
-	private int mDotColor = Color.WHITE;
+	private int mDotColor;
 
 	private Paint mPaint;
 
@@ -49,24 +47,29 @@ public class PageIndicator extends View {
 
 	public PageIndicator(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.PageIndicator);
+
+		mActiveDotIndex = a.getInt(R.styleable.PageIndicator_activePage, 0);
+		mDotNumber = a.getInt(R.styleable.PageIndicator_pageCount, 0);
+		mDotRadius = a.getDimension(R.styleable.PageIndicator_dotRadius, 6);
+		mDotSpacing = a.getDimension(R.styleable.PageIndicator_dotSpacing, 12);
+		mDotColor = a.getColor(R.styleable.PageIndicator_dotColor, Color.WHITE);
+
+		a.recycle();
 		initialize();
 	}
 
 	public PageIndicator(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initialize();
+		this(context, attrs, 0);
 	}
 
 	public PageIndicator(Context context) {
-		super(context);
-		initialize();
+		this(context, null);
 	}
 
 	private void initialize() {
-		mScreenScale = getResources().getDisplayMetrics().density;
-		mDotSpacing = (int) (DEFUALT_DOT_SPACING * mScreenScale);
-		mDotRadius = (int) (DEFUALT_DOT_RADIUS * mScreenScale);
-
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setColor(mDotColor);
 

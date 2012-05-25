@@ -62,6 +62,7 @@ public class AsyncImageLoader {
 			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
 			switch (msg.what) {
 			case STATUS_SUCCESS:
+				// if this ImageLoadingTask has been canceled before it done. we can not invoke the callback.
 				if (mTaskList.remove(task)) {
 					task.listener.onLoaded(task.bitmap, task.uri.toString());
 				}
