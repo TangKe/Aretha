@@ -10,6 +10,7 @@
     <string name="position">Position</string>
     <string name="radius_plus">Radius+</string>
     <string name="radius_minus">Radius-</string>
+    <string name="support_all_views">Support all Views!</string>
     <string name="sector_click">Child %1$s clicked!</string>
 
     <string-array name="position_item">

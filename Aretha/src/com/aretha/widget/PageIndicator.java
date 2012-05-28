@@ -32,6 +32,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
+/**
+ * {@link PageIndicator} is a view for developer to indicate current page or
+ * others which need to show the index to user.
+ * 
+ * @author Tank
+ * 
+ */
 public class PageIndicator extends View {
 	private int mActiveDotIndex;
 	private int mDotNumber;
@@ -353,6 +360,12 @@ public class PageIndicator extends View {
 		};
 	}
 
+	/**
+	 * Callback for page index changed.
+	 * 
+	 * @author Tank
+	 * 
+	 */
 	public static interface OnPageChangeListener {
 		public void onPageChange(int pageIndex);
 

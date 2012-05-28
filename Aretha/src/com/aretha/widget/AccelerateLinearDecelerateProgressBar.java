@@ -34,6 +34,12 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
+/**
+ * A simple widget to show the progress just like Windows Phone 7
+ * 
+ * @author Tank
+ * 
+ */
 public class AccelerateLinearDecelerateProgressBar extends View {
 	private final static float LIEAR_REGION_START_PERCENT = 0.35f;
 	private final static float LIEAR_REGION_END_PERCENT = 0.65f;

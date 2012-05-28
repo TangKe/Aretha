@@ -35,8 +35,8 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.Scroller;
 
 /**
- * A {@link ViewGroup} that position the children in a point and can be
- * expanded.
+ * {@link SectorView} is a {@link ViewGroup} that position the children in a
+ * point and be expanded by code.
  * 
  * @author Tank
  * 

@@ -7,16 +7,18 @@
     <com.aretha.widget.PageIndicator
         android:id="@+id/page_indicator"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_gravity="bottom" >
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical" >
 
         <Button
             android:id="@+id/page_plus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -25,6 +27,7 @@
 
         <Button
             android:id="@+id/page_minus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,6 +36,7 @@
 
         <Button
             android:id="@+id/red"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,21 +45,25 @@
 
         <Button
             android:id="@+id/white"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/white" />
-        
+
         <Button
             android:id="@+id/dot_radius"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/dot_radius" />
+
         <Button
             android:id="@+id/dot_spacing"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

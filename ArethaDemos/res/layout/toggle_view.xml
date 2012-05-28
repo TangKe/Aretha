@@ -6,14 +6,14 @@
     <com.aretha.widget.ToggleView
         android:id="@+id/toggle_view"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/toggle_background" >
 
         <View
             android:id="@id/toggle_handle"
-            android:layout_width="53dp"
-            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:background="@drawable/toggle_handle" />
 
         <TextView
@@ -22,7 +22,7 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:text="@string/toggle_off"
-            android:textColor="#ff7e2c2c"
+            android:textColor="#ffc3321f"
             android:textSize="18sp" />
 
         <TextView
@@ -31,7 +31,40 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:text="@string/toggle_on"
-            android:textColor="#ff669749"
+            android:textColor="#ffaec31f"
+            android:textSize="18sp" />
+    </com.aretha.widget.ToggleView>
+
+    <com.aretha.widget.ToggleView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/toggle_background" >
+
+        <View
+            android:id="@id/toggle_handle"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@drawable/toggle_handle" />
+
+        <TextView
+            android:id="@id/toggle_off"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:paddingLeft="40dp"
+            android:text="@string/toggle_off"
+            android:textColor="#ffc3321f"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@id/toggle_on"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:paddingRight="40dp"
+            android:text="@string/toggle_on"
+            android:textColor="#ffaec31f"
             android:textSize="18sp" />
     </com.aretha.widget.ToggleView>
 
@@ -43,6 +76,7 @@
 
         <Button
             android:id="@+id/on"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -51,6 +85,7 @@
 
         <Button
             android:id="@+id/off"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,6 +94,7 @@
 
         <Button
             android:id="@+id/toggle"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -67,6 +103,7 @@
 
         <Button
             android:id="@id/radius_plus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -75,6 +112,7 @@
 
         <Button
             android:id="@id/radius_minus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

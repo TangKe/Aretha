@@ -24,10 +24,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher" />
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:text="@string/support_all_views" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/aretha_button"
             android:onClick="onClick"
             android:text="@string/toggle" />
 
@@ -52,6 +53,7 @@
             android:id="@+id/position"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/position" />
@@ -60,6 +62,7 @@
             android:id="@+id/radius_plus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/radius_plus" />
@@ -68,6 +71,7 @@
             android:id="@+id/radius_minus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/radius_minus" />

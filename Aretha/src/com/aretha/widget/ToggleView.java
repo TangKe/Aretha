@@ -33,6 +33,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
 public class ToggleView extends ViewGroup {
@@ -42,7 +43,7 @@ public class ToggleView extends ViewGroup {
 	private final static int TOUCH_STATE_SCROLLING = 1;
 	private final static int TOUCH_STATE_FLING = 2;
 
-	private final static int ANIMATION_DURATION = 300;
+	private final static int ANIMATION_DURATION = 200;
 
 	private int mTouchState;
 
@@ -85,7 +86,7 @@ public class ToggleView extends ViewGroup {
 	private void initialize(Context context) {
 		mTouchSlop = new ViewConfiguration().getScaledTouchSlop();
 		mHandleFrame = new Rect();
-		mScroller = new Scroller(context);
+		mScroller = new Scroller(context, new LinearInterpolator());
 	}
 
 	@Override
@@ -314,10 +315,11 @@ public class ToggleView extends ViewGroup {
 
 	private void setView(View view, int id) {
 		View existView = findViewById(R.id.toggle_handle);
-		if (existView == null) {
-			view.setId(R.id.toggle_handle);
-			addView(view);
+		if (existView != null) {
+			removeView(existView);
 		}
+		view.setId(R.id.toggle_handle);
+		addView(view);
 	}
 
 	/**

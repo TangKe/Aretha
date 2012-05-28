@@ -20,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/dot_plus" />
 
         <Button
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/dot_plus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/dot_minus" />
 
         <Button
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/dot_minus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/space_plus" />
 
         <Button
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/space_plus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/space_minus" />
 
         <Button
@@ -52,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/dot_plus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/dot_radius_plus" />
 
         <Button
@@ -61,6 +66,7 @@
             android:layout_below="@+id/dot_minus"
             android:layout_toRightOf="@+id/radius_plus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/dot_radius_minus" />
 
         <Button
@@ -71,6 +77,7 @@
             android:layout_alignBottom="@+id/radius_minus"
             android:layout_toRightOf="@+id/radius_minus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/duration_plus" />
 
         <Button
@@ -80,6 +87,7 @@
             android:layout_below="@+id/space_minus"
             android:layout_toRightOf="@+id/duration_plus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/duration_minus" />
 
         <Button
@@ -89,6 +97,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/space_minus"
             android:onClick="onClick"
+            style="@style/aretha_button"
             android:text="@string/yellow" />
     </RelativeLayout>
 
