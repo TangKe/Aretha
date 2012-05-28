@@ -45,10 +45,18 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-        
-         <activity
+        <activity
             android:name=".widget.AccelerateLinearDecelerateProgressBarDemo"
             android:label="@string/accelerate_linear_decelerate_progressbar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.ToggleViewDemo"
+            android:label="@string/toggle_view" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -51,4 +51,9 @@
     <string name="duration_minus">Duration-</string>
     <string name="yellow">yellow</string>
 
+    <!-- ToggleView -->
+    <string name="toggle_view">ToggleView</string>
+    <string name="toggle_on">ON</string>
+    <string name="toggle_off">OFF</string>
+
 </resources>

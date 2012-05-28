@@ -5,9 +5,10 @@
     <attr name="dotRadius" format="dimension" />
     <attr name="dotSpacing" format="dimension" />
     <attr name="dotColor" format="color" />
+    <attr name="radius" format="dimension" />
 
     <declare-styleable name="SectorView">
-        <attr name="radius" format="dimension" />
+        <attr name="radius" />
         <attr name="quadrant">
             <enum name="center" value="0" />
             <enum name="leftBottom" value="1" />
@@ -35,6 +36,13 @@
         <attr name="dotRadius" />
         <attr name="dotSpacing" />
         <attr name="dotColor" />
+    </declare-styleable>
+    <declare-styleable name="ToggleView">
+        <attr name="toggle">
+            <enum name="on" value="1" />
+            <enum name="off" value="0" />
+        </attr>
+        <attr name="radius" />
     </declare-styleable>
 
 </resources>

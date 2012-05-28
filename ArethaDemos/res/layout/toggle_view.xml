@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.aretha.widget.ToggleView
+        android:id="@+id/toggle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/toggle_background" >
+
+        <View
+            android:id="@id/toggle_handle"
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:background="@drawable/toggle_handle" />
+
+        <TextView
+            android:id="@id/toggle_off"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="@string/toggle_off"
+            android:textColor="#ff7e2c2c"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@id/toggle_on"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="@string/toggle_on"
+            android:textColor="#ff669749"
+            android:textSize="18sp" />
+    </com.aretha.widget.ToggleView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/on"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/toggle_on" />
+
+        <Button
+            android:id="@+id/off"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/toggle_off" />
+
+        <Button
+            android:id="@+id/toggle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/toggle" />
+
+        <Button
+            android:id="@id/radius_plus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/radius_plus" />
+
+        <Button
+            android:id="@id/radius_minus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/radius_minus" />
+    </LinearLayout>
+
+</merge>
