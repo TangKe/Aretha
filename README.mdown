@@ -1,0 +1,9 @@
+# Aretha
+
+![Artha](https://github.com/TangKe/Aretha/wiki/images/logo.png =150x150)
+
+## Overview
+
+**Aretha** is a development library for the Android platform. It provided some *utilities class* and *UI widgets*.
+
+Copyright © Tang Ke <tang.ke@me.com>

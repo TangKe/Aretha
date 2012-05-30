@@ -12,17 +12,17 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/logo" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/logo" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/logo" />
     </com.aretha.widget.SectorView>
 
     <LinearLayout
@@ -42,36 +42,36 @@
 
         <Button
             android:id="@+id/toggle"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            style="@style/aretha_button"
             android:onClick="onClick"
             android:text="@string/toggle" />
 
         <Button
             android:id="@+id/position"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/position" />
 
         <Button
             android:id="@+id/radius_plus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/radius_plus" />
 
         <Button
             android:id="@+id/radius_minus"
+            style="@style/aretha_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/aretha_button"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="@string/radius_minus" />
