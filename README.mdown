@@ -1,6 +1,6 @@
 # Aretha
 
-![Artha](https://github.com/TangKe/Aretha/wiki/images/logo.png =150x150)
+![Artha](https://github.com/TangKe/Aretha/wiki/images/logo.png)
 
 ## Overview
 
