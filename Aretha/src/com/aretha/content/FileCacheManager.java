@@ -43,6 +43,20 @@ public class FileCacheManager {
 	}
 
 	/**
+	 * This method allow developer to specified a location for cache file to
+	 * store in
+	 * 
+	 * @param directory
+	 */
+	public void setDefaultStorageDirectory(File directory) {
+		if (directory == null || !directory.isDirectory()
+				|| directory.canWrite()) {
+			return;
+		}
+		mCacheFilePath = directory;
+	}
+
+	/**
 	 * Save a file to the cache folder
 	 * 
 	 * @param cacheIdentifier

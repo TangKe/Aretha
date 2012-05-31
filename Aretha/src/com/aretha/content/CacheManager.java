@@ -15,6 +15,7 @@
 package com.aretha.content;
 
 import java.lang.ref.SoftReference;
+import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +36,10 @@ public class CacheManager {
 		return mAppDataManager;
 	}
 
+	private final static long RELEASE_INTERVAL = 10000L;
 	private ConcurrentHashMap<String, SoftReference<Object>> mDataMap;
+	private Thread mReleaseThread;
+	private Runnable mReleaseRunnable;
 
 	private CacheManager() {
 		mDataMap = new ConcurrentHashMap<String, SoftReference<Object>>();
@@ -139,5 +143,51 @@ public class CacheManager {
 	 */
 	public void removeData(String tag) {
 		mDataMap.remove(tag);
+	}
+
+	public void enableBrokenReferenceAutoRelease() {
+		if (mReleaseThread == null || mReleaseRunnable == null) {
+			mReleaseRunnable = new BrokenReferenceReleaseRunnable(
+					RELEASE_INTERVAL, mDataMap);
+			mReleaseThread = new Thread(mReleaseRunnable);
+		}
+		mReleaseThread.start();
+	}
+
+	public void disableBrokenReferenceAutoRelease() {
+		if (mReleaseThread == null) {
+			return;
+		}
+		mReleaseThread.stop();
+	}
+
+	class BrokenReferenceReleaseRunnable implements Runnable {
+		private long mReleaseInterval;
+		private ConcurrentHashMap<String, SoftReference<Object>> mMap;
+
+		public BrokenReferenceReleaseRunnable(long releaseInterval,
+				ConcurrentHashMap<String, SoftReference<Object>> map) {
+			this.mMap = map;
+			this.mReleaseInterval = releaseInterval;
+		}
+
+		@Override
+		public void run() {
+			try {
+				while (true) {
+					Set<Entry<String, SoftReference<Object>>> entrySet = mMap
+							.entrySet();
+					for (Entry<String, SoftReference<Object>> entry : entrySet) {
+						// released by GC, remove from dataMap
+						if (entry.getValue().get() == null) {
+							mMap.remove(entry.getKey());
+						}
+					}
+					Thread.sleep(mReleaseInterval);
+				}
+			} catch (InterruptedException e) {
+
+			}
+		}
 	}
 }

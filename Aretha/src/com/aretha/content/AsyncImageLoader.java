@@ -46,6 +46,7 @@ public class AsyncImageLoader {
 
 	private final static int STATUS_SUCCESS = 1;
 	private final static int STATUS_ERROR = 2;
+	private final static int STATUS_CANCEL = 3;
 	private final static String LOG_TAG = "AsyncImageLoader";
 
 	private static AsyncImageLoader mImageLoader;
@@ -60,15 +61,20 @@ public class AsyncImageLoader {
 		@Override
 		public void handleMessage(Message msg) {
 			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
+			boolean isRemove = mTaskList.remove(task);
 			switch (msg.what) {
 			case STATUS_SUCCESS:
-				// if this ImageLoadingTask has been canceled before it done. we can not invoke the callback.
-				if (mTaskList.remove(task)) {
-					task.listener.onLoaded(task.bitmap, task.uri.toString());
+				// if this ImageLoadingTask has been canceled before it done. we
+				// can not invoke the callback.
+				if (isRemove) {
+					task.listener.onLoaded(task.bitmap, task.uri.toString(),
+							task.isLoadFromCache);
 				}
 				break;
 			case STATUS_ERROR:
 
+				break;
+			case STATUS_CANCEL:
 				break;
 			}
 		}
@@ -90,24 +96,27 @@ public class AsyncImageLoader {
 	}
 
 	/**
+	 * Add image request
 	 * 
 	 * @param uri
 	 * @param listener
 	 */
-	public void loadImage(URI uri, OnImageLoadedListener listener) {
+	public void loadImage(URI uri, OnImageLoadListener listener) {
 		doLoadImage(obtainImageLoadingTask(uri, listener));
 	}
 
 	/**
-	 * 
+	 * @see #loadImage(URI, OnImageLoadListener)
 	 * @param url
 	 * @param listener
 	 */
-	public void loadImage(String url, OnImageLoadedListener listener) {
+	public void loadImage(String url, OnImageLoadListener listener) {
 		loadImage(URI.create(url), listener);
 	}
 
 	/**
+	 * Cancel a image load request before is was been execute. if you want to
+	 * cancel it in progress, please see {@link OnImageLoadListener}
 	 * 
 	 * @param uri
 	 */
@@ -117,7 +126,7 @@ public class AsyncImageLoader {
 	}
 
 	/**
-	 * 
+	 * @see #cancel(URI)
 	 * @param url
 	 */
 	public void cancel(String url) {
@@ -135,7 +144,7 @@ public class AsyncImageLoader {
 	 * @return
 	 */
 	private ImageLoadingTask obtainImageLoadingTask(URI uri,
-			OnImageLoadedListener listener) {
+			OnImageLoadListener listener) {
 		ImageLoadingTask task = new ImageLoadingTask();
 		task.listener = listener;
 		task.uri = uri;
@@ -216,14 +225,33 @@ public class AsyncImageLoader {
 	 * @author Tank
 	 * 
 	 */
-	public interface OnImageLoadedListener {
-		public void onLoaded(Bitmap bitmap, String loadedImageUrl);
+	public interface OnImageLoadListener {
+		/**
+		 * Invoked when the image has been loaded
+		 * 
+		 * @param bitmap
+		 * @param loadedImageUrl
+		 * @param fromCache
+		 */
+		public void onLoaded(Bitmap bitmap, String loadedImageUrl,
+				boolean fromCache);
+
+		/**
+		 * You can decide whether to intercept the image load request in this
+		 * method. Such as Wi-Fi only or this image is with the extension name
+		 * 'png'
+		 * 
+		 * @param imageUrl
+		 * @return true to cancel this request, otherwise.
+		 */
+		public boolean preImageLoad(String imageUrl);
 	}
 
 	private class ImageLoadingTask implements Runnable {
 		public URI uri;
-		public OnImageLoadedListener listener;
+		public OnImageLoadListener listener;
 		public Bitmap bitmap;
+		public boolean isLoadFromCache;
 
 		@Override
 		public boolean equals(Object o) {
@@ -236,14 +264,21 @@ public class AsyncImageLoader {
 
 		@Override
 		public void run() {
-			bitmap = readCachedBitmap(uri.toString(), 1);
 			Handler handler = mImageLoadedHandler;
-			if (null != bitmap && null != listener) {
+			if (listener != null && listener.preImageLoad(uri.toString())) {
+				handler.sendMessage(handler.obtainMessage(STATUS_CANCEL, this));
+				return;
+			}
+
+			bitmap = readCachedBitmap(uri.toString(), 1);
+			if (null != bitmap) {
 				Log.d(LOG_TAG, "Image cache found!");
+				isLoadFromCache = true;
 				handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS, this));
 				return;
 			}
 
+			// Began to load from network
 			HttpConnectionHelper connection = HttpConnectionHelper
 					.getInstance();
 			HttpResponse response = connection.execute(connection
@@ -260,16 +295,18 @@ public class AsyncImageLoader {
 								"Delete the broken image cache! url: %s",
 								uri.toString()));
 						mFileCacheManager.deleteCache(uri.toString());
-						handler.sendEmptyMessage(STATUS_ERROR);
+						handler.sendMessage(handler.obtainMessage(STATUS_ERROR,
+								this));
 						return;
 					}
 					handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS,
 							this));
 				} else {
-					handler.sendEmptyMessage(STATUS_ERROR);
+					handler.sendMessage(handler.obtainMessage(STATUS_ERROR,
+							this));
 				}
 			} catch (IOException e) {
-				handler.sendEmptyMessage(STATUS_ERROR);
+				handler.sendMessage(handler.obtainMessage(STATUS_ERROR, this));
 			}
 		}
 	}
