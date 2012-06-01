@@ -20,6 +20,8 @@ import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import android.util.Log;
+
 /**
  * A simple cache utility for global manage the RAM data and use
  * {@link SoftReference} to avoid {@link OutOfMemoryError}
@@ -36,6 +38,7 @@ public class CacheManager {
 		return mAppDataManager;
 	}
 
+	private final static String LOG_TAG = "CacheManager";
 	private final static long RELEASE_INTERVAL = 10000L;
 	private ConcurrentHashMap<String, SoftReference<Object>> mDataMap;
 	private Thread mReleaseThread;
@@ -175,11 +178,16 @@ public class CacheManager {
 		public void run() {
 			try {
 				while (true) {
+					Log.i(LOG_TAG, "Releasing");
 					Set<Entry<String, SoftReference<Object>>> entrySet = mMap
 							.entrySet();
 					for (Entry<String, SoftReference<Object>> entry : entrySet) {
 						// released by GC, remove from dataMap
 						if (entry.getValue().get() == null) {
+							Log.i(LOG_TAG,
+									String.format(
+											"Release broken reference object with key %s",
+											entry.getKey()));
 							mMap.remove(entry.getKey());
 						}
 					}

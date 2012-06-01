@@ -74,7 +74,7 @@ public class ToggleView extends ViewGroup {
 
 		initialize(context);
 	}
-
+	
 	public ToggleView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}

@@ -28,7 +28,7 @@ import android.content.Context;
 
 /**
  * A simple class to manage the cached file which saved in the
- * /data/data/{package name}/files/ folder
+ * /data/data/{package name}/files/ folder or a specified directory
  * 
  * @author Tank
  */

@@ -264,9 +264,11 @@ public class AsyncImageLoader {
 
 		@Override
 		public void run() {
-			Handler handler = mImageLoadedHandler;
+			Message message = mImageLoadedHandler.obtainMessage(STATUS_SUCCESS,
+					this);
 			if (listener != null && listener.preImageLoad(uri.toString())) {
-				handler.sendMessage(handler.obtainMessage(STATUS_CANCEL, this));
+				message.what = STATUS_CANCEL;
+				message.sendToTarget();
 				return;
 			}
 
@@ -274,7 +276,7 @@ public class AsyncImageLoader {
 			if (null != bitmap) {
 				Log.d(LOG_TAG, "Image cache found!");
 				isLoadFromCache = true;
-				handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS, this));
+				message.sendToTarget();
 				return;
 			}
 
@@ -295,19 +297,18 @@ public class AsyncImageLoader {
 								"Delete the broken image cache! url: %s",
 								uri.toString()));
 						mFileCacheManager.deleteCache(uri.toString());
-						handler.sendMessage(handler.obtainMessage(STATUS_ERROR,
-								this));
+						message.what = STATUS_ERROR;
+						message.sendToTarget();
 						return;
 					}
-					handler.sendMessage(handler.obtainMessage(STATUS_SUCCESS,
-							this));
-				} else {
-					handler.sendMessage(handler.obtainMessage(STATUS_ERROR,
-							this));
+					message.sendToTarget();
+					return;
 				}
 			} catch (IOException e) {
-				handler.sendMessage(handler.obtainMessage(STATUS_ERROR, this));
+				Log.d(LOG_TAG, e.getMessage());
 			}
+			message.what = STATUS_ERROR;
+			message.sendToTarget();
 		}
 	}
 }
