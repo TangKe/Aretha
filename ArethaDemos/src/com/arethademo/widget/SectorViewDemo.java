@@ -52,7 +52,8 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 		switch (id) {
 		case R.id.change_sectorview_position_dialog:
 			builder.setTitle(R.string.position);
-			builder.setSingleChoiceItems(R.array.position_item, 1, this);
+			builder.setSingleChoiceItems(R.array.position_item,
+					mSectorView.getQuadrant(), this);
 			break;
 		default:
 			break;
