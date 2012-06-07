@@ -16,7 +16,7 @@
             android:id="@id/toggle_handle"
             android:layout_width="40dp"
             android:layout_height="30dp"
-            android:background="@drawable/toggle_handle" />
+            android:background="@drawable/toggle_handle_background_selector" />
 
         <TextView
             android:id="@id/toggle_off"
@@ -45,16 +45,16 @@
 
         <View
             android:id="@id/toggle_handle"
-            android:layout_width="20dp"
+            android:layout_width="100dp"
             android:layout_height="30dp"
-            android:background="@drawable/toggle_handle" />
+            android:background="@drawable/toggle_handle_background_selector" />
 
         <TextView
             android:id="@id/toggle_off"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:paddingLeft="40dp"
+            android:paddingLeft="100dp"
             android:text="@string/toggle_off"
             android:textColor="#ffc3321f"
             android:textSize="18sp" />
@@ -64,7 +64,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:paddingRight="40dp"
+            android:paddingRight="100dp"
             android:text="@string/toggle_on"
             android:textColor="#ffaec31f"
             android:textSize="18sp" />

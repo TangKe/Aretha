@@ -62,6 +62,8 @@ public class ToggleView extends ViewGroup {
 
 	private float mClipRadius;
 
+	private View mHandle;
+
 	public ToggleView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
@@ -74,7 +76,7 @@ public class ToggleView extends ViewGroup {
 
 		initialize(context);
 	}
-	
+
 	public ToggleView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -197,6 +199,7 @@ public class ToggleView extends ViewGroup {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_UP:
 			requestDisallowInterceptTouchEvent(false);
+			handle.setPressed(false);
 			if (mTouchedInHandle && touchState == TOUCH_STATE_IDLE) {
 				toggle();
 			} else if (touchState == TOUCH_STATE_SCROLLING) {
@@ -227,6 +230,7 @@ public class ToggleView extends ViewGroup {
 			mHandleFrame.set(-scrollX, handle.getTop(),
 					-scrollX + handle.getRight(), handle.getBottom());
 			mTouchedInHandle = mHandleFrame.contains((int) x, (int) y);
+			handle.setPressed(mTouchedInHandle);
 			// If user touched the handle
 			requestDisallowInterceptTouchEvent(mTouchedInHandle);
 			return true;
@@ -254,6 +258,10 @@ public class ToggleView extends ViewGroup {
 			Log.w(LOG_TAG,
 					"Only one child with id \"toggle_handle\" is allowed here");
 			return;
+		}
+
+		if (childId == R.id.toggle_handle) {
+			mHandle = child;
 		}
 
 		super.addView(child, index, params);
