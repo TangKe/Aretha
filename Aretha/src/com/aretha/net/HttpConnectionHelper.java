@@ -59,9 +59,6 @@ import android.text.format.DateUtils;
  */
 public class HttpConnectionHelper implements HttpRequestInterceptor,
 		HttpResponseInterceptor {
-	public final static int TYPE_GET = 0x0001;
-	public final static int TYPE_POST = 0x0002;
-
 	private final static int SECOND_IN_MILLIS = (int) DateUtils.SECOND_IN_MILLIS;
 	private final static int DEFAULT_CONNECTION_TIMEOUT = 20;
 
@@ -142,15 +139,15 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 	 *            Request parameters
 	 * @return
 	 */
-	public HttpUriRequest obtainHttpRequest(int type, String url,
+	public HttpUriRequest obtainHttpRequest(HttpRequestMethod type, String url,
 			List<NameValuePair> params) {
 		HttpUriRequest request = null;
 		switch (type) {
 		default:
-		case TYPE_GET:
+		case GET:
 			request = obtainHttpGetRequest(url, params);
 			break;
-		case TYPE_POST:
+		case POST:
 			request = obtainHttpPostRequest(url, params);
 			break;
 		}

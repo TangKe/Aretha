@@ -39,7 +39,7 @@
 
     <com.aretha.widget.ToggleView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/toggle_background" >
 
@@ -59,15 +59,13 @@
             android:textColor="#ffc3321f"
             android:textSize="18sp" />
 
-        <TextView
+        <ImageView
             android:id="@id/toggle_on"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
             android:paddingRight="100dp"
-            android:text="@string/toggle_on"
-            android:textColor="#ffaec31f"
-            android:textSize="18sp" />
+            android:src="@drawable/logo" />
     </com.aretha.widget.ToggleView>
 
     <LinearLayout
