@@ -44,5 +44,9 @@
         </attr>
         <attr name="radius" />
     </declare-styleable>
+    
+    <declare-styleable name="ClickWheelView">
+        <attr name="gapDegree" format="float" />
+    </declare-styleable>
 
 </resources>
