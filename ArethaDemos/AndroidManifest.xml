@@ -24,7 +24,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
@@ -33,7 +33,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
@@ -42,7 +42,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
@@ -51,7 +51,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
         <activity
@@ -60,7 +60,16 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.WorkspaceDemo"
+            android:label="@string/workspace" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
     </application>

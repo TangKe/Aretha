@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
+
+    <com.aretha.widget.Workspace
+        android:id="@+id/workspace"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        aretha:showChild="1" >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:background="@color/aretha_red"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/aretha_green"
+            android:gravity="center"
+            android:text="@string/showing_child"
+            android:textColor="@color/aretha_white" />
+
+        <View
+            android:layout_width="150dp"
+            android:layout_height="fill_parent"
+            android:background="@color/aretha_blue" />
+
+        <View
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:background="@color/aretha_purple" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/aretha_yellow"
+            android:gravity="center"
+            android:text="@string/last_child"
+            android:textColor="@color/aretha_white" />
+    </com.aretha.widget.Workspace>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" >
+
+        <Button
+            android:id="@+id/prev_child"
+            style="@style/aretha_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/prev_child" />
+
+        <ImageView
+            android:id="@+id/artha_child"
+            style="@style/aretha_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:src="@drawable/logo" />
+
+        <Button
+            android:id="@+id/next_child"
+            style="@style/aretha_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="@string/next_child" />
+    </LinearLayout>
+
+</merge>

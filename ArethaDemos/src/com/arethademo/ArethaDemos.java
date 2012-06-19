@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class ArethaDemos extends ListActivity {
+	public final static String CATEGORY_SAMPLE_CODE = "com.aretha.category.SAMPLE_CODE";
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class ArethaDemos extends ListActivity {
 		List<Map> myData = new ArrayList<Map>();
 
 		Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-		mainIntent.addCategory(Intent.CATEGORY_SAMPLE_CODE);
+		mainIntent.addCategory(CATEGORY_SAMPLE_CODE);
 
 		PackageManager pm = getPackageManager();
 		List<ResolveInfo> list = pm.queryIntentActivities(mainIntent, 0);

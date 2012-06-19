@@ -24,7 +24,7 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:text="@string/toggle_off"
-            android:textColor="#ffc3321f"
+            android:textColor="@color/aretha_red"
             android:textSize="18sp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:text="@string/toggle_on"
-            android:textColor="#ffaec31f"
+            android:textColor="@color/aretha_green"
             android:textSize="18sp" />
     </com.aretha.widget.ToggleView>
 
@@ -56,7 +56,7 @@
             android:gravity="center"
             android:paddingLeft="100dp"
             android:text="@string/toggle_off"
-            android:textColor="#ffc3321f"
+            android:textColor="@color/aretha_red"
             android:textSize="18sp" />
 
         <ImageView

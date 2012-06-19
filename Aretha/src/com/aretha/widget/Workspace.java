@@ -1,6 +1,27 @@
+/*
+ * Copyright 2012 Tang Ke
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *        
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -13,16 +34,16 @@ public class Workspace extends ViewGroup {
 	protected final static int TOUCH_STATE_IDLE = 0;
 	protected final static int TOUCH_STATE_SCROLLING = 1;
 	protected final static int TOUCH_STATE_FLING = 3;
-	protected final static int SCROLL_DURATION = 500;
+
 	private int mTouchState;
 
 	private Scroller mScroller;
 
+	private int mDuration;
+
 	private float mLastMotionX;
-
 	private int mMaximumVelocity;
-
-	protected int mSnapVelocity = 500;
+	protected int mSnapVelocity;
 
 	protected int mCurrentChildIndex;
 
@@ -31,7 +52,6 @@ public class Workspace extends ViewGroup {
 	private int mContentWidth;
 
 	private int mWidth;
-	private int mHeight;
 
 	private float mTouchDownX;
 
@@ -39,17 +59,22 @@ public class Workspace extends ViewGroup {
 
 	public Workspace(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.Workspace);
+		mDuration = a.getInteger(R.styleable.Workspace_duration, 300);
+		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showChild, 0);
+		mSnapVelocity = a.getInteger(R.styleable.Workspace_snapVelocity, 500);
+
 		initialize();
 	}
 
 	public Workspace(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initialize();
+		this(context, attrs, 0);
 	}
 
 	public Workspace(Context context) {
-		super(context);
-		initialize();
+		this(context, null);
 	}
 
 	void initialize() {
@@ -90,6 +115,7 @@ public class Workspace extends ViewGroup {
 					+ childMeasureHeight / 2);
 			layoutedChildWidth += childMeasureWidth;
 		}
+		scrollToChild(mCurrentChildIndex, false);
 	}
 
 	@Override
@@ -112,10 +138,10 @@ public class Workspace extends ViewGroup {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if(ev.getAction() == MotionEvent.ACTION_DOWN){
+		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 			mLastMotionX = ev.getX();
 		}
 		return super.dispatchTouchEvent(ev);
@@ -178,7 +204,7 @@ public class Workspace extends ViewGroup {
 			} else if (velocityX < -mSnapVelocity) {
 				animationToNextChild();
 			} else {
-				animateToChild(mCurrentChildIndex);
+				scrollToChild(mCurrentChildIndex, true);
 			}
 			velocityTracker.recycle();
 			break;
@@ -209,14 +235,14 @@ public class Workspace extends ViewGroup {
 	}
 
 	public void animationToNextChild() {
-		animateToChild(++mCurrentChildIndex);
+		scrollToChild(++mCurrentChildIndex, true);
 	}
 
 	public void animationToPrevChild() {
-		animateToChild(--mCurrentChildIndex);
+		scrollToChild(--mCurrentChildIndex, true);
 	}
 
-	public void animateToChild(int index) {
+	public void scrollToChild(int index, boolean isAnimated) {
 		final int scroll = getScrollX();
 		final int childCount = getChildCount();
 
@@ -225,11 +251,25 @@ public class Workspace extends ViewGroup {
 		View child = getChildAt(index);
 		boolean isLast = index == childCount - 1;
 
-		mScroller.startScroll(scroll, 0, child.getLeft()
-				- scroll
-				- getPaddingLeft()
-				- (isLast ? getWidth() - child.getWidth() - getPaddingLeft()
-						- getPaddingRight() : 0), 0, SCROLL_DURATION);
+		// total width of children which after this index child is less than
+		// parent width
+		int lastChildWidth = 0;
+		for (; index < childCount; index++) {
+			View lastChild = getChildAt(index);
+			lastChildWidth += lastChild.getWidth();
+		}
+		boolean widthLessThanParnent = lastChildWidth <= getWidth();
+
+		mScroller.startScroll(
+				scroll,
+				0,
+				child.getLeft()
+						- scroll
+						- getPaddingLeft()
+						- (isLast || widthLessThanParnent ? getWidth()
+								- child.getWidth() - getPaddingLeft()
+								- getPaddingRight() : 0), 0,
+				isAnimated ? mDuration : 0);
 		invalidate();
 	}
 
@@ -240,11 +280,30 @@ public class Workspace extends ViewGroup {
 		mVelocityTracker.addMovement(ev);
 	}
 
+	public void setDuration(int duration) {
+		mDuration = duration;
+	}
+
+	public int getDuration() {
+		return this.mDuration;
+	}
+
+	public void setSnapVelocity(int snapVelocity) {
+		mSnapVelocity = snapVelocity;
+	}
+
+	public int getSnapVelocity() {
+		return this.mSnapVelocity;
+	}
+	
+	public int getCurrentChildIndex() {
+		return mCurrentChildIndex;
+	}
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		mWidth = w;
-		mHeight = h;
 	}
 
 	public WorkspaceListener getWorkspaceListener() {
@@ -259,5 +318,61 @@ public class Workspace extends ViewGroup {
 		public void onChildChanged(int childIndex);
 
 		public void onChildInvalidate();
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		SavedState savedState = new SavedState(super.onSaveInstanceState());
+		savedState.duration = mDuration;
+		savedState.currentChildIndex = mCurrentChildIndex;
+		savedState.snapVelocity = mSnapVelocity;
+		return savedState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		SavedState savedState = (SavedState) state;
+		super.onRestoreInstanceState(savedState.getSuperState());
+
+		mDuration = savedState.duration;
+		mCurrentChildIndex = savedState.currentChildIndex;
+		mSnapVelocity = savedState.snapVelocity;
+	}
+
+	static class SavedState extends BaseSavedState {
+		public int duration;
+		public int snapVelocity;
+		public int currentChildIndex;
+
+		SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		private SavedState(Parcel in) {
+			super(in);
+			duration = in.readInt();
+			snapVelocity = in.readInt();
+			currentChildIndex = in.readInt();
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+			out.writeInt(duration);
+			out.writeFloat(snapVelocity);
+			out.writeFloat(currentChildIndex);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			@Override
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 	}
 }
