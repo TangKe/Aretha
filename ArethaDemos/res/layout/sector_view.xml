@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
     <com.aretha.widget.SectorView
         android:id="@+id/sector_view"
@@ -37,46 +34,51 @@
             android:src="@drawable/logo" />
     </com.aretha.widget.SectorView>
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" >
 
-        <Button
-            android:id="@+id/toggle"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/toggle" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/position"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/position" />
+            <Button
+                android:id="@+id/toggle"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/toggle" />
 
-        <Button
-            android:id="@+id/radius_plus"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/radius_plus" />
+            <Button
+                android:id="@+id/position"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/position" />
 
-        <Button
-            android:id="@+id/radius_minus"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/radius_minus" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/radius_plus"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/radius_plus" />
+
+            <Button
+                android:id="@+id/radius_minus"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/radius_minus" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </merge>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="aretha_button">
         <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:textColor">@color/button_text_color</item>
@@ -7,5 +8,7 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+        <item name="android:textSize">15sp</item>
     </style>
+
 </resources>

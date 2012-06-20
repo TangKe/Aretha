@@ -1,77 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
     <com.aretha.widget.PageIndicator
         android:id="@+id/page_indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        aretha:pageCount="5"
-        aretha:dotColor="#ffaec31f" />
+        aretha:dotColor="@color/aretha_green"
+        aretha:pageCount="5" />
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center_vertical" >
+        android:layout_gravity="bottom" >
 
-        <Button
-            android:id="@+id/page_plus"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/page_plus" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/page_minus"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/page_minus" />
+            <Button
+                android:id="@+id/page_plus"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/page_plus" />
 
-        <Button
-            android:id="@+id/red"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/red" />
+            <Button
+                android:id="@+id/page_minus"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/page_minus" />
 
-        <Button
-            android:id="@+id/white"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/white" />
+            <Button
+                android:id="@+id/red"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/red" />
 
-        <Button
-            android:id="@+id/dot_radius"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/dot_radius" />
+            <Button
+                android:id="@+id/white"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/white" />
 
-        <Button
-            android:id="@+id/dot_spacing"
-            style="@style/aretha_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/dot_spacing" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/dot_radius"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/dot_radius" />
+
+            <Button
+                android:id="@+id/dot_spacing"
+                style="@style/aretha_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClick"
+                android:text="@string/dot_spacing" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </merge>

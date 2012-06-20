@@ -33,10 +33,12 @@ public class PageIndicatorDemo extends Activity implements OnPageChangeListener 
 			mPageIndicator.setPageNumber(mPageIndicator.getPageNumber() - 1);
 			break;
 		case R.id.red:
-			mPageIndicator.setDotColor(Color.RED);
+			mPageIndicator.setDotColor(getResources().getColor(
+					R.color.aretha_red));
 			break;
 		case R.id.white:
-			mPageIndicator.setDotColor(Color.WHITE);
+			mPageIndicator.setDotColor(getResources().getColor(
+					R.color.aretha_white));
 			break;
 		case R.id.dot_radius:
 			mPageIndicator.setDotRadius(mPageIndicator.getDotRadius() + 2,
