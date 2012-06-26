@@ -25,6 +25,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	private boolean mIsExpand;
 	private float mCurrentRadius;
 	private float mRadius;
-	private int mQuadrant;
+	private int mGravity;
 	private int mAnimationOffset;
 	private int mDuration;
 	// private boolean mOrder = false;
@@ -64,7 +65,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 				R.styleable.SectorView);
 
 		mRadius = a.getDimension(R.styleable.SectorView_radius, 300);
-		mQuadrant = a.getInt(R.styleable.SectorView_quadrant, 1);
+		mGravity = a.getInt(R.styleable.SectorView_gravity, Gravity.LEFT
+				| Gravity.BOTTOM);
 		mAnimationOffset = a.getInt(R.styleable.SectorView_animationOffset, 30);
 		mDuration = a.getInt(R.styleable.SectorView_duration, 600);
 
@@ -100,7 +102,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		final int childCount = mChildCount;
 		final float radius = mRadius;
-		final int quadrant = mQuadrant;
+		final int gravity = mGravity;
 
 		int maxChildWidth = 0;
 		int maxChildHeight = 0;
@@ -116,19 +118,19 @@ public class SectorView extends ViewGroup implements OnClickListener {
 					childView.getMeasuredHeight());
 		}
 
-		final boolean isCenter = quadrant == 0;
-		final boolean isLeftOrRightQuadrant = (quadrant == 6 || quadrant == 8);
-		final boolean isTopOrBottomQuadrant = (quadrant == 5 || quadrant == 7);
+		final boolean isCenter = gravity == 0;
+		final boolean isLeftOrRight = (gravity == Gravity.LEFT || gravity == Gravity.RIGHT);
+		final boolean isTopOrBottom = (gravity == Gravity.TOP || gravity == Gravity.BOTTOM);
 
-		int measuredWidth = Math
-				.round((isCenter || isTopOrBottomQuadrant ? 2 * radius : radius)
-						+ (isCenter || isLeftOrRightQuadrant ? maxChildWidth
-								: maxChildWidth / 2));
+		int measuredWidth = Math.round((isCenter || isTopOrBottom ? 2 * radius
+				: radius)
+				+ (isCenter || isLeftOrRight ? maxChildWidth
+						: maxChildWidth / 2));
 
-		int measuredHeight = Math
-				.round((isCenter || isLeftOrRightQuadrant ? 2 * radius : radius)
-						+ (isCenter || isLeftOrRightQuadrant ? maxChildHeight
-								: maxChildHeight / 2));
+		int measuredHeight = Math.round((isCenter || isLeftOrRight ? 2 * radius
+				: radius)
+				+ (isCenter || isLeftOrRight ? maxChildHeight
+						: maxChildHeight / 2));
 
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
 		measuredHeight += (getPaddingTop() + getPaddingBottom());
@@ -142,7 +144,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		final int childCount = mChildCount;
 		final float currentRadius = mCurrentRadius;
 		final float radius = mRadius;
-		final int quadrant = mQuadrant;
+		final int gravity = mGravity;
 		final int animationOffset = mAnimationOffset;
 		final Interpolator interpolator = mInterpolator;
 		// final boolean order = mOrder;
@@ -160,7 +162,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			childRadius = (int) (interpolation * radius);
 
 			int[] childCoordinate = getChildCenterCoordinate(childRadius,
-					index, r - l, b - t, childCount, quadrant);
+					index, r - l, b - t, childCount, gravity);
 			childView.layout(childCoordinate[0] - halfChildWidth,
 					childCoordinate[1] - halfChildHeight, childCoordinate[0]
 							+ halfChildWidth, childCoordinate[1]
@@ -169,17 +171,9 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	}
 
 	/**
-	 * <pre>
 	 * 
-	 *  2  5  1
-	 *     |
-	 *  6--0--8
-	 *     |
-	 *  3  7  4
-	 * </pre>
-	 * 
-	 * The default quadrant is 4th quadrant, the origin point in the left-top
-	 * corner of this view
+	 * The default gravity is center, the origin point in the left-top corner of
+	 * this view
 	 * 
 	 * @param radius
 	 *            the radius of all sector
@@ -193,30 +187,29 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 *            right bounds of this view group
 	 * @param bottom
 	 *            bottom bounds of this view group
-	 * @param quadrant
-	 *            determine the origin of coordinates
+	 * @param gravity
+	 *            determine the gravity of this view
 	 *            <ul>
-	 *            <li>0: center</li>
-	 *            <li>1: left-bottom</li>
-	 *            <li>2: right-bottom</li>
-	 *            <li>3: right-top</li>
-	 *            <li>4: right-bottom</li>
-	 *            <li>5: top</li>
-	 *            <li>6: left</li>
-	 *            <li>7: bottom</li>
-	 *            <li>8: right</li>
+	 *            <li>center</li>
+	 *            <li>left|bottom</li>
+	 *            <li>right|bottom</li>
+	 *            <li>right|top</li>
+	 *            <li>left|top</li>
+	 *            <li>top</li>
+	 *            <li>left</li>
+	 *            <li>bottom</li>
+	 *            <li>right</li>
 	 *            </ul>
 	 * @return
 	 */
 	protected int[] getChildCenterCoordinate(int radius, int index, int width,
-			int height, int childCount, int quadrant) {
+			int height, int childCount, int gravity) {
 		double degreePerChild;
 		double degree;
 
-		if (quadrant == 0) {
+		if (gravity == 0) {
 			degreePerChild = Math.PI * 2 / childCount;
-		} else if (quadrant == 5 || quadrant == 6 || quadrant == 7
-				|| quadrant == 8) {
+		} else if (gravity == 5 || gravity == 6 || gravity == 7 || gravity == 8) {
 			degreePerChild = Math.PI / (childCount + 1);
 		} else {
 			degreePerChild = Math.PI / 2 / (childCount + 1);
@@ -226,41 +219,41 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		int xRange = (int) Math.round(radius * Math.cos(degree));
 		int yRange = (int) Math.round(radius * Math.sin(degree));
 		int x, y;
-		switch (quadrant) {
+		switch (gravity) {
 		default:
-		case 0:
+		case Gravity.CENTER:
 			x = width / 2 + xRange;
 			y = height / 2 + yRange;
 			break;
-		case 1:
+		case Gravity.LEFT | Gravity.BOTTOM:
 			x = xRange;
 			y = height - yRange;
 			break;
-		case 2:
+		case Gravity.RIGHT | Gravity.BOTTOM:
 			x = width - xRange;
 			y = height - yRange;
 			break;
-		case 3:
+		case Gravity.RIGHT | Gravity.TOP:
 			x = width - xRange;
 			y = yRange;
 			break;
-		case 4:
+		case Gravity.LEFT | Gravity.TOP:
 			x = xRange;
 			y = yRange;
 			break;
-		case 5:
+		case Gravity.TOP:
 			x = width / 2 + xRange;
 			y = yRange;
 			break;
-		case 6:
+		case Gravity.LEFT:
 			x = yRange;
 			y = height / 2 + xRange;
 			break;
-		case 7:
+		case Gravity.BOTTOM:
 			x = width / 2 + xRange;
 			y = height - yRange;
 			break;
-		case 8:
+		case Gravity.RIGHT:
 			x = width - yRange;
 			y = height / 2 + xRange;
 			break;
@@ -358,12 +351,12 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		requestLayout();
 	}
 
-	public int getQuadrant() {
-		return mQuadrant;
+	public int getGravity() {
+		return mGravity;
 	}
 
-	public void setQuadrant(int quadrant) {
-		this.mQuadrant = quadrant;
+	public void setGravity(int gravity) {
+		this.mGravity = gravity;
 		requestLayout();
 	}
 
@@ -434,7 +427,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		SavedState savedState = new SavedState(super.onSaveInstanceState());
 		savedState.currentRadius = mCurrentRadius;
 		savedState.isExpand = mIsExpand ? 1 : 0;
-		savedState.quadrant = mQuadrant;
+		savedState.gravity = mGravity;
 		savedState.radius = mRadius;
 		savedState.animationOffset = mAnimationOffset;
 		savedState.duration = mDuration;
@@ -448,7 +441,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 		mCurrentRadius = savedState.currentRadius;
 		mIsExpand = savedState.isExpand == 0 ? false : true;
-		mQuadrant = savedState.quadrant;
+		mGravity = savedState.gravity;
 		mRadius = savedState.radius;
 		mAnimationOffset = savedState.animationOffset;
 		mDuration = savedState.duration;
@@ -530,7 +523,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 * 
 	 */
 	static class SavedState extends BaseSavedState {
-		public int quadrant;
+		public int gravity;
 		public float radius;
 		public float currentRadius;
 		public int isExpand;
@@ -543,7 +536,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 		private SavedState(Parcel in) {
 			super(in);
-			quadrant = in.readInt();
+			gravity = in.readInt();
 			radius = in.readInt();
 			currentRadius = in.readInt();
 			isExpand = in.readInt();
@@ -554,7 +547,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		@Override
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
-			out.writeInt(quadrant);
+			out.writeInt(gravity);
 			out.writeFloat(radius);
 			out.writeFloat(currentRadius);
 			out.writeInt(isExpand);

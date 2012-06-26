@@ -7,7 +7,7 @@
     <!-- SectorView -->
     <string name="sector_view">SectorView</string>
     <string name="toggle">Toggle</string>
-    <string name="position">Position</string>
+    <string name="gravity">Gravity</string>
     <string name="radius_plus">Radius+</string>
     <string name="radius_minus">Radius-</string>
     <string name="support_all_views">Support all Views!</string>

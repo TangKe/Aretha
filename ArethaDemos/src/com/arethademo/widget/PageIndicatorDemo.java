@@ -5,7 +5,6 @@ import com.aretha.widget.PageIndicator.OnPageChangeListener;
 import com.arethademo.R;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;

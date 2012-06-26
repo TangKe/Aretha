@@ -9,16 +9,12 @@
 
     <declare-styleable name="SectorView">
         <attr name="radius" />
-        <attr name="quadrant">
-            <enum name="center" value="0" />
-            <enum name="leftBottom" value="1" />
-            <enum name="rightBottom" value="2" />
-            <enum name="rightTop" value="3" />
-            <enum name="leftTop" value="4" />
-            <enum name="top" value="5" />
-            <enum name="left" value="6" />
-            <enum name="bottom" value="7" />
-            <enum name="right" value="8" />
+        <attr name="gravity">
+            <flag name="center" value="0x11" />
+            <flag name="top" value="0x30" />
+            <flag name="left" value="0x03" />
+            <flag name="bottom" value="0x50" />
+            <flag name="right" value="0x05" />
         </attr>
         <attr name="animationOffset" format="integer" />
         <attr name="duration" />
@@ -48,7 +44,7 @@
         <attr name="showChild" format="integer" />
         <!-- define the min velocity to perform scroll page action -->
         <attr name="snapVelocity" format="integer">
-			<enum name="auto" value="-1" />            
+            <enum name="auto" value="-1" />
         </attr>
         <attr name="duration" />
     </declare-styleable>

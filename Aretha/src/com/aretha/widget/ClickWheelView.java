@@ -1,14 +1,10 @@
 package com.aretha.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 public class ClickWheelView extends ViewGroup {
 	private float mRadius;

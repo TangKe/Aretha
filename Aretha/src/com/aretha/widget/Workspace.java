@@ -242,6 +242,10 @@ public class Workspace extends ViewGroup {
 		scrollToChild(--mCurrentChildIndex, true);
 	}
 
+	public void scrollToChild(View child, boolean isAnimated) {
+		scrollToChild(indexOfChild(child), isAnimated);
+	}
+
 	public void scrollToChild(int index, boolean isAnimated) {
 		final int scroll = getScrollX();
 		final int childCount = getChildCount();
@@ -295,7 +299,7 @@ public class Workspace extends ViewGroup {
 	public int getSnapVelocity() {
 		return this.mSnapVelocity;
 	}
-	
+
 	public int getCurrentChildIndex() {
 		return mCurrentChildIndex;
 	}

@@ -6,7 +6,7 @@
         android:id="@+id/sector_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        aretha:quadrant="leftTop" >
+        aretha:gravity="left|bottom" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onClick"
-                android:text="@string/position" />
+                android:text="@string/gravity" />
 
             <Button
                 android:id="@+id/radius_plus"
