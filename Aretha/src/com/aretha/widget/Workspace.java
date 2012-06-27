@@ -28,12 +28,16 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 public class Workspace extends ViewGroup {
 	protected final static int TOUCH_STATE_IDLE = 0;
 	protected final static int TOUCH_STATE_SCROLLING = 1;
 	protected final static int TOUCH_STATE_FLING = 3;
+
+	private Context mContext;
 
 	private int mTouchState;
 
@@ -65,8 +69,20 @@ public class Workspace extends ViewGroup {
 		mDuration = a.getInteger(R.styleable.Workspace_duration, 300);
 		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showChild, 0);
 		mSnapVelocity = a.getInteger(R.styleable.Workspace_snapVelocity, 500);
+		int interpolator = a.getResourceId(R.styleable.Workspace_interpolator,
+				-1);
 
-		initialize();
+		if (interpolator != -1) {
+			mScroller = new Scroller(getContext(),
+					AnimationUtils.loadInterpolator(context, interpolator));
+		} else {
+			mScroller = new Scroller(getContext());
+		}
+		a.recycle();
+
+		mMaximumVelocity = ViewConfiguration.get(getContext())
+				.getScaledMaximumFlingVelocity();
+		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 	}
 
 	public Workspace(Context context, AttributeSet attrs) {
@@ -75,13 +91,6 @@ public class Workspace extends ViewGroup {
 
 	public Workspace(Context context) {
 		this(context, null);
-	}
-
-	void initialize() {
-		mScroller = new Scroller(getContext());
-		mMaximumVelocity = ViewConfiguration.get(getContext())
-				.getScaledMaximumFlingVelocity();
-		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 	}
 
 	@Override
@@ -294,6 +303,10 @@ public class Workspace extends ViewGroup {
 			mVelocityTracker = VelocityTracker.obtain();
 		}
 		mVelocityTracker.addMovement(ev);
+	}
+
+	public void setInterpolator(Interpolator interpolator) {
+		mScroller = new Scroller(mContext, interpolator);
 	}
 
 	public void setDuration(int duration) {

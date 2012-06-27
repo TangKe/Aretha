@@ -24,13 +24,13 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -70,10 +70,19 @@ public class SectorView extends ViewGroup implements OnClickListener {
 				| Gravity.BOTTOM);
 		mAnimationOffset = a.getInt(R.styleable.SectorView_animationOffset, 30);
 		mDuration = a.getInt(R.styleable.SectorView_duration, 600);
-
+		int interpolator = a.getResourceId(R.styleable.SectorView_interpolator,
+				-1);
 		a.recycle();
 
-		initialize();
+		if (interpolator != -1) {
+			mInterpolator = AnimationUtils.loadInterpolator(context,
+					interpolator);
+		} else {
+			mInterpolator = new OvershootInterpolator();
+		}
+
+		mSectorToggleRunnalbe = new SectorToggleRunnalbe();
+		mScroller = new Scroller(context, new LinearInterpolator());
 	}
 
 	public SectorView(Context context, AttributeSet attrs) {
@@ -82,14 +91,6 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 	public SectorView(Context context) {
 		this(context, null);
-	}
-
-	private void initialize() {
-		Context context = getContext();
-		mInterpolator = new OvershootInterpolator();
-
-		mSectorToggleRunnalbe = new SectorToggleRunnalbe();
-		mScroller = new Scroller(context, new LinearInterpolator());
 	}
 
 	@Override
@@ -369,19 +370,6 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	public void setAnimationOffset(int animationOffset) {
 		this.mAnimationOffset = animationOffset;
 	}
-
-	// public boolean getOrder() {
-	// return mOrder;
-	// }
-	//
-	// /**
-	// *
-	// * @param order
-	// * true Clockwise, false Counterclockwise
-	// */
-	// public void setOrder(boolean order) {
-	// this.mOrder = order;
-	// }
 
 	public int getDuration() {
 		return mDuration;

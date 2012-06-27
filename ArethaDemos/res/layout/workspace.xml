@@ -6,7 +6,8 @@
         android:id="@+id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        aretha:showChild="1" >
+        aretha:showChild="1"
+        aretha:duration="600" >
 
         <ImageView
             android:layout_width="100dp"
