@@ -20,5 +20,7 @@
     <item name="toggle_handle" type="id"/>
     <item name="toggle_off" type="id"/>
     <item name="toggle_on" type="id"/>
+    <!-- ingnore view -->
+    <item name="workspace_ingnore" type="id"/>
 
 </resources>

@@ -27,7 +27,7 @@ public class WorkspaceDemo extends Activity {
 			mWorkspace.animationToPrevChild();
 			break;
 		case R.id.artha_child:
-			mWorkspace.scrollToChild(0, true);
+			mWorkspace.scrollToChild(1, true);
 			break;
 		}
 	}

@@ -61,6 +61,7 @@
     <string name="workspace">Workspace</string>
     <string name="showing_child">← Try to slide left or right →</string>
     <string name="last_child">You can put any view you want here, if your view can receive TouchEvent, just to call ViewParent.requestDisallowInterceptTouchEvent(boolean disallowIntercept) method to request Workspace not to steal your TouchEvent!</string>
+    <string name="back_child">This view is in the background of WorkSpace</string>
     <string name="next_child">→</string>
     <string name="prev_child">←</string>
 

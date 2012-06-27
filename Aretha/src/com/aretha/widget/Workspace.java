@@ -20,6 +20,7 @@ import com.aretha.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -44,6 +45,7 @@ public class Workspace extends ViewGroup {
 	private Scroller mScroller;
 
 	private int mDuration;
+	private boolean mIsBounceEnable;
 
 	private float mLastMotionX;
 	private int mMaximumVelocity;
@@ -61,6 +63,8 @@ public class Workspace extends ViewGroup {
 
 	private int mTouchSlop;
 
+	private boolean mTouchedInIngnoreChild;
+
 	public Workspace(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
@@ -69,6 +73,7 @@ public class Workspace extends ViewGroup {
 		mDuration = a.getInteger(R.styleable.Workspace_duration, 300);
 		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showChild, 0);
 		mSnapVelocity = a.getInteger(R.styleable.Workspace_snapVelocity, 500);
+		mIsBounceEnable = a.getBoolean(R.styleable.Workspace_bounce, true);
 		int interpolator = a.getResourceId(R.styleable.Workspace_interpolator,
 				-1);
 
@@ -149,30 +154,26 @@ public class Workspace extends ViewGroup {
 	}
 
 	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-			mLastMotionX = ev.getX();
-		}
-		return super.dispatchTouchEvent(ev);
-	};
-
-	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			mTouchDownX = ev.getX();
+			mTouchDownX = mLastMotionX = ev.getX();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (Math.abs(mTouchDownX - ev.getX()) > mTouchSlop) {
-				return true;
+				return true && !mTouchedInIngnoreChild;
 			}
 			break;
 		}
-		return false;
+
+		return super.onInterceptTouchEvent(ev);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		final float x = event.getX();
+		final int y = (int) event.getY();
+
 		final int childrenCount = getChildCount();
 		if (childrenCount <= 0)
 			return super.onTouchEvent(event);
@@ -186,15 +187,32 @@ public class Workspace extends ViewGroup {
 			if (!mScroller.isFinished()) {
 				mScroller.abortAnimation();
 			}
-			break;
+
+			mTouchedInIngnoreChild = false;
+			int childCount = getChildCount();
+			Rect rect = new Rect();
+			final int offsetX = getScrollX();
+			for (int index = 0; index < childCount; index++) {
+				View child = getChildAt(index);
+				child.getHitRect(rect);
+				if (rect.contains((int) (x + offsetX), y)
+						&& child.getId() == R.id.workspace_ingnore) {
+					mTouchedInIngnoreChild = true;
+					break;
+				}
+			}
+			return !mTouchedInIngnoreChild;
 		case MotionEvent.ACTION_MOVE:
-			float x = event.getX();
 			float scroll = event.getX() - mLastMotionX;
 
 			// Slow down the speed. when scroll to the edge of content
 			final int scrollX = getScrollX();
 			if (scrollX <= 0 || scrollX >= mContentWidth - mWidth) {
-				scroll /= 2;
+				if (!mIsBounceEnable) {
+					scroll = 0;
+				} else {
+					scroll /= 2;
+				}
 			}
 
 			if (Math.abs(mTouchDownX - x) < mTouchSlop) {
@@ -223,8 +241,6 @@ public class Workspace extends ViewGroup {
 				scrollToChild(mCurrentChildIndex, true);
 			}
 			velocityTracker.recycle();
-			break;
-		default:
 			break;
 		}
 		return true;
@@ -329,6 +345,14 @@ public class Workspace extends ViewGroup {
 		return mCurrentChildIndex;
 	}
 
+	public void setBounceEnable(boolean enable) {
+		this.mIsBounceEnable = enable;
+	}
+
+	public boolean getBounceEnable() {
+		return this.mIsBounceEnable;
+	}
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
@@ -355,6 +379,7 @@ public class Workspace extends ViewGroup {
 		savedState.duration = mDuration;
 		savedState.currentChildIndex = mCurrentChildIndex;
 		savedState.snapVelocity = mSnapVelocity;
+		savedState.isBounceEnable = mIsBounceEnable;
 		return savedState;
 	}
 
@@ -366,12 +391,14 @@ public class Workspace extends ViewGroup {
 		mDuration = savedState.duration;
 		mCurrentChildIndex = savedState.currentChildIndex;
 		mSnapVelocity = savedState.snapVelocity;
+		mIsBounceEnable = savedState.isBounceEnable;
 	}
 
 	static class SavedState extends BaseSavedState {
 		public int duration;
 		public int snapVelocity;
 		public int currentChildIndex;
+		public boolean isBounceEnable;
 
 		SavedState(Parcelable superState) {
 			super(superState);
@@ -382,6 +409,7 @@ public class Workspace extends ViewGroup {
 			duration = in.readInt();
 			snapVelocity = in.readInt();
 			currentChildIndex = in.readInt();
+			isBounceEnable = in.readInt() == 0 ? false : true;
 		}
 
 		@Override
@@ -390,6 +418,7 @@ public class Workspace extends ViewGroup {
 			out.writeInt(duration);
 			out.writeFloat(snapVelocity);
 			out.writeFloat(currentChildIndex);
+			out.writeInt(isBounceEnable ? 1 : 0);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {

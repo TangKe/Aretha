@@ -2,12 +2,26 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="fill_parent"
+        android:background="@color/aretha_yellow"
+        android:gravity="center"
+        android:text="@string/back_child"
+        android:textColor="@color/aretha_white" />
+
     <com.aretha.widget.Workspace
         android:id="@+id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        aretha:showChild="1"
-        aretha:duration="600" >
+        aretha:duration="500"
+        aretha:showChild="1" >
+
+        <View
+            android:id="@id/workspace_ingnore"
+            android:layout_width="200dp"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent" />
 
         <ImageView
             android:layout_width="100dp"
@@ -29,15 +43,10 @@
             android:layout_height="fill_parent"
             android:background="@color/aretha_blue" />
 
-        <View
-            android:layout_width="50dp"
-            android:layout_height="fill_parent"
-            android:background="@color/aretha_purple" />
-
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/aretha_yellow"
+            android:background="@color/aretha_purple"
             android:gravity="center"
             android:text="@string/last_child"
             android:textColor="@color/aretha_white" />

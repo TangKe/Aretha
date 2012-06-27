@@ -66,6 +66,7 @@
         </attr>
         <attr name="duration" />
         <attr name="interpolator" />
+        <attr name="bounce" format="boolean" />
     </declare-styleable>
     <declare-styleable name="ClickWheelView">
         <attr name="gapDegree" format="float" />
