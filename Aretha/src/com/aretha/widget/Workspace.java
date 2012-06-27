@@ -173,11 +173,13 @@ public class Workspace extends ViewGroup {
 		int action = event.getAction();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
+			requestDisallowInterceptTouchEvent(false);
 			if (!mScroller.isFinished()) {
 				mScroller.abortAnimation();
 			}
 			break;
 		case MotionEvent.ACTION_MOVE:
+			float x = event.getX();
 			float scroll = event.getX() - mLastMotionX;
 
 			// Slow down the speed. when scroll to the edge of content
@@ -186,6 +188,11 @@ public class Workspace extends ViewGroup {
 				scroll /= 2;
 			}
 
+			if (Math.abs(mTouchDownX - x) < mTouchSlop) {
+				return super.onTouchEvent(event);
+			}
+
+			requestDisallowInterceptTouchEvent(true);
 			scrollBy((int) -scroll, 0);
 			mLastMotionX = event.getX();
 
@@ -249,6 +256,7 @@ public class Workspace extends ViewGroup {
 	public void scrollToChild(int index, boolean isAnimated) {
 		final int scroll = getScrollX();
 		final int childCount = getChildCount();
+		final int width = getWidth();
 
 		mCurrentChildIndex = index = Math.max(0,
 				Math.min(index, childCount - 1));
@@ -258,11 +266,15 @@ public class Workspace extends ViewGroup {
 		// total width of children which after this index child is less than
 		// parent width
 		int lastChildWidth = 0;
+		boolean widthLessThanParnent = true;
 		for (; index < childCount; index++) {
 			View lastChild = getChildAt(index);
 			lastChildWidth += lastChild.getWidth();
+			if (lastChildWidth > width) {
+				widthLessThanParnent = false;
+				break;
+			}
 		}
-		boolean widthLessThanParnent = lastChildWidth <= getWidth();
 
 		mScroller.startScroll(
 				scroll,

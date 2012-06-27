@@ -24,6 +24,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -118,7 +119,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 					childView.getMeasuredHeight());
 		}
 
-		final boolean isCenter = gravity == 0;
+		final boolean isCenter = gravity == Gravity.CENTER;
 		final boolean isLeftOrRight = (gravity == Gravity.LEFT || gravity == Gravity.RIGHT);
 		final boolean isTopOrBottom = (gravity == Gravity.TOP || gravity == Gravity.BOTTOM);
 
@@ -207,9 +208,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		double degreePerChild;
 		double degree;
 
-		if (gravity == 0) {
+		if (gravity == Gravity.CENTER) {
 			degreePerChild = Math.PI * 2 / childCount;
-		} else if (gravity == 5 || gravity == 6 || gravity == 7 || gravity == 8) {
+		} else if (gravity == Gravity.TOP || gravity == Gravity.LEFT
+				|| gravity == Gravity.BOTTOM || gravity == Gravity.RIGHT) {
 			degreePerChild = Math.PI / (childCount + 1);
 		} else {
 			degreePerChild = Math.PI / 2 / (childCount + 1);
