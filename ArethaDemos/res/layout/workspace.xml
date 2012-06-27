@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
-    <Button
+    <TextView
         android:layout_width="200dp"
         android:layout_height="fill_parent"
         android:background="@color/aretha_yellow"

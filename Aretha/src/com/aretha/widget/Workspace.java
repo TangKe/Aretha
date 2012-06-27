@@ -161,7 +161,7 @@ public class Workspace extends ViewGroup {
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (Math.abs(mTouchDownX - ev.getX()) > mTouchSlop) {
-				return true && !mTouchedInIngnoreChild;
+				return !mTouchedInIngnoreChild;
 			}
 			break;
 		}
@@ -171,23 +171,24 @@ public class Workspace extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		final float x = event.getX();
+		final int x = (int) event.getX();
 		final int y = (int) event.getY();
 
-		final int childrenCount = getChildCount();
-		if (childrenCount <= 0)
+		if (getChildCount() <= 0)
 			return super.onTouchEvent(event);
 
 		acquireVelocityTrackerAndAddMovement(event);
 
-		int action = event.getAction();
-		switch (action) {
+		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			requestDisallowInterceptTouchEvent(false);
 			if (!mScroller.isFinished()) {
 				mScroller.abortAnimation();
 			}
 
+			/**
+			 * If user touch down in the View with id R.id.workspace_ignore,
+			 * this view will not response to the touch event.
+			 */
 			mTouchedInIngnoreChild = false;
 			int childCount = getChildCount();
 			Rect rect = new Rect();
@@ -195,7 +196,12 @@ public class Workspace extends ViewGroup {
 			for (int index = 0; index < childCount; index++) {
 				View child = getChildAt(index);
 				child.getHitRect(rect);
-				if (rect.contains((int) (x + offsetX), y)
+
+				/**
+				 * Find the View with id R.id.workspace_ignore which been
+				 * touched in.
+				 */
+				if (rect.contains(x + offsetX, y)
 						&& child.getId() == R.id.workspace_ingnore) {
 					mTouchedInIngnoreChild = true;
 					break;
@@ -205,7 +211,13 @@ public class Workspace extends ViewGroup {
 		case MotionEvent.ACTION_MOVE:
 			float scroll = event.getX() - mLastMotionX;
 
-			// Slow down the speed. when scroll to the edge of content
+			if (Math.abs(mTouchDownX - x) < mTouchSlop) {
+				return super.onTouchEvent(event);
+			}
+
+			/**
+			 * Bounce scroll
+			 */
 			final int scrollX = getScrollX();
 			if (scrollX <= 0 || scrollX >= mContentWidth - mWidth) {
 				if (!mIsBounceEnable) {
@@ -213,10 +225,6 @@ public class Workspace extends ViewGroup {
 				} else {
 					scroll /= 2;
 				}
-			}
-
-			if (Math.abs(mTouchDownX - x) < mTouchSlop) {
-				return super.onTouchEvent(event);
 			}
 
 			requestDisallowInterceptTouchEvent(true);
@@ -241,6 +249,8 @@ public class Workspace extends ViewGroup {
 				scrollToChild(mCurrentChildIndex, true);
 			}
 			velocityTracker.recycle();
+
+			requestDisallowInterceptTouchEvent(false);
 			break;
 		}
 		return true;
@@ -288,8 +298,10 @@ public class Workspace extends ViewGroup {
 		View child = getChildAt(index);
 		boolean isLast = index == childCount - 1;
 
-		// total width of children which after this index child is less than
-		// parent width
+		/**
+		 * total width of children which after this index child is less than
+		 * parent width
+		 */
 		int lastChildWidth = 0;
 		boolean widthLessThanParnent = true;
 		for (; index < childCount; index++) {

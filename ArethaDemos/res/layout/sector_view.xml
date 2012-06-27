@@ -6,8 +6,7 @@
         android:id="@+id/sector_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        aretha:gravity="left|bottom"
-        aretha:interpolator="@android:anim/overshoot_interpolator" >
+        aretha:gravity="left|bottom" >
 
         <ImageView
             android:layout_width="wrap_content"
