@@ -65,4 +65,6 @@
     <string name="next_child">→</string>
     <string name="prev_child">←</string>
 
-</resources>
+    <!-- ClickWheelView -->
+    <string name="click_wheel_view">ClickWheelView</string>
+</resources>
