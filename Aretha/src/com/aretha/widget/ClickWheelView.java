@@ -12,8 +12,18 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Scroller;
 
+/**
+ * A simple view position the child view on edge of circle, user can rotate it by
+ * finger, if you want determine the children view by {@link Adapter} like the
+ * {@link ListView}, you should extends the {@link AdapterView}, write your own
+ * code.
+ * 
+ * @author tangke
+ * 
+ */
 public class ClickWheelView extends ViewGroup {
 	private final static int STATE_IDLE = 0x0001;
 	private final static int STATE_SCROLLING = 0x0002;
