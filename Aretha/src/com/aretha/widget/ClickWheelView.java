@@ -1,24 +1,34 @@
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.Scroller;
 
 public class ClickWheelView extends ViewGroup {
 	private final static int STATE_IDLE = 0x0001;
-	private final static int STATE_SCROLL = 0x0002;
-	private float mRadius = 200;
+	private final static int STATE_SCROLLING = 0x0002;
+	private final static int STATE_FLING = 0x0003;
 
 	private int mRotateDegee;
+	private int mDegreePerChild;
 
 	private int mCenterX;
 	private int mCenterY;
+	private float mRadius;
+	private boolean mIsFlingEnabled;
 
 	private int mTouchSlop;
-	private int mFlingVelocity;
+	private int mMinFlingVelocity;
 	private float mPressedX;
 	private float mPressedY;
 
@@ -26,9 +36,24 @@ public class ClickWheelView extends ViewGroup {
 	private float mLastMotionY;
 	private int mState = STATE_IDLE;
 
+	private Scroller mScroller;
+	private VelocityTracker mVelocityTracker;
+
+	private Paint mPaint;
+
 	public ClickWheelView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.ClickWheelView);
+
+		mCenterX = a.getInt(R.styleable.ClickWheelView_centerX, -1);
+		mCenterY = a.getInt(R.styleable.ClickWheelView_centerY, -1);
+		mRadius = a.getFloat(R.styleable.ClickWheelView_radius, 300);
+		mIsFlingEnabled = a.getBoolean(R.styleable.ClickWheelView_flingEnabled,
+				true);
+
+		a.recycle();
 		initialize(context);
 	}
 
@@ -43,8 +68,12 @@ public class ClickWheelView extends ViewGroup {
 	private void initialize(Context context) {
 		ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
 		mTouchSlop = viewConfiguration.getScaledTouchSlop();
+		mMinFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
+		mScroller = new Scroller(context);
+		// setStaticTransformationsEnabled(true);
 
-		setStaticTransformationsEnabled(true);
+		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mPaint.setColor(0xffffffff);
 	}
 
 	@Override
@@ -52,10 +81,11 @@ public class ClickWheelView extends ViewGroup {
 		final float childCount = getChildCount();
 		final int centerX = mCenterX;
 		final int centerY = mCenterY;
-		final float radianPerChild = (float) (2 * Math.PI / childCount);
+		final float radianPerChild = (float) (mDegreePerChild * Math.PI / 180);
 		final int[] coordinate = new int[2];
 		final float radius = mRadius;
-		final float rotateRadian = (float) (mRotateDegee * Math.PI / 180);
+		// rotate 90 degree CCW to restore the first child to the top
+		final float rotateRadian = (float) ((mRotateDegee - 90) * Math.PI / 180);
 
 		for (int index = 0; index < childCount; index++) {
 			View child = getChildAt(index);
@@ -128,7 +158,7 @@ public class ClickWheelView extends ViewGroup {
 				final int childCount = getChildCount();
 				for (int index = 0; index < childCount; index++) {
 					View child = getChildAt(index);
-					// child.cancelLongPress();
+					child.cancelLongPress();
 				}
 				return true;
 			}
@@ -143,10 +173,18 @@ public class ClickWheelView extends ViewGroup {
 		final float x = event.getX();
 		final float y = event.getY();
 
+		if (mVelocityTracker == null) {
+			mVelocityTracker = VelocityTracker.obtain();
+		}
+		mVelocityTracker.addMovement(event);
+
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mLastMotionX = x;
 			mLastMotionY = y;
+			if (!mScroller.isFinished()) {
+				mScroller.abortAnimation();
+			}
 			/**
 			 * I want to receive MotionEvent
 			 */
@@ -156,10 +194,11 @@ public class ClickWheelView extends ViewGroup {
 			if (mState == STATE_IDLE
 					&& (Math.abs(x - mPressedX) > touchSlop || Math.abs(y
 							- mPressedY) > touchSlop)) {
-				mState = STATE_SCROLL;
+				requestDisallowInterceptTouchEvent(true);
+				mState = STATE_SCROLLING;
 			}
 
-			if (mState == STATE_SCROLL) {
+			if (mState == STATE_SCROLLING) {
 				final int centerX = mCenterX;
 				final int centerY = mCenterY;
 				float lastDegree = getDegeeByCoordinate(mLastMotionX,
@@ -170,11 +209,50 @@ public class ClickWheelView extends ViewGroup {
 			mLastMotionX = x;
 			mLastMotionY = y;
 			break;
-		}
+		case MotionEvent.ACTION_UP:
+			final VelocityTracker velocityTracker = mVelocityTracker;
+			velocityTracker.computeCurrentVelocity(200);
+			float velocityX = velocityTracker.getXVelocity();
+			float velocityY = velocityTracker.getYVelocity();
+			int velocity = (int) Math.hypot(velocityX, velocityY);
 
+			if (Math.abs(velocity) > mMinFlingVelocity && mIsFlingEnabled) {
+				mState = STATE_FLING;
+				mScroller.fling(mRotateDegee, 0, (int) velocityX,
+						(int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE,
+						0, 0);
+			}
+
+			if (mVelocityTracker != null) {
+				mVelocityTracker.recycle();
+				mVelocityTracker = null;
+			}
+			requestDisallowInterceptTouchEvent(false);
+			break;
+		}
+		invalidate();
 		requestLayout();
 
 		return super.onTouchEvent(event);
+	}
+
+	@Override
+	protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+		canvas.drawLine(mCenterX, mCenterY, child.getLeft() + child.getWidth()
+				/ 2, child.getTop() + child.getHeight() / 2, mPaint);
+		return super.drawChild(canvas, child, drawingTime);
+	}
+
+	@Override
+	public void computeScroll() {
+		super.computeScroll();
+		if (mScroller.computeScrollOffset()) {
+			mRotateDegee = mScroller.getCurrX();
+			invalidate();
+			requestLayout();
+		} else {
+			mState = STATE_IDLE;
+		}
 	}
 
 	private float getDegeeByCoordinate(float x, float y, float centerX,
@@ -197,7 +275,38 @@ public class ClickWheelView extends ViewGroup {
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-		mCenterX = w / 2;
-		mCenterY = h / 2;
+		mCenterX = mCenterX == -1 ? w / 2 : mCenterX;
+		mCenterY = mCenterY == -1 ? h : mCenterY;
+		mDegreePerChild = 360 / getChildCount();
+	}
+
+	public int getmCenterX() {
+		return mCenterX;
+	}
+
+	public int getCenterY() {
+		return mCenterY;
+	}
+
+	public void setCenter(int centerX, int centerY) {
+		mCenterY = centerX;
+		mCenterY = centerY;
+		requestLayout();
+	}
+
+	public boolean isFlingEnabled() {
+		return mIsFlingEnabled;
+	}
+
+	public void setFlingEnabled(boolean isFlingEnabled) {
+		this.mIsFlingEnabled = isFlingEnabled;
+	}
+
+	public float getRadius() {
+		return mRadius;
+	}
+
+	public void setRadius(float radius) {
+		this.mRadius = radius;
 	}
 }
