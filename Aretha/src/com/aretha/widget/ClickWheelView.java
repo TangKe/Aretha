@@ -158,8 +158,8 @@ public class ClickWheelView extends ViewGroup {
 
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			mPressedX = x;
-			mPressedY = y;
+			mPressedX = mLastMotionX = x;
+			mPressedY = mLastMotionY = y;
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (mState == STATE_IDLE
@@ -186,6 +186,8 @@ public class ClickWheelView extends ViewGroup {
 	public boolean onTouchEvent(MotionEvent event) {
 		final float x = event.getX();
 		final float y = event.getY();
+		final int centerX = mCenterX;
+		final int centerY = mCenterY;
 
 		if (mVelocityTracker == null) {
 			mVelocityTracker = VelocityTracker.obtain();
@@ -213,8 +215,6 @@ public class ClickWheelView extends ViewGroup {
 			}
 
 			if (mState == STATE_SCROLLING) {
-				final int centerX = mCenterX;
-				final int centerY = mCenterY;
 				float lastDegree = getDegeeByCoordinate(mLastMotionX,
 						mLastMotionY, centerX, centerY);
 				float degree = getDegeeByCoordinate(x, y, centerX, centerY);
@@ -232,9 +232,9 @@ public class ClickWheelView extends ViewGroup {
 
 			if (Math.abs(velocity) > mMinFlingVelocity && mIsFlingEnabled) {
 				mState = STATE_FLING;
-				mScroller.fling(mRotateDegee, 0, (int) velocityX,
+				mScroller.fling(mRotateDegee, mRotateDegee, (int) velocityX,
 						(int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE,
-						0, 0);
+						Integer.MIN_VALUE, Integer.MAX_VALUE);
 			}
 
 			if (mVelocityTracker != null) {

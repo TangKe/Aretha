@@ -5,34 +5,12 @@
     <com.aretha.widget.Workspace
         android:id="@id/workspace"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center" />
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center" />
-    </com.aretha.widget.Workspace>
+        android:layout_height="fill_parent" />
 
     <com.aretha.widget.PageIndicator
         android:id="@id/pageIndicator"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_height="20dip"
         aretha:dotColor="#ffffffff" />
 
 </merge>

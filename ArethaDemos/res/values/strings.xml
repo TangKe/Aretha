@@ -71,8 +71,13 @@
     <string name="click_wheel_view_radius_minus">Radius-</string>
     <string name="click_wheel_view_enable_fling">Enable Fling</string>
     <string name="click_wheel_view_disable_fling">Disable Fling</string>
-    
+
     <!-- BitmapEffectBuilder -->
     <string name="bitmap_effect_builder">BitmapEffectBuilder</string>
+    <string name="bitmap_effect_builder_original">Original</string>
+    <string name="bitmap_effect_builder_glow_without_original">Glow without Original</string>
+    <string name="bitmap_effect_builder_glow_with_original">Glow with Original</string>
+    <string name="bitmap_effect_builder_reflection_without_original">Reflection without Original</string>
+    <string name="bitmap_effect_builder_reflection_with_original">Reflection with Original</string>
 
 </resources>
