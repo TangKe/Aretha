@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -14,12 +16,13 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Scroller;
+import android.widget.TextView.SavedState;
 
 /**
- * A simple view position the child view on edge of circle, user can rotate it by
- * finger, if you want determine the children view by {@link Adapter} like the
- * {@link ListView}, you should extends the {@link AdapterView}, write your own
- * code.
+ * A simple view position the child view on edge of circle, user can rotate it
+ * by finger, if you want determine the children view by {@link Adapter} like
+ * the {@link ListView}, you should extends the {@link AdapterView}, write your
+ * own code.
  * 
  * @author tangke
  * 
@@ -290,7 +293,7 @@ public class ClickWheelView extends ViewGroup {
 		mDegreePerChild = 360 / getChildCount();
 	}
 
-	public int getmCenterX() {
+	public int getCenterX() {
 		return mCenterX;
 	}
 
@@ -318,5 +321,66 @@ public class ClickWheelView extends ViewGroup {
 
 	public void setRadius(float radius) {
 		this.mRadius = radius;
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		SavedState savedState = new SavedState(super.onSaveInstanceState());
+		savedState.radius = mRadius;
+		savedState.isFlingEnabled = mIsFlingEnabled;
+		savedState.centerX = mCenterX;
+		savedState.centerY = mCenterY;
+		return savedState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		SavedState savedState = (SavedState) state;
+		super.onRestoreInstanceState(savedState.getSuperState());
+
+		mRadius = savedState.radius;
+		mIsFlingEnabled = savedState.isFlingEnabled;
+		mCenterX = savedState.centerX;
+		mCenterY = savedState.centerY;
+	}
+
+	static class SavedState extends BaseSavedState {
+		public float radius;
+		public boolean isFlingEnabled;
+		public int centerX;
+		public int centerY;
+
+		SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		private SavedState(Parcel in) {
+			super(in);
+			radius = in.readInt();
+			isFlingEnabled = in.readInt() == 0 ? false : true;
+			centerX = in.readInt();
+			centerY = in.readInt();
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+			out.writeFloat(radius);
+			out.writeInt(isFlingEnabled ? 1 : 0);
+			out.writeInt(centerX);
+			out.writeInt(centerY);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			@Override
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 	}
 }
