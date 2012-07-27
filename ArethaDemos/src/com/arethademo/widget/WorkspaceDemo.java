@@ -21,13 +21,13 @@ public class WorkspaceDemo extends Activity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.next_child:
-			mWorkspace.animationToNextChild();
+			mWorkspace.animationToNextPage();
 			break;
 		case R.id.prev_child:
-			mWorkspace.animationToPrevChild();
+			mWorkspace.animationToPrevPage();
 			break;
 		case R.id.artha_child:
-			mWorkspace.scrollToChild(1, true);
+			mWorkspace.scrollToPage(1, true);
 			break;
 		}
 	}

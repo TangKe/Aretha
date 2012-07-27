@@ -15,7 +15,7 @@ public class ToggleViewDemo extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.toggle_view);
-		mToggleView = (ToggleView) findViewById(R.id.toggle_view);
+		mToggleView = (ToggleView) findViewById(R.id.toggleView);
 	}
 
 	public void onClick(View v) {

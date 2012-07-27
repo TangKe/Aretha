@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
     <com.aretha.widget.AccelerateLinearDecelerateProgressBar
-        android:id="@+id/accelerate_linear_decelerate_progress_bar"
+        android:id="@id/accelerateLinearDecelerateProgressBar"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

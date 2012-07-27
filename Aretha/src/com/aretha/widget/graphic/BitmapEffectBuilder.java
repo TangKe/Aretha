@@ -11,7 +11,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.Shader.TileMode;
 
 public class BitmapEffectBuilder {

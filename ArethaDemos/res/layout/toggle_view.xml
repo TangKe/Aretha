@@ -3,7 +3,7 @@
     xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
     <com.aretha.widget.ToggleView
-        android:id="@+id/toggle_view"
+        android:id="@id/toggleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -11,13 +11,13 @@
         aretha:toggle="off" >
 
         <View
-            android:id="@id/toggle_handle"
+            android:id="@id/toggleHandle"
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:background="@drawable/toggle_handle_background_selector" />
 
         <TextView
-            android:id="@id/toggle_off"
+            android:id="@id/toggleOff"
             android:layout_width="50dp"
             android:layout_height="fill_parent"
             android:gravity="center"
@@ -26,7 +26,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@id/toggle_on"
+            android:id="@id/toggleOn"
             android:layout_width="50dp"
             android:layout_height="fill_parent"
             android:gravity="center"
@@ -42,13 +42,13 @@
         android:background="@drawable/toggle_background" >
 
         <View
-            android:id="@id/toggle_handle"
+            android:id="@id/toggleHandle"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:background="@drawable/toggle_handle_background_selector" />
 
         <TextView
-            android:id="@id/toggle_off"
+            android:id="@id/toggleOff"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
@@ -58,7 +58,7 @@
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@id/toggle_on"
+            android:id="@id/toggleOn"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"

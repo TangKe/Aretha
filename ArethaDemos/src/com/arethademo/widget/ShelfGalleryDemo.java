@@ -21,7 +21,7 @@ public class ShelfGalleryDemo extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.shelf_gallery);
 
-		mShelfGallery = (ShelfGallery) findViewById(R.id.shelf_gallery);
+		mShelfGallery = (ShelfGallery) findViewById(R.id.shelfGallery);
 		mShelfGallery.setAdapter(new GalleryAdapter());
 		mShelfGallery.setSpacing(-150);
 		mShelfGallery.setOnItemClickListener(this);

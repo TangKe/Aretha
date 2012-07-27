@@ -24,7 +24,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sector_view);
 
-		mSectorView = (SectorView) findViewById(R.id.sector_view);
+		mSectorView = (SectorView) findViewById(R.id.sectorView);
 		mSectorView.setOnSectorClickListener(this);
 	}
 

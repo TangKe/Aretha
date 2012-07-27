@@ -6,6 +6,7 @@
     android:orientation="vertical" >
 
     <com.aretha.widget.ClickWheelView
+        android:id="@id/clickWheelView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="bottom|center_horizontal" >
@@ -46,7 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher" />
-         <ImageView
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher" />
@@ -76,5 +78,40 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher" />
     </com.aretha.widget.ClickWheelView>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/radius_plus"
+                style="@style/aretha_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="@string/click_wheel_view_radius_plus" />
+
+            <Button
+                android:id="@+id/radius_minus"
+                style="@style/aretha_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="@string/click_wheel_view_radius_minus" />
+
+            <Button
+                android:id="@+id/fling"
+                style="@style/aretha_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="@string/click_wheel_view_disable_fling" />
+        </LinearLayout>
+    </ScrollView>
 
 </merge>

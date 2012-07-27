@@ -59,7 +59,7 @@
         <attr name="radius" />
     </declare-styleable>
     <declare-styleable name="Workspace">
-        <attr name="showChild" format="integer" />
+        <attr name="showPage" format="integer" />
         <!-- define the min velocity to perform scroll page action -->
         <attr name="snapVelocity" format="integer">
             <enum name="auto" value="-1" />

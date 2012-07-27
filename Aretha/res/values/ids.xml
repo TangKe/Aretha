@@ -13,14 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item name="toggle_handle" type="id"/>
-    <item name="toggle_off" type="id"/>
-    <item name="toggle_on" type="id"/>
-    <!-- ingnore view -->
-    <item name="workspace_ingnore" type="id"/>
+    <!-- Widgets -->
+    <item name="workspace" type="id"/>
+    <item name="sectorView" type="id"/>
+    <item name="accelerateLinearDecelerateProgressBar" type="id"/>
+    <item name="clickWheelView" type="id"/>
+    <item name="pageIndicator" type="id"/>
+    <item name="shelfGallery" type="id"/>
+    <item name="toggleView" type="id"/>
+    <!-- ToggleView -->
+    <item name="toggleHandle" type="id"/>
+    <item name="toggleOff" type="id"/>
+    <item name="toggleOn" type="id"/>
+    <!-- Workspace -->
+    <item name="workspaceIngnore" type="id"/>
 
 </resources>

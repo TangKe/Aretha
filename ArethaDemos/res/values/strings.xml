@@ -67,4 +67,12 @@
 
     <!-- ClickWheelView -->
     <string name="click_wheel_view">ClickWheelView</string>
-</resources>
+    <string name="click_wheel_view_radius_plus">Radius+</string>
+    <string name="click_wheel_view_radius_minus">Radius-</string>
+    <string name="click_wheel_view_enable_fling">Enable Fling</string>
+    <string name="click_wheel_view_disable_fling">Disable Fling</string>
+    
+    <!-- BitmapEffectBuilder -->
+    <string name="bitmap_effect_builder">BitmapEffectBuilder</string>
+
+</resources>

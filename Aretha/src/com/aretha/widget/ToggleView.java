@@ -118,12 +118,12 @@ public class ToggleView extends ViewGroup {
 					.round((getHeight() - childMeasuredHeight) * 1.0f / 2);
 			int childX = 0;
 
-			if (id == R.id.toggle_handle) {
+			if (id == R.id.toggleHandle) {
 				childX = 0;
 				mHandleWidth = childMeasuredWidth;
-			} else if (id == R.id.toggle_off) {
+			} else if (id == R.id.toggleOff) {
 				childX = 0 - childMeasuredWidth;
-			} else if (id == R.id.toggle_on) {
+			} else if (id == R.id.toggleOn) {
 				childX = mHandleWidth;
 			}
 
@@ -145,7 +145,7 @@ public class ToggleView extends ViewGroup {
 		int handleWidth = 0;
 		for (int i = 0; i < childCount; i++) {
 			View child = getChildAt(i);
-			if (child.getId() == R.id.toggle_handle) {
+			if (child.getId() == R.id.toggleHandle) {
 				handleWidth = child.getMeasuredWidth();
 			} else {
 				desiredWidth = Math.max(handleWidth + child.getMeasuredWidth(),
@@ -254,13 +254,13 @@ public class ToggleView extends ViewGroup {
 		// Only allow handle in this view
 		int childId = child.getId();
 		if (childCount > 3
-				|| (childId != R.id.toggle_handle && childId != R.id.toggle_off && childId != R.id.toggle_on)) {
+				|| (childId != R.id.toggleHandle && childId != R.id.toggleOff && childId != R.id.toggleOn)) {
 			Log.w(LOG_TAG,
 					"Only one child with id \"toggle_handle\" is allowed here");
 			return;
 		}
 
-		if (childId == R.id.toggle_handle) {
+		if (childId == R.id.toggleHandle) {
 			mHandle = child;
 		}
 
@@ -273,7 +273,7 @@ public class ToggleView extends ViewGroup {
 	 * @param handle
 	 */
 	public void setHandle(View handle) {
-		setView(handle, R.id.toggle_handle);
+		setView(handle, R.id.toggleHandle);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class ToggleView extends ViewGroup {
 	 * @return
 	 */
 	public View getHandle() {
-		return findViewById(R.id.toggle_handle);
+		return findViewById(R.id.toggleHandle);
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class ToggleView extends ViewGroup {
 	 * @param onView
 	 */
 	public void setOnView(View onView) {
-		setView(onView, R.id.toggle_on);
+		setView(onView, R.id.toggleOn);
 	}
 
 	/**
@@ -300,7 +300,7 @@ public class ToggleView extends ViewGroup {
 	 * @return
 	 */
 	public View getOnView() {
-		return findViewById(R.id.toggle_on);
+		return findViewById(R.id.toggleOn);
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class ToggleView extends ViewGroup {
 	 * @param offView
 	 */
 	public void setOffView(View offView) {
-		setView(offView, R.id.toggle_off);
+		setView(offView, R.id.toggleOff);
 	}
 
 	/**
@@ -318,15 +318,15 @@ public class ToggleView extends ViewGroup {
 	 * @return
 	 */
 	public View getOffView() {
-		return findViewById(R.id.toggle_off);
+		return findViewById(R.id.toggleOff);
 	}
 
 	private void setView(View view, int id) {
-		View existView = findViewById(R.id.toggle_handle);
+		View existView = findViewById(R.id.toggleHandle);
 		if (existView != null) {
 			removeView(existView);
 		}
-		view.setId(R.id.toggle_handle);
+		view.setId(R.id.toggleHandle);
 		addView(view);
 	}
 

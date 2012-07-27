@@ -19,7 +19,7 @@ public class PageIndicatorDemo extends Activity implements OnPageChangeListener 
 
 		setContentView(R.layout.page_indicator);
 
-		mPageIndicator = (PageIndicator) findViewById(R.id.page_indicator);
+		mPageIndicator = (PageIndicator) findViewById(R.id.pageIndicator);
 		mPageIndicator.setOnPageChangeListener(this);
 	}
 

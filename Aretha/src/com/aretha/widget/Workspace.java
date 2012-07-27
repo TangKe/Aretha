@@ -54,7 +54,7 @@ public class Workspace extends ViewGroup {
 	protected int mCurrentChildIndex;
 
 	private VelocityTracker mVelocityTracker;
-	private WorkspaceListener mWorkspaceListener;
+	private OnWorkspaceChangeListener mOnWorkspaceChangeListener;
 	private int mContentWidth;
 
 	private int mWidth;
@@ -71,7 +71,7 @@ public class Workspace extends ViewGroup {
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.Workspace);
 		mDuration = a.getInteger(R.styleable.Workspace_duration, 300);
-		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showChild, 0);
+		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showPage, 0);
 		mSnapVelocity = a.getInteger(R.styleable.Workspace_snapVelocity, 500);
 		mIsBounceEnable = a.getBoolean(R.styleable.Workspace_bounce, true);
 		int interpolator = a.getResourceId(R.styleable.Workspace_interpolator,
@@ -101,8 +101,8 @@ public class Workspace extends ViewGroup {
 	@Override
 	public void addView(View child, int index, LayoutParams params) {
 		super.addView(child, index, params);
-		if (mWorkspaceListener != null) {
-			mWorkspaceListener.onChildInvalidate();
+		if (mOnWorkspaceChangeListener != null) {
+			mOnWorkspaceChangeListener.onPageCountChange();
 		}
 	}
 
@@ -129,7 +129,7 @@ public class Workspace extends ViewGroup {
 					+ childMeasureHeight / 2);
 			layoutedChildWidth += childMeasureWidth;
 		}
-		scrollToChild(mCurrentChildIndex, false);
+		scrollToPage(mCurrentChildIndex, false);
 	}
 
 	@Override
@@ -147,8 +147,9 @@ public class Workspace extends ViewGroup {
 				mTouchState = TOUCH_STATE_IDLE;
 			}
 
-			if (mWorkspaceListener != null && mTouchState == TOUCH_STATE_IDLE) {
-				mWorkspaceListener.onChildChanged(mCurrentChildIndex);
+			if (mOnWorkspaceChangeListener != null
+					&& mTouchState == TOUCH_STATE_IDLE) {
+				mOnWorkspaceChangeListener.onPageChange(mCurrentChildIndex);
 			}
 		}
 	}
@@ -202,7 +203,7 @@ public class Workspace extends ViewGroup {
 				 * touched in.
 				 */
 				if (rect.contains(x + offsetX, y)
-						&& child.getId() == R.id.workspace_ingnore) {
+						&& child.getId() == R.id.workspaceIngnore) {
 					mTouchedInIngnoreChild = true;
 					break;
 				}
@@ -242,11 +243,11 @@ public class Workspace extends ViewGroup {
 			velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 			int velocityX = (int) velocityTracker.getXVelocity();
 			if (velocityX > mSnapVelocity) {
-				animationToPrevChild();
+				animationToPrevPage();
 			} else if (velocityX < -mSnapVelocity) {
-				animationToNextChild();
+				animationToNextPage();
 			} else {
-				scrollToChild(mCurrentChildIndex, true);
+				scrollToPage(mCurrentChildIndex, true);
 			}
 			velocityTracker.recycle();
 
@@ -276,19 +277,19 @@ public class Workspace extends ViewGroup {
 				resolveSize(maxHeight, heightMeasureSpec));
 	}
 
-	public void animationToNextChild() {
-		scrollToChild(++mCurrentChildIndex, true);
+	public void animationToNextPage() {
+		scrollToPage(++mCurrentChildIndex, true);
 	}
 
-	public void animationToPrevChild() {
-		scrollToChild(--mCurrentChildIndex, true);
+	public void animationToPrevPage() {
+		scrollToPage(--mCurrentChildIndex, true);
 	}
 
-	public void scrollToChild(View child, boolean isAnimated) {
-		scrollToChild(indexOfChild(child), isAnimated);
+	public void scrollToPage(View child, boolean isAnimated) {
+		scrollToPage(indexOfChild(child), isAnimated);
 	}
 
-	public void scrollToChild(int index, boolean isAnimated) {
+	public void scrollToPage(int index, boolean isAnimated) {
 		final int scroll = getScrollX();
 		final int childCount = getChildCount();
 		final int width = getWidth();
@@ -371,18 +372,19 @@ public class Workspace extends ViewGroup {
 		mWidth = w;
 	}
 
-	public WorkspaceListener getWorkspaceListener() {
-		return mWorkspaceListener;
+	public OnWorkspaceChangeListener getOnWorkspaceChangeListener() {
+		return mOnWorkspaceChangeListener;
 	}
 
-	public void setWorkspaceListener(WorkspaceListener workspaceListener) {
-		this.mWorkspaceListener = workspaceListener;
+	public void setOnWorkspaceChangeListener(
+			OnWorkspaceChangeListener onWorkspaceChangeListener) {
+		this.mOnWorkspaceChangeListener = onWorkspaceChangeListener;
 	}
 
-	public interface WorkspaceListener {
-		public void onChildChanged(int childIndex);
+	public interface OnWorkspaceChangeListener {
+		public void onPageChange(int pageIndex);
 
-		public void onChildInvalidate();
+		public void onPageCountChange();
 	}
 
 	@Override

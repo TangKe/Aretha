@@ -50,7 +50,7 @@ public class TileView extends ImageView {
 			camera.restore();
 			break;
 		}
-//		matrix.preTranslate(mWidth / 2, mHeight / 2);
+		// matrix.preTranslate(mWidth / 2, mHeight / 2);
 		invalidate();
 		return true;
 	}

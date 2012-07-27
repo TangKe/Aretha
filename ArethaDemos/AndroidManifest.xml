@@ -81,6 +81,15 @@
                 <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".graphic.BitmapEffectBuilderDemo"
+            android:label="@string/bitmap_effect_builder" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -11,14 +11,14 @@
         android:textColor="@color/aretha_white" />
 
     <com.aretha.widget.Workspace
-        android:id="@+id/workspace"
+        android:id="@id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         aretha:duration="500"
-        aretha:showChild="1" >
+        aretha:showPage="1" >
 
         <View
-            android:id="@id/workspace_ingnore"
+            android:id="@id/workspaceIngnore"
             android:layout_width="200dp"
             android:layout_height="fill_parent"
             android:background="@android:color/transparent" />

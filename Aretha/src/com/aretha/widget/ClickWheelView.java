@@ -3,12 +3,14 @@ package com.aretha.widget;
 import com.aretha.R;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Scroller;
-import android.widget.TextView.SavedState;
 
 /**
  * A simple view position the child view on edge of circle, user can rotate it
@@ -315,12 +316,38 @@ public class ClickWheelView extends ViewGroup {
 		this.mIsFlingEnabled = isFlingEnabled;
 	}
 
+	/**
+	 * Return the radius of this view group
+	 * 
+	 * @return the size (in pixels).
+	 */
 	public float getRadius() {
 		return mRadius;
 	}
 
+	/**
+	 * Set radius (in scaled pixel)
+	 * 
+	 * @param radius
+	 */
 	public void setRadius(float radius) {
-		this.mRadius = radius;
+		setRadius(radius, TypedValue.COMPLEX_UNIT_DIP);
+	}
+
+	/**
+	 * Set radius
+	 * 
+	 * @param radius
+	 * @param unit
+	 *            the unit to use, see {@link TypedValue}
+	 */
+	public void setRadius(float radius, int unit) {
+		final Resources resources = getContext().getResources();
+		this.mRadius = Math.max(
+				0,
+				TypedValue.applyDimension(unit, radius,
+						resources.getDisplayMetrics()));
+		requestLayout();
 	}
 
 	@Override

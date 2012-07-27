@@ -16,7 +16,7 @@ public class AccelerateLinearDecelerateProgressBarDemo extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accelerate_linear_decelerate_progress_bar);
-		mAccelerateLinearDecelerateProgressBar = (AccelerateLinearDecelerateProgressBar) findViewById(R.id.accelerate_linear_decelerate_progress_bar);
+		mAccelerateLinearDecelerateProgressBar = (AccelerateLinearDecelerateProgressBar) findViewById(R.id.accelerateLinearDecelerateProgressBar);
 	}
 
 	public void onClick(View v) {
