@@ -130,7 +130,6 @@ public class ClickWheelView extends ViewGroup {
 		final float radius = mRadius;
 
 		measureChildren(widthMeasureSpec, heightMeasureSpec);
-
 		int measureWidth = 0, measureHeight = 0;
 		int maxChildWidth = 0, maxChildHeight = 0;
 		for (int index = 0; index < count; index++) {

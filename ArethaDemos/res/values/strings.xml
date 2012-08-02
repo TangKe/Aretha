@@ -79,5 +79,8 @@
     <string name="bitmap_effect_builder_glow_with_original">Glow with Original</string>
     <string name="bitmap_effect_builder_reflection_without_original">Reflection without Original</string>
     <string name="bitmap_effect_builder_reflection_with_original">Reflection with Original</string>
+    
+    <!-- WaveLayout -->
+    <string name="wave_layout">WaveLayout</string>
 
 </resources>

@@ -73,6 +73,7 @@ public class ToggleView extends ViewGroup {
 		mToggleState = a.getInt(R.styleable.ToggleView_toggle, 1) != 0 ? true
 				: false;
 		mClipRadius = a.getDimension(R.styleable.ToggleView_radius, 10);
+		a.recycle();
 
 		initialize(context);
 	}

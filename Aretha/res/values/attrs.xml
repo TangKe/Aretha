@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */
 -->
 <resources>
 
@@ -23,19 +23,20 @@
     <attr name="dotColor" format="color" />
     <attr name="radius" format="dimension" />
     <attr name="interpolator" format="reference" />
+    <attr name="gravity">
+        <flag name="center" value="0x11" />
+        <flag name="top" value="0x30" />
+        <flag name="left" value="0x03" />
+        <flag name="bottom" value="0x50" />
+        <flag name="right" value="0x05" />
+    </attr>
 
     <declare-styleable name="SectorView">
         <attr name="radius" />
-        <attr name="gravity">
-            <flag name="center" value="0x11" />
-            <flag name="top" value="0x30" />
-            <flag name="left" value="0x03" />
-            <flag name="bottom" value="0x50" />
-            <flag name="right" value="0x05" />
-        </attr>
         <attr name="animationOffset" format="integer" />
         <attr name="duration" />
         <attr name="interpolator" />
+        <attr name="gravity" />
     </declare-styleable>
     <declare-styleable name="AccelerateLinearDecelerateProgressBar">
         <attr name="dotCount" format="integer" />
@@ -73,6 +74,14 @@
         <attr name="centerX" format="integer" />
         <attr name="centerY" format="integer" />
         <attr name="flingEnabled" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="WaveLayout">
+        <attr name="maxAmplitude" format="integer" />
+        <attr name="orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="gravity" />
     </declare-styleable>
 
 </resources>
