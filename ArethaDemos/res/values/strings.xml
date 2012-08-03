@@ -75,6 +75,10 @@
     <!-- BitmapEffectBuilder -->
     <string name="bitmap_effect_builder">BitmapEffectBuilder</string>
     <string name="bitmap_effect_builder_original">Original</string>
+    <string name="bitmap_effect_builder_highlight_without_original">Highlight without Original</string>
+    <string name="bitmap_effect_builder_highlight_with_original">Highlight with Original</string>
+    <string name="bitmap_effect_builder_shadow_without_original">Shadow without Original</string>
+    <string name="bitmap_effect_builder_shadow_with_original">Shadow with Original</string>
     <string name="bitmap_effect_builder_glow_without_original">Glow without Original</string>
     <string name="bitmap_effect_builder_glow_with_original">Glow with Original</string>
     <string name="bitmap_effect_builder_reflection_without_original">Reflection without Original</string>
