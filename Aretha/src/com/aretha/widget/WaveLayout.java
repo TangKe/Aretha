@@ -1,14 +1,33 @@
+/*
+ * Copyright 2012 Tang Ke
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *        
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.aretha.widget;
 
 import com.aretha.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
@@ -23,15 +42,20 @@ public class WaveLayout extends ViewGroup {
 	private int mCurrentWaveAmplitude;
 	private int mMaxWaveAmplitude;
 
+	private int mTouchSlop;
+	private float mPressedX;
+	private float mPressedY;
+
 	private Scroller mScroller;
 
 	public WaveLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.WaveLayout);
-		mMaxWaveAmplitude = a.getInteger(R.styleable.WaveLayout_maxAmplitude,
-				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-						80, context.getResources().getDisplayMetrics()));
+		mMaxWaveAmplitude = (int) a.getDimension(
+				R.styleable.WaveLayout_maxAmplitude, TypedValue.applyDimension(
+						TypedValue.COMPLEX_UNIT_DIP, 80, context.getResources()
+								.getDisplayMetrics()));
 		mOrientation = a.getInt(R.styleable.WaveLayout_orientation, HORIZONTAL);
 		mGravity = a.getInt(R.styleable.WaveLayout_gravity, Gravity.BOTTOM);
 		a.recycle();
@@ -48,6 +72,7 @@ public class WaveLayout extends ViewGroup {
 
 	private void initialize(Context context) {
 		mScroller = new Scroller(context);
+		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 	}
 
 	@Override
@@ -159,14 +184,32 @@ public class WaveLayout extends ViewGroup {
 	}
 
 	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		switch (ev.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			mPressedX = ev.getX();
+			mPressedY = ev.getY();
+		}
+		return true;
+	}
+
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		boolean result = super.onTouchEvent(event);
 		switch (event.getAction()) {
-
 		case MotionEvent.ACTION_DOWN:
 			mScroller.startScroll(mCurrentWaveAmplitude, 0, mMaxWaveAmplitude
 					- mCurrentWaveAmplitude, 0);
 		case MotionEvent.ACTION_MOVE:
+			int orientation = mOrientation;
+			int touchSlop = mTouchSlop;
+			if ((orientation == HORIZONTAL && Math
+					.abs(event.getX() - mPressedX) > touchSlop)
+					|| (orientation == VERTICAL && Math.abs(event.getY()
+							- mPressedY) > touchSlop)) {
+				requestDisallowInterceptTouchEvent(true);
+			}
+
 			mCurrentWaveCrestPosition = (int) (mOrientation == HORIZONTAL ? event
 					.getX() : event.getY());
 			result = true;
@@ -174,6 +217,7 @@ public class WaveLayout extends ViewGroup {
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_OUTSIDE:
+			requestDisallowInterceptTouchEvent(false);
 			mScroller.startScroll(mCurrentWaveAmplitude, 0,
 					0 - mCurrentWaveAmplitude, 0);
 			break;
@@ -181,5 +225,84 @@ public class WaveLayout extends ViewGroup {
 		invalidate();
 		requestLayout();
 		return result;
+	}
+
+	public int getGravity() {
+		return mGravity;
+	}
+
+	public void setGravity(int gravity) {
+		this.mGravity = gravity;
+	}
+
+	public int getOrientation() {
+		return mOrientation;
+	}
+
+	public void setOrientation(int orientation) {
+		this.mOrientation = orientation;
+	}
+
+	public int getMaxWaveAmplitude() {
+		return mMaxWaveAmplitude;
+	}
+
+	public void setMaxWaveAmplitude(int maxWaveAmplitude) {
+		this.mMaxWaveAmplitude = maxWaveAmplitude;
+	}
+
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		SavedState savedState = new SavedState(super.onSaveInstanceState());
+		savedState.gravity = mGravity;
+		savedState.orientation = mOrientation;
+		savedState.maxWaveAmplitude = mMaxWaveAmplitude;
+		return savedState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		SavedState savedState = (SavedState) state;
+		super.onRestoreInstanceState(savedState.getSuperState());
+		mGravity = savedState.gravity;
+		mOrientation = savedState.orientation;
+		mMaxWaveAmplitude = savedState.maxWaveAmplitude;
+	}
+
+	static class SavedState extends BaseSavedState {
+		public int gravity;
+		public int orientation;
+		public int maxWaveAmplitude;
+
+		SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		private SavedState(Parcel in) {
+			super(in);
+			gravity = in.readInt();
+			orientation = in.readInt();
+			maxWaveAmplitude = in.readInt();
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+			out.writeInt(gravity);
+			out.writeInt(orientation);
+			out.writeInt(maxWaveAmplitude);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			@Override
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 	}
 }

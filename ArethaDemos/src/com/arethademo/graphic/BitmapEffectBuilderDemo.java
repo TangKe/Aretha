@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,15 +68,15 @@ public class BitmapEffectBuilderDemo extends Activity implements
 		imageView.setScaleType(ScaleType.CENTER);
 		imageView.setImageBitmap(bitmap);
 		linearLayout.addView(imageView, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+				LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT, 1));
 
 		TextView textView = new TextView(context);
 		textView.setText(textResId);
 		textView.setGravity(Gravity.CENTER_HORIZONTAL);
 		linearLayout.addView(textView, new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+				LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT));
 
 		mWorkspace.addView(linearLayout, new ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.FILL_PARENT,

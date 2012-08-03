@@ -76,7 +76,7 @@
         <attr name="flingEnabled" format="boolean" />
     </declare-styleable>
     <declare-styleable name="WaveLayout">
-        <attr name="maxAmplitude" format="integer" />
+        <attr name="maxAmplitude" format="dimension" />
         <attr name="orientation">
             <enum name="horizontal" value="0" />
             <enum name="vertical" value="1" />

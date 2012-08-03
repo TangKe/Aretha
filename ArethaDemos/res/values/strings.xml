@@ -79,8 +79,34 @@
     <string name="bitmap_effect_builder_glow_with_original">Glow with Original</string>
     <string name="bitmap_effect_builder_reflection_without_original">Reflection without Original</string>
     <string name="bitmap_effect_builder_reflection_with_original">Reflection with Original</string>
-    
+
     <!-- WaveLayout -->
     <string name="wave_layout">WaveLayout</string>
+    <string name="wave_layout_a">A</string>
+    <string name="wave_layout_b">B</string>
+    <string name="wave_layout_c">C</string>
+    <string name="wave_layout_d">D</string>
+    <string name="wave_layout_e">E</string>
+    <string name="wave_layout_f">F</string>
+    <string name="wave_layout_g">G</string>
+    <string name="wave_layout_h">H</string>
+    <string name="wave_layout_i">I</string>
+    <string name="wave_layout_j">J</string>
+    <string name="wave_layout_k">K</string>
+    <string name="wave_layout_l">L</string>
+    <string name="wave_layout_m">M</string>
+    <string name="wave_layout_n">N</string>
+    <string name="wave_layout_o">O</string>
+    <string name="wave_layout_p">P</string>
+    <string name="wave_layout_q">Q</string>
+    <string name="wave_layout_r">R</string>
+    <string name="wave_layout_s">S</string>
+    <string name="wave_layout_t">T</string>
+    <string name="wave_layout_u">U</string>
+    <string name="wave_layout_v">V</string>
+    <string name="wave_layout_w">W</string>
+    <string name="wave_layout_x">X</string>
+    <string name="wave_layout_y">Y</string>
+    <string name="wave_layout_z">Z</string>
 
 </resources>
