@@ -106,6 +106,9 @@ public class ToggleView extends ViewGroup {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		final int childCount = getChildCount();
+		final int paddingLeft = getPaddingLeft();
+		final int paddingTop = getPaddingTop();
+		final int paddingBottom = getPaddingBottom();
 
 		for (int i = 0; i < childCount; i++) {
 			View child = getChildAt(i);
@@ -116,16 +119,17 @@ public class ToggleView extends ViewGroup {
 			final int id = child.getId();
 
 			int childY = Math
-					.round((getHeight() - childMeasuredHeight) * 1.0f / 2);
+					.round((getHeight() - paddingTop - paddingBottom - childMeasuredHeight)
+							* 1.0f / 2 + paddingTop);
 			int childX = 0;
 
 			if (id == R.id.toggleHandle) {
-				childX = 0;
+				childX = paddingLeft;
 				mHandleWidth = childMeasuredWidth;
 			} else if (id == R.id.toggleOff) {
-				childX = 0 - childMeasuredWidth;
+				childX = paddingLeft - childMeasuredWidth;
 			} else if (id == R.id.toggleOn) {
-				childX = mHandleWidth;
+				childX = mHandleWidth + paddingLeft;
 			}
 
 			child.layout(childX, childY, childX + childMeasuredWidth, childY
@@ -241,7 +245,7 @@ public class ToggleView extends ViewGroup {
 	}
 
 	protected int computeScrollBoundsEndX(int handleWidth) {
-		return -(getWidth() - handleWidth);
+		return -(getWidth() - handleWidth - getPaddingRight() - getPaddingLeft());
 	}
 
 	protected int computeScrollBoundsStartX(int handleWidth) {

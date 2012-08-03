@@ -6,8 +6,6 @@
         android:id="@id/sectorView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/aretha_blue"
-        android:padding="10dp"
         aretha:gravity="left|bottom" >
 
         <ImageView

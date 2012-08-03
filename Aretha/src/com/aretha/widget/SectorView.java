@@ -18,7 +18,6 @@ package com.aretha.widget;
 
 import com.aretha.R;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
