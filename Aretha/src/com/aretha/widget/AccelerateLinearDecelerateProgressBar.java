@@ -112,16 +112,18 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		final int dotSize = Math.round(mDotRadius * 2);
+		final int dotCount = mDotCount;
+		final int dotSpacing = Math.round(mDotSpacing);
 
-		int measuredWidth = MeasureSpec.getSize(widthMeasureSpec);
-		int measuredHeight = MeasureSpec.getSize(heightMeasureSpec);
+		int measuredWidth = 0;
+		int measuredHeight = 0;
 
-		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = (int) Math.ceil(2 * mDotRadius);
-		}
-		measuredWidth += (getPaddingLeft() + getPaddingRight());
-		measuredHeight += (getPaddingTop() + getPaddingBottom());
+		measuredWidth = (dotCount * dotSize + dotCount * dotSpacing) * 2;
+		measuredHeight = dotSize;
+
+		measuredWidth += getPaddingLeft() + getPaddingRight();
+		measuredHeight += getPaddingTop() + getPaddingBottom();
 
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
@@ -146,24 +148,24 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		final Interpolator accelerateInterpolator = mAccelerateInterpolator;
 		final Interpolator decelerateInterpolator = mDecelerateInterpolator;
 		final int endX = computeEndX();
-		final int startXABS = Math.abs(computeStartX());
+		final int startX = Math.abs(computeStartX());
 		final int dotCount = mDotCount;
 		final float dotSpacing = mDotSpacing;
 
 		for (int i = 0; i < dotCount; i++) {
-			float dotXDelta = scroller.getCurrX() - i * dotSpacing;
-			if (dotXDelta < linearRegionStartX) {
-				dotXDelta = accelerateInterpolator
-						.getInterpolation((dotXDelta + startXABS)
-								/ (linearRegionStartX + startXABS))
-						* (linearRegionStartX + startXABS) - startXABS;
-			} else if (dotXDelta > linearRegionEndX) {
-				dotXDelta = decelerateInterpolator
-						.getInterpolation((dotXDelta - linearRegionEndX)
+			float dotX = scroller.getCurrX() - i * dotSpacing;
+			if (dotX < linearRegionStartX) {
+				dotX = accelerateInterpolator
+						.getInterpolation((dotX + startX)
+								/ (linearRegionStartX + startX))
+						* (linearRegionStartX + startX) - startX;
+			} else if (dotX > linearRegionEndX) {
+				dotX = decelerateInterpolator
+						.getInterpolation((dotX - linearRegionEndX)
 								/ (endX - linearRegionEndX))
 						* (endX - linearRegionEndX) + linearRegionEndX;
 			}
-			canvas.drawCircle(dotXDelta, halfHeight, dotRadius, paint);
+			canvas.drawCircle(dotX, halfHeight, dotRadius, paint);
 		}
 		invalidate();
 	}

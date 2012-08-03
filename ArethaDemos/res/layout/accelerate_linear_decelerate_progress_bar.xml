@@ -5,7 +5,8 @@
     <com.aretha.widget.AccelerateLinearDecelerateProgressBar
         android:id="@id/accelerateLinearDecelerateProgressBar"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <HorizontalScrollView
         android:layout_width="fill_parent"

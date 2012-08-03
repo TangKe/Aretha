@@ -23,6 +23,7 @@ import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -85,6 +86,10 @@ public class WaveLayout extends ViewGroup {
 
 		int height = b - t;
 		int width = r - l;
+		int paddingRight = getPaddingRight();
+		int paddingBottom = getPaddingBottom();
+		int paddingTop = getPaddingTop();
+		int paddingLeft = getPaddingBottom();
 		int offset = 0;
 		for (int index = 0; index < childCount; index++) {
 			View child = getChildAt(index);
@@ -97,24 +102,29 @@ public class WaveLayout extends ViewGroup {
 			if (isHorizontal) {
 				switch (gravity) {
 				case Gravity.TOP:
-					child.layout(offset, position, offset + childWidth,
-							childHeight + position);
+					child.layout(offset + paddingLeft, position + paddingTop,
+							offset + childWidth + paddingLeft, childHeight
+									+ position + paddingTop);
 					break;
 				case Gravity.BOTTOM:
-					child.layout(offset, height - childHeight - position,
-							offset + childWidth, height - position);
+					child.layout(offset + paddingLeft, height - childHeight
+							- position - paddingBottom, offset + childWidth
+							+ paddingLeft, height - position - paddingBottom);
 					break;
 				}
 
 			} else {
 				switch (gravity) {
 				case Gravity.LEFT:
-					child.layout(position, offset, position + childWidth,
-							offset + childHeight);
+					child.layout(position + paddingLeft, offset + paddingTop,
+							position + childWidth + paddingLeft, offset
+									+ childHeight + paddingTop);
 					break;
 				case Gravity.RIGHT:
-					child.layout(width - position - childWidth, offset, width
-							- position, offset + childHeight);
+					child.layout(width - position - childWidth - paddingRight,
+							offset + paddingTop, width - position
+									- paddingRight, offset + childHeight
+									+ paddingTop);
 					break;
 				}
 

@@ -30,7 +30,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 /**
  * {@link PageIndicator} is a view for developer to indicate current page or
@@ -50,7 +49,6 @@ public class PageIndicator extends View {
 
 	private float[] mDownPoint;
 	private OnPageChangeListener mOnPageChangeListener;
-	private int mTouchSlop;
 
 	public PageIndicator(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -79,8 +77,6 @@ public class PageIndicator extends View {
 	private void initialize() {
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setColor(mDotColor);
-
-		mTouchSlop = new ViewConfiguration().getScaledTouchSlop();
 	}
 
 	@Override
@@ -90,21 +86,26 @@ public class PageIndicator extends View {
 		final int dotNumber = mDotNumber;
 		final float dotSpacing = mDotSpacing;
 		final float dotRadius = mDotRadius;
-		float spacingLeft = (width - dotNumber * mDotRadius * 2 - (dotNumber - 1)
-				* dotSpacing) / 2;
-		int spacingTop = (height - getPaddingTop() - getPaddingBottom()) / 2
-				+ getPaddingTop();
+		final int paddingLeft = getPaddingBottom();
+		final int paddingRight = getPaddingRight();
+		final int paddingTop = getPaddingTop();
+		final int paddingBottom = getPaddingBottom();
+		final Paint paint = mPaint;
+
+		float spacingLeft = (width - paddingLeft - paddingRight - dotNumber
+				* mDotRadius * 2 - (dotNumber - 1) * dotSpacing) / 2;
+		int spacingTop = (height - paddingTop - paddingBottom) / 2;
 
 		for (int index = 0; index < dotNumber; index++) {
 			if (mActiveDotIndex == index) {
-				mPaint.setAlpha(255);
+				paint.setAlpha(255);
 			} else {
-				mPaint.setAlpha(100);
+				paint.setAlpha(100);
 			}
 
-			canvas.drawCircle(getPaddingLeft() + spacingLeft + index
-					* dotRadius * 2 + index * dotSpacing + dotRadius,
-					spacingTop, dotRadius, mPaint);
+			canvas.drawCircle(paddingLeft + spacingLeft + index * dotRadius * 2
+					+ index * dotSpacing + dotRadius, spacingTop + paddingTop,
+					dotRadius, paint);
 		}
 
 		super.onDraw(canvas);
@@ -112,28 +113,16 @@ public class PageIndicator extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int width = MeasureSpec.getSize(widthMeasureSpec);
-		int height = MeasureSpec.getSize(heightMeasureSpec);
+		int measuredWidth = 0;
+		int measuredHeight = 0;
 
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		final float dotSize = mDotRadius * 2;
+		measuredWidth = Math.round(mDotNumber * dotSize + (mDotNumber - 1)
+				* mDotSpacing);
+		measuredHeight = Math.round(dotSize);
 
-		int measuredWidth = width;
-		int measuredHeight = height;
-
-		final float dotRadius = mDotRadius;
-
-		if (widthMode == MeasureSpec.AT_MOST) {
-			float dotWidth = dotRadius * 2;
-			measuredWidth = Math.round(Math.min(mDotNumber * dotWidth
-					+ (mDotNumber - 1) * mDotSpacing + getPaddingLeft()
-					+ getPaddingRight(), measuredWidth));
-		}
-
-		if (heightMode == MeasureSpec.AT_MOST) {
-			measuredHeight = Math.round(Math.min(2 * dotRadius
-					+ getPaddingTop() + getPaddingBottom(), measuredHeight));
-		}
+		measuredWidth += getPaddingLeft() + getPaddingRight();
+		measuredHeight += getPaddingTop() + getPaddingBottom();
 
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
@@ -141,12 +130,9 @@ public class PageIndicator extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		final OnPageChangeListener onPageChangeListener = mOnPageChangeListener;
-
 		int action = event.getAction();
 		float y = event.getY();
 		float x = event.getX();
-		int touchSlop = mTouchSlop;
 
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
@@ -157,25 +143,21 @@ public class PageIndicator extends View {
 			mDownPoint[1] = y;
 			return true;
 		case MotionEvent.ACTION_UP:
-			if (x - mDownPoint[0] <= touchSlop
-					&& y - mDownPoint[1] <= touchSlop) {
-				int pageIndex = mActiveDotIndex;
-				if (x < getLeft() + getWidth() / 2) {
-					if (onPageChangeListener != null && pageIndex > 0) {
-						onPageChangeListener.onPrevPage();
-					}
-					pageIndex--;
-				} else {
-					if (onPageChangeListener != null
-							&& pageIndex < Math.max(0, mDotNumber - 1)) {
-						onPageChangeListener.onNextPage();
-					}
-					pageIndex++;
+			int pageIndex = mActiveDotIndex;
+			OnPageChangeListener onPageChangeListener = mOnPageChangeListener;
+			if (x < getWidth() / 2) {
+				if (onPageChangeListener != null && pageIndex > 0) {
+					onPageChangeListener.onPrevPage();
 				}
-				setActivePage(pageIndex);
+				pageIndex--;
+			} else {
+				if (onPageChangeListener != null
+						&& pageIndex < Math.max(0, mDotNumber - 1)) {
+					onPageChangeListener.onNextPage();
+				}
+				pageIndex++;
 			}
-		default:
-			break;
+			setActivePage(pageIndex);
 		}
 		return super.onTouchEvent(event);
 	}
@@ -200,6 +182,7 @@ public class PageIndicator extends View {
 	public void setPageNumber(int number) {
 		this.mDotNumber = Math.max(0, number);
 		setActivePage(this.mActiveDotIndex);
+		requestLayout();
 		invalidate();
 	}
 
@@ -224,7 +207,6 @@ public class PageIndicator extends View {
 	 */
 	public void setDotRadius(float radius) {
 		this.mDotRadius = radius;
-		requestLayout();
 		invalidate();
 	}
 

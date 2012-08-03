@@ -18,6 +18,7 @@ package com.aretha.widget;
 
 import com.aretha.R;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -149,6 +150,10 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		final int gravity = mGravity;
 		final int animationOffset = mAnimationOffset;
 		final Interpolator interpolator = mInterpolator;
+		final int paddingLeft = getPaddingLeft();
+		final int paddingTop = getPaddingTop();
+		final int paddingRight = getPaddingRight();
+		final int paddingBottom = getPaddingBottom();
 		// final boolean order = mOrder;
 
 		for (int index = 0; index < childCount; index++) {
@@ -164,10 +169,11 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			childRadius = (int) (interpolation * radius);
 
 			int[] childCoordinate = getChildCenterCoordinate(childRadius,
-					index, r - l, b - t, childCount, gravity);
-			childView.layout(childCoordinate[0] - halfChildWidth,
+					index, r - l, b - t, childCount, gravity, paddingLeft,
+					paddingTop, paddingRight, paddingBottom);
+			childView.layout(childCoordinate[0] - halfChildWidth + paddingLeft,
 					childCoordinate[1] - halfChildHeight, childCoordinate[0]
-							+ halfChildWidth, childCoordinate[1]
+							+ halfChildWidth + paddingLeft, childCoordinate[1]
 							+ halfChildHeight);
 		}
 	}
@@ -205,7 +211,8 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	 * @return
 	 */
 	protected int[] getChildCenterCoordinate(int radius, int index, int width,
-			int height, int childCount, int gravity) {
+			int height, int childCount, int gravity, int paddingLeft,
+			int paddingTop, int paddingRight, int paddingBottom) {
 		double degreePerChild;
 		double degree;
 
@@ -229,20 +236,20 @@ public class SectorView extends ViewGroup implements OnClickListener {
 			y = height / 2 + yRange;
 			break;
 		case Gravity.LEFT | Gravity.BOTTOM:
-			x = xRange;
-			y = height - yRange;
+			x = xRange + paddingLeft;
+			y = height - yRange - paddingBottom;
 			break;
 		case Gravity.RIGHT | Gravity.BOTTOM:
-			x = width - xRange;
-			y = height - yRange;
+			x = width - xRange - paddingRight;
+			y = height - yRange - paddingBottom;
 			break;
 		case Gravity.RIGHT | Gravity.TOP:
-			x = width - xRange;
-			y = yRange;
+			x = width - xRange - paddingRight;
+			y = yRange + paddingTop;
 			break;
 		case Gravity.LEFT | Gravity.TOP:
-			x = xRange;
-			y = yRange;
+			x = xRange + paddingLeft;
+			y = yRange + paddingTop;
 			break;
 		case Gravity.TOP:
 			x = width / 2 + xRange;
