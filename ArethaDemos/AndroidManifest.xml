@@ -99,6 +99,15 @@
                 <category android:name="com.aretha.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".widget.TileButtonDemo"
+            android:label="@string/tile_button" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

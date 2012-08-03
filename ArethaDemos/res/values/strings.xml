@@ -113,4 +113,8 @@
     <string name="wave_layout_y">Y</string>
     <string name="wave_layout_z">Z</string>
 
+    <!-- TileButton -->
+    <string name="tile_button">TileButton</string>
+    <string name="tile_button_description">Just like the Windows Phone 7, Button has a 3D effects when user touch on it!</string>
+
 </resources>
