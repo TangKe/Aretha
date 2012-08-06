@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" >
 
-        <Button
+        <com.aretha.widget.TileButton
             android:id="@+id/prev_child"
             style="@style/aretha_button"
             android:layout_width="0dp"
@@ -75,7 +75,7 @@
             android:onClick="onClick"
             android:src="@drawable/logo" />
 
-        <Button
+        <com.aretha.widget.TileButton
             android:id="@+id/next_child"
             style="@style/aretha_button"
             android:layout_width="0dp"

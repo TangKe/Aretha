@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/page_plus"
                 style="@style/aretha_button"
                 android:layout_width="0dp"
@@ -28,7 +28,7 @@
                 android:onClick="onClick"
                 android:text="@string/page_plus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/page_minus"
                 style="@style/aretha_button"
                 android:layout_width="0dp"
@@ -37,7 +37,7 @@
                 android:onClick="onClick"
                 android:text="@string/page_minus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/red"
                 style="@style/aretha_button"
                 android:layout_width="0dp"
@@ -46,7 +46,7 @@
                 android:onClick="onClick"
                 android:text="@string/red" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/white"
                 style="@style/aretha_button"
                 android:layout_width="0dp"
@@ -55,7 +55,7 @@
                 android:onClick="onClick"
                 android:text="@string/white" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/dot_radius"
                 style="@style/aretha_button"
                 android:layout_width="0dp"
@@ -64,7 +64,7 @@
                 android:onClick="onClick"
                 android:text="@string/dot_radius" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/dot_spacing"
                 style="@style/aretha_button"
                 android:layout_width="0dp"

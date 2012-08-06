@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" >
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/dot_plus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
                 android:onClick="onClick"
                 android:text="@string/dot_plus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/dot_minus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
                 android:onClick="onClick"
                 android:text="@string/dot_minus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/space_plus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:onClick="onClick"
                 android:text="@string/space_plus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/space_minus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                 android:onClick="onClick"
                 android:text="@string/space_minus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/radius_plus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                 android:onClick="onClick"
                 android:text="@string/dot_radius_plus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/radius_minus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
                 android:onClick="onClick"
                 android:text="@string/dot_radius_minus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/duration_plus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                 android:onClick="onClick"
                 android:text="@string/duration_plus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/duration_minus"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:onClick="onClick"
                 android:text="@string/duration_minus" />
 
-            <Button
+            <com.aretha.widget.TileButton
                 android:id="@+id/yellow"
                 style="@style/aretha_button"
                 android:layout_width="wrap_content"

@@ -34,7 +34,7 @@ public class TileButton extends Button {
 	}
 
 	public TileButton(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, android.R.attr.buttonStyle);
 	}
 
 	public TileButton(Context context) {
@@ -72,7 +72,7 @@ public class TileButton extends Button {
 		}
 		invalidate();
 		requestLayout();
-		return true;
+		return super.onTouchEvent(event);
 	}
 
 	@Override
