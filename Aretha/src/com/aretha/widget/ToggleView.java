@@ -93,14 +93,13 @@ public class ToggleView extends ViewGroup {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
+	public void draw(Canvas canvas) {
 		Path clipPath = new Path();
 		RectF rect = new RectF(getScrollX(), 0, getScrollX() + getWidth(),
 				getHeight());
 		clipPath.addRoundRect(rect, mClipRadius, mClipRadius, Path.Direction.CW);
 		canvas.clipPath(clipPath);
-
-		super.onDraw(canvas);
+		super.draw(canvas);
 	}
 
 	@Override
