@@ -12,8 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.aretha.net;
+package com.aretha.content.config;
 
-public enum HttpRequestMethod {
-	POST, GET
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface ConfigEntry {
+	String tag() default "";
 }
