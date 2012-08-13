@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */
 -->
 <resources>
 
@@ -82,6 +82,9 @@
             <enum name="vertical" value="1" />
         </attr>
         <attr name="gravity" />
+    </declare-styleable>
+    <declare-styleable name="TileButton">
+        <attr name="depth" format="dimension" />
     </declare-styleable>
 
 </resources>

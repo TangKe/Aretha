@@ -16,8 +16,6 @@ package com.aretha.content.config;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -58,19 +56,21 @@ public abstract class Config {
 
 	private void read() {
 		Class<?> clazz = getClass();
+		Field[] fields = clazz.getDeclaredFields();
 		SharedPreferences sharedPreferences = mContext.getSharedPreferences(
 				TAG, Context.MODE_PRIVATE);
 		Map<String, ?> preferences = sharedPreferences.getAll();
-		Set<?> entries = preferences.entrySet();
 
-		for (Object obj : entries) {
-			Entry<String, ?> entry = (Entry<String, ?>) obj;
+		for (Field field : fields) {
+			field.setAccessible(true);
+			ConfigEntry annotation = field.getAnnotation(ConfigEntry.class);
+			String key = field.getName();
+			if (null == annotation) {
+				String tempKey = annotation.key();
+				key = tempKey.length() == 0 ? key : tempKey;
+			}
 			try {
-				Field field = clazz.getField(entry.getKey());
-				field.setAccessible(true);
-				field.set(this, entry.getValue());
-			} catch (SecurityException e) {
-			} catch (NoSuchFieldException e) {
+				field.set(this, preferences.get(key));
 			} catch (IllegalArgumentException e) {
 			} catch (IllegalAccessException e) {
 			}
@@ -91,8 +91,8 @@ public abstract class Config {
 			}
 
 			Class<?> type = field.getType();
-			String tag = annotation.tag();
-			String name = tag.length() == 0 ? field.getName() : tag;
+			String key = annotation.key();
+			String name = key.length() == 0 ? field.getName() : key;
 			// Only accept these types
 			field.setAccessible(true);
 			try {

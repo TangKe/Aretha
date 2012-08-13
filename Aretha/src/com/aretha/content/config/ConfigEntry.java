@@ -22,5 +22,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ConfigEntry {
-	String tag() default "";
+	/**
+	 * specified the key name, {@link Config} will set the key as the field name
+	 * by default
+	 * 
+	 * @return key name
+	 */
+	String key() default "";
 }
