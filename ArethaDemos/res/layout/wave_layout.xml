@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/hint_background"
+        android:background="@drawable/button_background"
         android:textSize="25sp" />
 
     <com.aretha.widget.WaveLayout
