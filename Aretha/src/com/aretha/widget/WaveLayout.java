@@ -18,6 +18,7 @@ import com.aretha.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -46,6 +47,10 @@ public class WaveLayout extends ViewGroup {
 
 	private Scroller mScroller;
 
+	private OnWaveLayoutChangeListener mOnWaveLayoutChangeListener;
+	private Rect mPointCheckRect;
+	private int mLastPointIndex;;
+
 	public WaveLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		TypedArray a = context.obtainStyledAttributes(attrs,
@@ -71,6 +76,7 @@ public class WaveLayout extends ViewGroup {
 	private void initialize(Context context) {
 		mScroller = new Scroller(context);
 		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+		mPointCheckRect = new Rect();
 	}
 
 	@Override
@@ -203,6 +209,8 @@ public class WaveLayout extends ViewGroup {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		boolean result = super.onTouchEvent(event);
+		final float x = event.getX();
+		final float y = event.getY();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mScroller.startScroll(mCurrentWaveAmplitude, 0, mMaxWaveAmplitude
@@ -210,15 +218,30 @@ public class WaveLayout extends ViewGroup {
 		case MotionEvent.ACTION_MOVE:
 			int orientation = mOrientation;
 			int touchSlop = mTouchSlop;
-			if ((orientation == HORIZONTAL && Math
-					.abs(event.getX() - mPressedX) > touchSlop)
-					|| (orientation == VERTICAL && Math.abs(event.getY()
-							- mPressedY) > touchSlop)) {
+			if ((orientation == HORIZONTAL && Math.abs(x - mPressedX) > touchSlop)
+					|| (orientation == VERTICAL && Math.abs(y - mPressedY) > touchSlop)) {
 				requestDisallowInterceptTouchEvent(true);
 			}
 
-			mCurrentWaveCrestPosition = (int) (mOrientation == HORIZONTAL ? event
-					.getX() : event.getY());
+			mCurrentWaveCrestPosition = (int) (mOrientation == HORIZONTAL ? x
+					: y);
+			if (null != mOnWaveLayoutChangeListener) {
+				final int count = getChildCount();
+				final Rect pointCheckRect = mPointCheckRect;
+				for (int index = 0; index < count; index++) {
+					View child = getChildAt(index);
+					child.getHitRect(pointCheckRect);
+					if (pointCheckRect.contains(pointCheckRect.centerX(),
+							(int) y)) {
+						if (mLastPointIndex != index) {
+							mOnWaveLayoutChangeListener.onIndexChange(child,
+									index);
+						}
+						mLastPointIndex = index;
+						break;
+					}
+				}
+			}
 			result = true;
 			break;
 		case MotionEvent.ACTION_UP:
@@ -258,6 +281,15 @@ public class WaveLayout extends ViewGroup {
 		this.mMaxWaveAmplitude = maxWaveAmplitude;
 	}
 
+	public OnWaveLayoutChangeListener getOnWaveLayoutChangeListener() {
+		return mOnWaveLayoutChangeListener;
+	}
+
+	public void setOnWaveLayoutChangeListener(
+			OnWaveLayoutChangeListener onWaveLayoutChangeListener) {
+		this.mOnWaveLayoutChangeListener = onWaveLayoutChangeListener;
+	}
+
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		SavedState savedState = new SavedState(super.onSaveInstanceState());
@@ -274,6 +306,10 @@ public class WaveLayout extends ViewGroup {
 		mGravity = savedState.gravity;
 		mOrientation = savedState.orientation;
 		mMaxWaveAmplitude = savedState.maxWaveAmplitude;
+	}
+
+	public interface OnWaveLayoutChangeListener {
+		public void onIndexChange(View child, int index);
 	}
 
 	static class SavedState extends BaseSavedState {

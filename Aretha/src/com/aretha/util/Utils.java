@@ -24,8 +24,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class Utils {
+	private static final String DEBUG_TAG = "Aretha";
 	private static final String ACTION_ADD_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
 
 	/**
@@ -103,5 +105,9 @@ public class Utils {
 		addShortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
 		addShortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
 		context.sendBroadcast(addShortcut);
+	}
+
+	public static void debug(Object... object) {
+		Log.e(DEBUG_TAG, String.valueOf(object));
 	}
 }

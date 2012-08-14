@@ -2,10 +2,21 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
+    <TextView
+        android:id="@+id/hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/hint_background"
+        android:textSize="25sp" />
+
     <com.aretha.widget.WaveLayout
+        android:id="@id/waveLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         aretha:gravity="right"
         aretha:maxAmplitude="50dp"
         aretha:orientation="vertical" >
