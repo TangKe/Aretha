@@ -50,7 +50,7 @@ public class FileCacheManager {
 	 */
 	public void setDefaultStorageDirectory(File directory) {
 		if (directory == null || !directory.isDirectory()
-				|| directory.canWrite()) {
+				|| !directory.canWrite()) {
 			return;
 		}
 		mCacheFilePath = directory;

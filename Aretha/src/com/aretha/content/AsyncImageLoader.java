@@ -31,12 +31,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
 /**
- * Load remote image to local cache, then read from cache and decode bitmap
- * avoid {@link OutOfMemoryError}
+ * Load remote image to local cache async, then notify the UI thread, then read
+ * from cache and decode bitmap avoid {@link OutOfMemoryError}
  * 
  * @author Tank
  */
@@ -44,9 +45,9 @@ public class AsyncImageLoader {
 	private final static int MAX_ACCEPTABLE_SAMPLE_SIZE = 5;
 	private final static int MAX_LOADING_THREAD = 2;
 
-	private final static int STATUS_SUCCESS = 1;
-	private final static int STATUS_ERROR = 2;
-	private final static int STATUS_CANCEL = 3;
+	private final static int STATUS_SUCCESS = 0x00010000;
+	private final static int STATUS_ERROR = 0x00020000;
+	private final static int STATUS_CANCEL = 0x00030000;
 	private final static String LOG_TAG = "AsyncImageLoader";
 
 	private static AsyncImageLoader mImageLoader;
@@ -57,28 +58,7 @@ public class AsyncImageLoader {
 	private ArrayBlockingQueue<Runnable> mRunnableQueue;
 	private LinkedList<ImageLoadingTask> mTaskList;
 
-	private Handler mImageLoadedHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
-			boolean isRemove = mTaskList.remove(task);
-			switch (msg.what) {
-			case STATUS_SUCCESS:
-				// if this ImageLoadingTask has been canceled before it done. we
-				// can not invoke the callback.
-				if (isRemove) {
-					task.listener.onLoaded(task.bitmap, task.uri.toString(),
-							task.isLoadFromCache);
-				}
-				break;
-			case STATUS_ERROR:
-
-				break;
-			case STATUS_CANCEL:
-				break;
-			}
-		}
-	};
+	private Handler mImageLoadedHandler;
 
 	public static AsyncImageLoader getInstance(Context context) {
 		if (mImageLoader == null) {
@@ -93,6 +73,7 @@ public class AsyncImageLoader {
 		mExecutor = new ThreadPoolExecutor(1, MAX_LOADING_THREAD, 0,
 				TimeUnit.MILLISECONDS, mRunnableQueue);
 		mTaskList = new LinkedList<ImageLoadingTask>();
+		mImageLoadedHandler = new ImageLoadHandler(context.getMainLooper());
 	}
 
 	/**
@@ -309,6 +290,33 @@ public class AsyncImageLoader {
 			}
 			message.what = STATUS_ERROR;
 			message.sendToTarget();
+		}
+	}
+
+	private class ImageLoadHandler extends Handler {
+		public ImageLoadHandler(Looper looper) {
+			super(looper);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			ImageLoadingTask task = (ImageLoadingTask) msg.obj;
+			boolean isRemove = mTaskList.remove(task);
+			switch (msg.what) {
+			case STATUS_SUCCESS:
+				// if this ImageLoadingTask has been canceled before it done. we
+				// can not invoke the callback.
+				if (isRemove) {
+					task.listener.onLoaded(task.bitmap, task.uri.toString(),
+							task.isLoadFromCache);
+				}
+				break;
+			case STATUS_ERROR:
+
+				break;
+			case STATUS_CANCEL:
+				break;
+			}
 		}
 	}
 }

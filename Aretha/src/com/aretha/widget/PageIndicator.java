@@ -173,10 +173,20 @@ public class PageIndicator extends View {
 
 	}
 
+	/**
+	 * Get the current active page index
+	 * 
+	 * @return
+	 */
 	public int getActivePageIndex() {
 		return mActiveDotIndex;
 	}
 
+	/**
+	 * Set the count of page
+	 * 
+	 * @param number
+	 */
 	public void setPageNumber(int number) {
 		this.mDotNumber = Math.max(0, number);
 		setActivePage(this.mActiveDotIndex);
@@ -184,16 +194,30 @@ public class PageIndicator extends View {
 		invalidate();
 	}
 
+	/**
+	 * Get the page count
+	 * 
+	 * @return
+	 */
 	public int getPageNumber() {
 		return this.mDotNumber;
 	}
 
+	/**
+	 * Set the color of page indicator dot
+	 * 
+	 * @param color
+	 */
 	public void setDotColor(int color) {
 		this.mDotColor = color;
 		mPaint.setColor(color);
 		invalidate();
 	}
 
+	/**
+	 * Get the color of page indicator dot
+	 * @return
+	 */
 	public int getDotColor() {
 		return this.mDotColor;
 	}

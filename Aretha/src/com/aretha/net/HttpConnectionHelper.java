@@ -83,6 +83,10 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 		schemeRegistry.register(new Scheme("https", SSLSocketFactory
 				.getSocketFactory(), 443));
 
+		/**
+		 * android SDK not support MultiThreadedHttpConnectionManager
+		 * temporarily, so use the {@link ThreadSafeClientConnManager} instead
+		 */
 		ThreadSafeClientConnManager threadSafeClientConnManager = new ThreadSafeClientConnManager(
 				params, schemeRegistry);
 

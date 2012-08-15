@@ -148,6 +148,16 @@ public class BitmapEffectBuilder {
 		return canvasBitmap;
 	}
 
+	/**
+	 * Make a gradient cover on the origin image
+	 * 
+	 * @param bitmap
+	 * @param highlightStartColor
+	 * @param highlightEndColor
+	 * @param highlightPercent
+	 * @param needMerge
+	 * @return
+	 */
 	public Bitmap buildHighlight(Bitmap bitmap, int highlightStartColor,
 			int highlightEndColor, float highlightPercent, boolean needMerge) {
 		final Paint paint = mPaint;

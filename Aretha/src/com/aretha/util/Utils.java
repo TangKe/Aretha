@@ -107,6 +107,12 @@ public class Utils {
 		context.sendBroadcast(addShortcut);
 	}
 
+	/**
+	 * Utility method for print the log, and more convenience than {@link Log}
+	 * 
+	 * @param object
+	 *            can print any type
+	 */
 	public static void debug(Object... object) {
 		Log.e(DEBUG_TAG, String.valueOf(object));
 	}
