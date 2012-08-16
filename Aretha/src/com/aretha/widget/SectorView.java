@@ -135,6 +135,9 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		measuredWidth += (getPaddingLeft() + getPaddingRight());
 		measuredHeight += (getPaddingTop() + getPaddingBottom());
 
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}

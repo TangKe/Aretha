@@ -182,6 +182,9 @@ public class WaveLayout extends ViewGroup {
 		measuredWidth += getPaddingLeft() + getPaddingRight();
 		measuredHeight += getPaddingTop() + getPaddingBottom();
 
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}
@@ -215,6 +218,9 @@ public class WaveLayout extends ViewGroup {
 		case MotionEvent.ACTION_DOWN:
 			mScroller.startScroll(mCurrentWaveAmplitude, 0, mMaxWaveAmplitude
 					- mCurrentWaveAmplitude, 0);
+			if (null != mOnWaveLayoutChangeListener) {
+				mOnWaveLayoutChangeListener.onWaveBegin();
+			}
 		case MotionEvent.ACTION_MOVE:
 			int orientation = mOrientation;
 			int touchSlop = mTouchSlop;
@@ -247,6 +253,9 @@ public class WaveLayout extends ViewGroup {
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
 		case MotionEvent.ACTION_OUTSIDE:
+			if (null != mOnWaveLayoutChangeListener) {
+				mOnWaveLayoutChangeListener.onWaveEnd();
+			}
 			requestDisallowInterceptTouchEvent(false);
 			mScroller.startScroll(mCurrentWaveAmplitude, 0,
 					0 - mCurrentWaveAmplitude, 0);
@@ -310,6 +319,10 @@ public class WaveLayout extends ViewGroup {
 
 	public interface OnWaveLayoutChangeListener {
 		public void onIndexChange(View child, int index);
+
+		public void onWaveBegin();
+
+		public void onWaveEnd();
 	}
 
 	static class SavedState extends BaseSavedState {

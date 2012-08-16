@@ -260,19 +260,22 @@ public class Workspace extends ViewGroup {
 		measureChildren(widthMeasureSpec, heightMeasureSpec);
 
 		int childCount = getChildCount();
-		int maxWidth = 0;
-		int maxHeight = 0;
+		int measuredWidth = 0;
+		int measuredHeight = 0;
 		for (int index = 0; index < childCount; index++) {
 			View child = getChildAt(index);
-			maxWidth += child.getMeasuredWidth();
-			maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
+			measuredWidth += child.getMeasuredWidth();
+			measuredHeight = Math.max(measuredHeight, child.getMeasuredHeight());
 		}
-		mContentWidth = maxWidth;
-		maxWidth += getPaddingLeft() + getPaddingRight();
-		maxHeight += getPaddingBottom() + getPaddingTop();
+		mContentWidth = measuredWidth;
+		measuredWidth += getPaddingLeft() + getPaddingRight();
+		measuredHeight += getPaddingBottom() + getPaddingTop();
 
-		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec),
-				resolveSize(maxHeight, heightMeasureSpec));
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
+		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
+				resolveSize(measuredHeight, heightMeasureSpec));
 	}
 
 	public void animationToNextPage() {

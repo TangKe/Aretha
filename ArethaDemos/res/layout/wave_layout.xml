@@ -8,7 +8,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button_background"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:visibility="invisible" />
 
     <com.aretha.widget.WaveLayout
         android:id="@id/waveLayout"

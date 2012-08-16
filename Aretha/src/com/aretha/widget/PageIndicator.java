@@ -122,6 +122,9 @@ public class PageIndicator extends View {
 		measuredWidth += getPaddingLeft() + getPaddingRight();
 		measuredHeight += getPaddingTop() + getPaddingBottom();
 
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}
@@ -216,6 +219,7 @@ public class PageIndicator extends View {
 
 	/**
 	 * Get the color of page indicator dot
+	 * 
 	 * @return
 	 */
 	public int getDotColor() {

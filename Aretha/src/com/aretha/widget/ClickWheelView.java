@@ -144,7 +144,7 @@ public class ClickWheelView extends ViewGroup {
 		final float radius = mRadius;
 
 		measureChildren(widthMeasureSpec, heightMeasureSpec);
-		int measureWidth = 0, measureHeight = 0;
+		int measuredWidth = 0, measuredHeight = 0;
 		int maxChildWidth = 0, maxChildHeight = 0;
 		for (int index = 0; index < count; index++) {
 			View child = getChildAt(index);
@@ -153,14 +153,17 @@ public class ClickWheelView extends ViewGroup {
 					.max(maxChildHeight, child.getMeasuredHeight());
 		}
 
-		measureWidth += Math.ceil(maxChildWidth / 2) + Math.abs(radius) * 2;
-		measureHeight += Math.ceil(maxChildHeight / 2) + Math.abs(radius) * 2;
+		measuredWidth += Math.ceil(maxChildWidth / 2) + Math.abs(radius) * 2;
+		measuredHeight += Math.ceil(maxChildHeight / 2) + Math.abs(radius) * 2;
 
-		measureWidth += getPaddingLeft() + getPaddingRight();
-		measureHeight += getPaddingTop() + getPaddingBottom();
+		measuredWidth += getPaddingLeft() + getPaddingRight();
+		measuredHeight += getPaddingTop() + getPaddingBottom();
 
-		setMeasuredDimension(resolveSize(measureWidth, widthMeasureSpec),
-				resolveSize(measureHeight, heightMeasureSpec));
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
+		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
+				resolveSize(measuredHeight, heightMeasureSpec));
 	}
 
 	@Override
@@ -263,12 +266,12 @@ public class ClickWheelView extends ViewGroup {
 		return super.onTouchEvent(event);
 	}
 
-	@Override
-	protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-		canvas.drawLine(mCenterX, mCenterY, child.getLeft() + child.getWidth()
-				/ 2, child.getTop() + child.getHeight() / 2, mPaint);
-		return super.drawChild(canvas, child, drawingTime);
-	}
+//	@Override
+//	protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+//		canvas.drawLine(mCenterX, mCenterY, child.getLeft() + child.getWidth()
+//				/ 2, child.getTop() + child.getHeight() / 2, mPaint);
+//		return super.drawChild(canvas, child, drawingTime);
+//	}
 
 	@Override
 	public void computeScroll() {

@@ -123,6 +123,9 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		measuredWidth += getPaddingLeft() + getPaddingRight();
 		measuredHeight += getPaddingTop() + getPaddingBottom();
 
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}
@@ -153,9 +156,8 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		for (int i = 0; i < dotCount; i++) {
 			float dotX = scroller.getCurrX() - i * dotSpacing;
 			if (dotX < linearRegionStartX) {
-				dotX = accelerateInterpolator
-						.getInterpolation((dotX + startX)
-								/ (linearRegionStartX + startX))
+				dotX = accelerateInterpolator.getInterpolation((dotX + startX)
+						/ (linearRegionStartX + startX))
 						* (linearRegionStartX + startX) - startX;
 			} else if (dotX > linearRegionEndX) {
 				dotX = decelerateInterpolator

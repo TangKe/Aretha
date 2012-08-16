@@ -69,15 +69,15 @@ public class ShelfGallery extends Gallery {
 		t.setTransformationType(Transformation.TYPE_BOTH);
 
 		float degree = 0.0f;
-		float alpha = 1.0f;
+//		float alpha = 1.0f;
 		if (childLeft <= 0) {
 			degree = (-90 - rotateDegree) / childWidth * Math.abs(childLeft)
 					+ rotateDegree;
-			alpha = 1.0f - 1.0f / childWidth * Math.abs(childLeft);
+//			alpha = 1.0f - 1.0f / childWidth * Math.abs(childLeft);
 		} else {
 			degree = mRotateDegree;
 		}
-		t.setAlpha(alpha);
+//		t.setAlpha(alpha);
 		Matrix matrix = t.getMatrix();
 		camera.save();
 		camera.rotateY(degree);

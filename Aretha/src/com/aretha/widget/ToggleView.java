@@ -141,8 +141,8 @@ public class ToggleView extends ViewGroup {
 		final int childCount = getChildCount();
 		measureChildren(widthMeasureSpec, heightMeasureSpec);
 
-		int desiredWidth = 0;
-		int desiredHeight = 0;
+		int measuredWidth = 0;
+		int measuredHeight = 0;
 
 		int handleWidth = 0;
 		for (int i = 0; i < childCount; i++) {
@@ -150,17 +150,21 @@ public class ToggleView extends ViewGroup {
 			if (child.getId() == R.id.toggleHandle) {
 				handleWidth = child.getMeasuredWidth();
 			} else {
-				desiredWidth = Math.max(handleWidth + child.getMeasuredWidth(),
-						desiredWidth);
+				measuredWidth = Math.max(handleWidth + child.getMeasuredWidth(),
+						measuredWidth);
 			}
 
-			desiredHeight = Math.max(child.getMeasuredHeight(), desiredHeight);
+			measuredHeight = Math.max(child.getMeasuredHeight(), measuredHeight);
 		}
 
-		desiredWidth += getPaddingLeft() + getPaddingRight();
-		desiredHeight += getPaddingTop() + getPaddingBottom();
-		setMeasuredDimension(resolveSize(desiredWidth, widthMeasureSpec),
-				resolveSize(desiredHeight, heightMeasureSpec));
+		measuredWidth += getPaddingLeft() + getPaddingRight();
+		measuredHeight += getPaddingTop() + getPaddingBottom();
+
+		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
+		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
+		
+		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
+				resolveSize(measuredHeight, heightMeasureSpec));
 	}
 
 	@Override
