@@ -18,9 +18,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.LinkedList;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.http.HttpResponse;
 
@@ -54,8 +55,7 @@ public class AsyncImageLoader {
 
 	private FileCacheManager mFileCacheManager;
 
-	private ThreadPoolExecutor mExecutor;
-	private ArrayBlockingQueue<Runnable> mRunnableQueue;
+	private ExecutorService mExecutor;
 	private LinkedList<ImageLoadingTask> mTaskList;
 
 	private Handler mImageLoadedHandler;
@@ -69,9 +69,7 @@ public class AsyncImageLoader {
 
 	private AsyncImageLoader(Context context) {
 		mFileCacheManager = new FileCacheManager(context);
-		mRunnableQueue = new ArrayBlockingQueue<Runnable>(100);
-		mExecutor = new ThreadPoolExecutor(1, MAX_LOADING_THREAD, 0,
-				TimeUnit.MILLISECONDS, mRunnableQueue);
+		mExecutor = Executors.newCachedThreadPool();
 		mTaskList = new LinkedList<ImageLoadingTask>();
 		mImageLoadedHandler = new ImageLoadHandler(context.getMainLooper());
 	}
@@ -103,7 +101,7 @@ public class AsyncImageLoader {
 	 */
 	public void cancel(URI uri) {
 		ImageLoadingTask task = obtainImageLoadingTask(uri, null);
-		mRunnableQueue.remove(task);
+		mTaskList.remove(task);
 	}
 
 	/**

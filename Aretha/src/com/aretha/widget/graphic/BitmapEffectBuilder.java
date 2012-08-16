@@ -164,12 +164,10 @@ public class BitmapEffectBuilder {
 
 		final int width = bitmap.getWidth();
 		final int height = bitmap.getHeight();
-		Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
-				Config.ARGB_8888);
+		Bitmap canvasBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
 		final Canvas canvas = mCanvas;
 		canvas.setBitmap(canvasBitmap);
 
-		canvas.drawBitmap(bitmap, 0, 0, paint);
 		canvas.save();
 		paint.setShader(new LinearGradient(0, 0, 0, height * highlightPercent,
 				highlightStartColor, highlightEndColor, TileMode.CLAMP));
