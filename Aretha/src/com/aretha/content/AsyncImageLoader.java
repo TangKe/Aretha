@@ -71,6 +71,7 @@ public class AsyncImageLoader {
 		mFileCacheManager = new FileCacheManager(context);
 		mExecutor = Executors.newCachedThreadPool();
 		mTaskList = new LinkedList<ImageLoadingTask>();
+		// will notify the main thread
 		mImageLoadedHandler = new ImageLoadHandler(context.getMainLooper());
 	}
 

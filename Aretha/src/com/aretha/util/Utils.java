@@ -113,7 +113,7 @@ public class Utils {
 	 * @param object
 	 *            can print any type
 	 */
-	public static void debug(Object... object) {
+	public static void debug(Object object) {
 		Log.e(DEBUG_TAG, String.valueOf(object));
 	}
 }

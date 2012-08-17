@@ -9,6 +9,6 @@ public class TileButtonDemo extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tile_view);
+		setContentView(R.layout.tile_button);
 	}
 }
