@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="change_sectorview_position_dialog" type="id" />
+    <item name="change_sector_view_position_dialog" type="id" />
+    <item name="change_wave_layout_position_dialog" type="id" />
 </resources>

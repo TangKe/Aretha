@@ -31,7 +31,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.position:
-			showDialog(R.id.change_sectorview_position_dialog);
+			showDialog(R.id.change_sector_view_position_dialog);
 			break;
 		case R.id.toggle:
 			mSectorView.toggle(!mSectorView.isExpanded());
@@ -51,7 +51,7 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 	protected Dialog onCreateDialog(int id) {
 		Builder builder = new Builder(this);
 		switch (id) {
-		case R.id.change_sectorview_position_dialog:
+		case R.id.change_sector_view_position_dialog:
 			builder.setTitle(R.string.gravity);
 			builder.setSingleChoiceItems(R.array.position_item, 1, this);
 			break;

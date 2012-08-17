@@ -92,7 +92,7 @@ public class WaveLayout extends ViewGroup {
 		int paddingRight = getPaddingRight();
 		int paddingBottom = getPaddingBottom();
 		int paddingTop = getPaddingTop();
-		int paddingLeft = getPaddingBottom();
+		int paddingLeft = getPaddingLeft();
 		int offset = 0;
 		for (int index = 0; index < childCount; index++) {
 			View child = getChildAt(index);
@@ -104,11 +104,13 @@ public class WaveLayout extends ViewGroup {
 
 			if (isHorizontal) {
 				switch (gravity) {
+				case Gravity.LEFT:
 				case Gravity.TOP:
 					child.layout(offset + paddingLeft, position + paddingTop,
 							offset + childWidth + paddingLeft, childHeight
 									+ position + paddingTop);
 					break;
+				case Gravity.RIGHT:
 				case Gravity.BOTTOM:
 					child.layout(offset + paddingLeft, height - childHeight
 							- position - paddingBottom, offset + childWidth
@@ -118,11 +120,13 @@ public class WaveLayout extends ViewGroup {
 
 			} else {
 				switch (gravity) {
+				case Gravity.TOP:
 				case Gravity.LEFT:
 					child.layout(position + paddingLeft, offset + paddingTop,
 							position + childWidth + paddingLeft, offset
 									+ childHeight + paddingTop);
 					break;
+				case Gravity.BOTTOM:
 				case Gravity.RIGHT:
 					child.layout(width - position - childWidth - paddingRight,
 							offset + paddingTop, width - position
@@ -237,9 +241,13 @@ public class WaveLayout extends ViewGroup {
 				for (int index = 0; index < count; index++) {
 					View child = getChildAt(index);
 					child.getHitRect(pointCheckRect);
-					if (pointCheckRect.contains(pointCheckRect.centerX(),
-							(int) y)) {
+					if ((mOrientation == VERTICAL && pointCheckRect.contains(
+							pointCheckRect.centerX(), (int) y))
+							|| (mOrientation == HORIZONTAL && pointCheckRect
+									.contains((int) x, pointCheckRect.centerY()))) {
 						if (mLastPointIndex != index) {
+							child.setPressed(true);
+							getChildAt(mLastPointIndex).setPressed(false);
 							mOnWaveLayoutChangeListener.onIndexChange(child,
 									index);
 						}
@@ -256,6 +264,7 @@ public class WaveLayout extends ViewGroup {
 			if (null != mOnWaveLayoutChangeListener) {
 				mOnWaveLayoutChangeListener.onWaveEnd();
 			}
+			getChildAt(mLastPointIndex).setPressed(false);
 			requestDisallowInterceptTouchEvent(false);
 			mScroller.startScroll(mCurrentWaveAmplitude, 0,
 					0 - mCurrentWaveAmplitude, 0);
@@ -272,6 +281,8 @@ public class WaveLayout extends ViewGroup {
 
 	public void setGravity(int gravity) {
 		this.mGravity = gravity;
+		invalidate();
+		requestLayout();
 	}
 
 	public int getOrientation() {
@@ -280,6 +291,8 @@ public class WaveLayout extends ViewGroup {
 
 	public void setOrientation(int orientation) {
 		this.mOrientation = orientation;
+		invalidate();
+		requestLayout();
 	}
 
 	public int getMaxWaveAmplitude() {

@@ -112,6 +112,15 @@
     <string name="wave_layout_x">X</string>
     <string name="wave_layout_y">Y</string>
     <string name="wave_layout_z">Z</string>
+    <string name="wave_layout_position">Position</string>
+    <string name="wave_layout_position_dialog_title">Position</string>
+
+    <string-array name="wave_layout_positions">
+        <item>Left</item>
+        <item>Top</item>
+        <item>Right</item>
+        <item>Bottom</item>
+    </string-array>
 
     <!-- TileButton -->
     <string name="tile_button">TileButton</string>

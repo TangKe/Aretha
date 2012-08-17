@@ -2,6 +2,194 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <com.aretha.widget.WaveLayout
+                android:id="@id/waveLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:padding="5dp"
+                aretha:gravity="right"
+                aretha:maxAmplitude="50dp"
+                aretha:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_a"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_b"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_c"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_d"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_e"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_f"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_g"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_h"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_i"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_j"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_k"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_l"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_m"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_n"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_o"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_p"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_q"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_r"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_s"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_t"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_u"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_v"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_w"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_x"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_y"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wave_layout_z"
+                    android:textSize="10sp" />
+            </com.aretha.widget.WaveLayout>
+        </FrameLayout>
+
+        <com.aretha.widget.TileButton
+            android:id="@+id/position"
+            style="@style/aretha_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:onClick="onClick"
+            android:text="@string/wave_layout_position" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/hint"
         android:layout_width="wrap_content"
@@ -10,173 +198,5 @@
         android:background="@drawable/button_background"
         android:textSize="25sp"
         android:visibility="invisible" />
-
-    <com.aretha.widget.WaveLayout
-        android:id="@id/waveLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        aretha:gravity="right"
-        aretha:maxAmplitude="50dp"
-        aretha:orientation="vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_a"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_b"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_c"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_d"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_e"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_f"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_g"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_h"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_i"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_j"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_k"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_l"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_m"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_n"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_o"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_p"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_q"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_r"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_s"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_t"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_u"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_v"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_w"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_x"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_y"
-            android:textSize="10sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wave_layout_z"
-            android:textSize="10sp" />
-    </com.aretha.widget.WaveLayout>
 
 </merge>
