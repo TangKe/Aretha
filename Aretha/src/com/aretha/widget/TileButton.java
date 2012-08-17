@@ -14,10 +14,15 @@
  */
 package com.aretha.widget;
 
+import com.aretha.R;
+
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -32,13 +37,23 @@ public class TileButton extends Button {
 	private int[] mCurrentRotate;
 	private int mCurrentDepth;
 
-	private int mMaxDepth = 100;
+	private int mMaxDepth;
+	private int mMaxRotateDegree;
 
 	private Scroller mScroller;
 	private Scroller mDepthScroller;
 
 	public TileButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		TypedArray a = context.obtainStyledAttributes(attrs,
+				R.styleable.TileButton);
+
+		mMaxDepth = a.getInt(R.styleable.TileButton_maxDepth, 100);
+		mMaxRotateDegree = Math.abs(a.getInt(
+				R.styleable.TileButton_maxRotateDegree, 15));
+
+		a.recycle();
+
 		mCamera = new Camera();
 		mMatrix = new Matrix();
 		mScroller = new Scroller(context);
@@ -111,10 +126,11 @@ public class TileButton extends Button {
 
 	protected void computeRotate(int[] rotate, float x, float y, int centerX,
 			int centerY) {
-		rotate[0] = (int) Math.min(
-				Math.max(-(y - centerY) * 15 / centerY, -15), 15);
-		rotate[1] = (int) Math.min(Math.max((x - centerX) * 15 / centerX, -15),
-				15);
+		final int maxRotateDegree = mMaxRotateDegree;
+		rotate[0] = (int) Math.min(Math.max(-(y - centerY) * maxRotateDegree
+				/ centerY, -maxRotateDegree), maxRotateDegree);
+		rotate[1] = (int) Math.min(Math.max((x - centerX) * maxRotateDegree
+				/ centerX, -maxRotateDegree), maxRotateDegree);
 	}
 
 	@Override
@@ -142,5 +158,78 @@ public class TileButton extends Button {
 	public void draw(Canvas canvas) {
 		canvas.concat(mMatrix);
 		super.draw(canvas);
+	}
+
+	public int getMaxDepth() {
+		return mMaxDepth;
+	}
+
+	public void setMaxDepth(int maxDepth) {
+		this.mMaxDepth = maxDepth;
+	}
+
+	public int getMaxRotateDegree() {
+		return mMaxRotateDegree;
+	}
+
+	public void setMaxRotateDegree(int maxRotateDegree) {
+		this.mMaxRotateDegree = maxRotateDegree;
+	}
+
+	@Override
+	public Parcelable onSaveInstanceState() {
+		SavedState savedState = new SavedState(super.onSaveInstanceState());
+		savedState.maxDepth = mMaxDepth;
+		savedState.maxRotateDegree = mMaxRotateDegree;
+		return savedState;
+	}
+
+	@Override
+	public void onRestoreInstanceState(Parcelable state) {
+		SavedState savedState = (SavedState) state;
+		super.onRestoreInstanceState(savedState.getSuperState());
+
+		mMaxDepth = savedState.maxDepth;
+		mMaxRotateDegree = savedState.maxRotateDegree;
+	}
+
+	/**
+	 * Base class for save the state of this view.
+	 * 
+	 * @author Tank
+	 * 
+	 */
+	static class SavedState extends BaseSavedState {
+		public int maxDepth;
+		public int maxRotateDegree;
+
+		SavedState(Parcelable superState) {
+			super(superState);
+		}
+
+		private SavedState(Parcel in) {
+			super(in);
+			maxDepth = in.readInt();
+			maxRotateDegree = in.readInt();
+		}
+
+		@Override
+		public void writeToParcel(Parcel out, int flags) {
+			super.writeToParcel(out, flags);
+			out.writeInt(maxDepth);
+			out.writeInt(maxRotateDegree);
+		}
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+			@Override
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 	}
 }

@@ -84,7 +84,8 @@
         <attr name="gravity" />
     </declare-styleable>
     <declare-styleable name="TileButton">
-        <attr name="depth" format="dimension" />
+        <attr name="maxRotateDegree" format="integer" />
+        <attr name="maxDepth" format="integer" />
     </declare-styleable>
 
 </resources>
