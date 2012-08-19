@@ -62,6 +62,7 @@ public class Workspace extends ViewGroup {
 	private int mTouchSlop;
 
 	private boolean mTouchedInIngnoreChild;
+	private boolean mIsShowInitializeItem;
 
 	public Workspace(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -127,7 +128,10 @@ public class Workspace extends ViewGroup {
 					+ childMeasureHeight / 2);
 			layoutedChildWidth += childMeasureWidth;
 		}
-		scrollToPage(mCurrentChildIndex, false);
+		if (!mIsShowInitializeItem) {
+			scrollToPage(mCurrentChildIndex, false);
+			mIsShowInitializeItem = true;
+		}
 	}
 
 	@Override
@@ -156,11 +160,14 @@ public class Workspace extends ViewGroup {
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			if (!mScroller.isFinished()) {
+				mScroller.abortAnimation();
+			}
 			mTouchDownX = mLastMotionX = ev.getX();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if (Math.abs(mTouchDownX - ev.getX()) > mTouchSlop) {
-				return !mTouchedInIngnoreChild;
+				return true;
 			}
 			break;
 		}
@@ -172,18 +179,15 @@ public class Workspace extends ViewGroup {
 	public boolean onTouchEvent(MotionEvent event) {
 		final int x = (int) event.getX();
 		final int y = (int) event.getY();
+		final boolean superResult = super.onTouchEvent(event);
 
 		if (getChildCount() <= 0)
-			return super.onTouchEvent(event);
+			return superResult;
 
 		acquireVelocityTrackerAndAddMovement(event);
 
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			if (!mScroller.isFinished()) {
-				mScroller.abortAnimation();
-			}
-
 			/**
 			 * If user touch down in the View with id R.id.workspace_ignore,
 			 * this view will not response to the touch event.
@@ -209,10 +213,6 @@ public class Workspace extends ViewGroup {
 			return !mTouchedInIngnoreChild;
 		case MotionEvent.ACTION_MOVE:
 			float scroll = event.getX() - mLastMotionX;
-
-			if (Math.abs(mTouchDownX - x) < mTouchSlop) {
-				return super.onTouchEvent(event);
-			}
 
 			/**
 			 * Bounce scroll
@@ -252,7 +252,7 @@ public class Workspace extends ViewGroup {
 			requestDisallowInterceptTouchEvent(false);
 			break;
 		}
-		return true;
+		return superResult;
 	}
 
 	@Override
@@ -265,7 +265,8 @@ public class Workspace extends ViewGroup {
 		for (int index = 0; index < childCount; index++) {
 			View child = getChildAt(index);
 			measuredWidth += child.getMeasuredWidth();
-			measuredHeight = Math.max(measuredHeight, child.getMeasuredHeight());
+			measuredHeight = Math
+					.max(measuredHeight, child.getMeasuredHeight());
 		}
 		mContentWidth = measuredWidth;
 		measuredWidth += getPaddingLeft() + getPaddingRight();

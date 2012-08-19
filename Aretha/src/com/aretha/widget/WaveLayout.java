@@ -210,7 +210,7 @@ public class WaveLayout extends ViewGroup {
 			mPressedX = ev.getX();
 			mPressedY = ev.getY();
 		}
-		return true;
+		return super.onInterceptTouchEvent(ev);
 	}
 
 	@Override
