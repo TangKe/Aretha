@@ -99,7 +99,6 @@ public class FileCacheManager {
 		try {
 			return new FileInputStream(createFile(cacheIdentifier));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
