@@ -75,7 +75,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 				R.styleable.AccelerateLinearDecelerateProgressBar_dotSpacing,
 				20);
 		mDotCount = a.getInt(
-				R.styleable.AccelerateLinearDecelerateProgressBar_dotCount, 5);
+				R.styleable.AccelerateLinearDecelerateProgressBar_dotCount, 6);
 		mDuration = a.getInt(
 				R.styleable.AccelerateLinearDecelerateProgressBar_duration,
 				4000);
