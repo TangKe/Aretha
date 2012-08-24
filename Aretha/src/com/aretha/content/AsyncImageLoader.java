@@ -56,7 +56,7 @@ public class AsyncImageLoader {
 	private FileCacheManager mFileCacheManager;
 
 	private ExecutorService mExecutor;
-	private LinkedList<ImageLoadingTask> mTaskList;
+	private volatile LinkedList<ImageLoadingTask> mTaskList;
 
 	private Handler mImageLoadedHandler;
 
@@ -260,17 +260,17 @@ public class AsyncImageLoader {
 				return;
 			}
 
+			Log.d(LOG_TAG, "Image cache not found, get it in async method!");
 			// Began to load from network
 			HttpConnectionHelper connection = HttpConnectionHelper
 					.getInstance();
 			HttpResponse response = connection.execute(connection
 					.obtainHttpGetRequest(uri, null));
-			try {
-				if (null != response) {
-					Log.d(LOG_TAG,
-							"Image cache not found, get it in async method!");
-					saveBitmapStream(uri.toString(), response.getEntity()
-							.getContent());
+			if (null != response) {
+				InputStream inputStream = null;
+				try {
+					inputStream = response.getEntity().getContent();
+					saveBitmapStream(uri.toString(), inputStream);
 					bitmap = readCachedBitmap(uri.toString(), 1);
 					if (null == bitmap) {
 						Log.d(LOG_TAG, String.format(
@@ -283,9 +283,16 @@ public class AsyncImageLoader {
 					}
 					message.sendToTarget();
 					return;
+				} catch (IOException e) {
+					Log.d(LOG_TAG, e.getMessage());
+				} finally {
+					try {
+						if (null != inputStream) {
+							inputStream.close();
+						}
+					} catch (IOException e) {
+					}
 				}
-			} catch (IOException e) {
-				Log.d(LOG_TAG, e.getMessage());
 			}
 			message.what = STATUS_ERROR;
 			message.sendToTarget();
