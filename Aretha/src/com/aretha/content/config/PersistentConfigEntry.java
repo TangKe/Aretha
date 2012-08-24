@@ -21,9 +21,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ConfigEntry {
+public @interface PersistentConfigEntry {
 	/**
-	 * specified the key name, {@link Config} will set the key as the field name
+	 * specified the key name, {@link PersistentConfig} will set the key as the field name
 	 * by default
 	 * 
 	 * @return key name

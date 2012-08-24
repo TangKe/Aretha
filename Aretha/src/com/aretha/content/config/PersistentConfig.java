@@ -23,18 +23,19 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * A simple wrapper for the {@link SharedPreferences}, all the subclass's field
- * with {@link ConfigEntry} can be saved into the xml file, but remember only
+ * with {@link PersistentConfigEntry} can be saved into the xml file, but remember only
  * {@link String}, {@link Integer}, {@link Long}, {@link Boolean}, {@link Float}
  * can be accept. <br>
  * usage: <br>
  * <code>
- * class YourClass extends Config{
+ * class YourClass extends PersistentConfig{
  * 
  * 		public YourClass(Context context) {
  * 			super(context);
  * 		}
  * 
- * 		{@literal @}ConfigEntry private String yourConfigField;
+ * 		{@literal @}PersistentConfigEntry
+ * 		private String yourConfigField;
  * 
  * } 
  * </code> <br>
@@ -43,12 +44,12 @@ import android.content.SharedPreferences.Editor;
  * @author tangke
  * 
  */
-public abstract class Config {
+public abstract class PersistentConfig {
 	private static String TAG;
 
 	private Context mContext;
 
-	public Config(Context context) {
+	public PersistentConfig(Context context) {
 		mContext = context;
 		TAG = getClass().getSimpleName();
 		read();
@@ -63,7 +64,7 @@ public abstract class Config {
 
 		for (Field field : fields) {
 			field.setAccessible(true);
-			ConfigEntry annotation = field.getAnnotation(ConfigEntry.class);
+			PersistentConfigEntry annotation = field.getAnnotation(PersistentConfigEntry.class);
 			String key = field.getName();
 			if (null == annotation) {
 				String tempKey = annotation.key();
@@ -85,7 +86,7 @@ public abstract class Config {
 				TAG, Context.MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
 		for (Field field : fields) {
-			ConfigEntry annotation = field.getAnnotation(ConfigEntry.class);
+			PersistentConfigEntry annotation = field.getAnnotation(PersistentConfigEntry.class);
 			if (null == annotation) {
 				continue;
 			}
