@@ -20,8 +20,6 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.http.HttpResponse;
 
@@ -44,7 +42,6 @@ import android.util.Log;
  */
 public class AsyncImageLoader {
 	private final static int MAX_ACCEPTABLE_SAMPLE_SIZE = 5;
-	private final static int MAX_LOADING_THREAD = 2;
 
 	private final static int STATUS_SUCCESS = 0x00010000;
 	private final static int STATUS_ERROR = 0x00020000;
