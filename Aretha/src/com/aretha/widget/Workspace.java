@@ -14,8 +14,6 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
@@ -30,6 +28,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 public class Workspace extends ViewGroup {
 	protected final static int TOUCH_STATE_IDLE = 0;
@@ -177,6 +177,14 @@ public class Workspace extends ViewGroup {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN
+				&& event.getEdgeFlags() != 0) {
+			// Don't handle edge touches immediately -- they may actually belong
+			// to one of our
+			// descendants.
+			return false;
+		}
+
 		final int x = (int) event.getX();
 		final int y = (int) event.getY();
 		final boolean superResult = super.onTouchEvent(event);
@@ -212,8 +220,16 @@ public class Workspace extends ViewGroup {
 			}
 			return !mTouchedInIngnoreChild;
 		case MotionEvent.ACTION_MOVE:
-			float scroll = event.getX() - mLastMotionX;
+			if (Math.abs(mTouchDownX - x) > mTouchSlop) {
+				mTouchState = TOUCH_STATE_SCROLLING;
+				requestDisallowInterceptTouchEvent(true);
+			}
 
+			if (mTouchState != TOUCH_STATE_SCROLLING) {
+				return superResult;
+			}
+
+			float scroll = event.getX() - mLastMotionX;
 			/**
 			 * Bounce scroll
 			 */
@@ -226,13 +242,9 @@ public class Workspace extends ViewGroup {
 				}
 			}
 
-			requestDisallowInterceptTouchEvent(true);
 			scrollBy((int) -scroll, 0);
 			mLastMotionX = event.getX();
 
-			if (mTouchState != TOUCH_STATE_SCROLLING) {
-				mTouchState = TOUCH_STATE_SCROLLING;
-			}
 			break;
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
