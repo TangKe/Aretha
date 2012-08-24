@@ -30,6 +30,7 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.aretha.R;
+import com.aretha.util.Utils;
 
 public class Workspace extends ViewGroup {
 	protected final static int TOUCH_STATE_IDLE = 0;
@@ -229,20 +230,23 @@ public class Workspace extends ViewGroup {
 				return superResult;
 			}
 
-			float scroll = event.getX() - mLastMotionX;
-			/**
-			 * Bounce scroll
-			 */
+			float xDiff = event.getX() - mLastMotionX;
 			final int scrollX = getScrollX();
-			if (scrollX <= 0 || scrollX >= mContentWidth - mWidth) {
+			// fake value, we will fix it later
+			float scroll = scrollX - xDiff;
+			/**
+			 * Fix scroll value
+			 */
+			if (scroll <= 0 || scroll >= mContentWidth - mWidth) {
 				if (!mIsBounceEnable) {
-					scroll = 0;
+					scroll = scroll <= 0 ? 0 : ((scroll >= mContentWidth
+							- mWidth) ? mContentWidth - mWidth : scroll);
 				} else {
-					scroll /= 2;
+					scroll = scrollX - xDiff / 2;
 				}
 			}
 
-			scrollBy((int) -scroll, 0);
+			scrollTo((int) scroll, 0);
 			mLastMotionX = event.getX();
 
 			break;
