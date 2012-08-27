@@ -23,9 +23,9 @@ import android.content.SharedPreferences.Editor;
 
 /**
  * A simple wrapper for the {@link SharedPreferences}, all the subclass's field
- * with {@link PersistentConfigEntry} can be saved into the xml file, but remember only
- * {@link String}, {@link Integer}, {@link Long}, {@link Boolean}, {@link Float}
- * can be accept. <br>
+ * with {@link PersistentConfigEntry} can be saved into the xml file, but
+ * remember only {@link String}, {@link Integer}, {@link Long}, {@link Boolean},
+ * {@link Float} can be accept. <br>
  * usage: <br>
  * <code>
  * class YourClass extends PersistentConfig{
@@ -64,14 +64,40 @@ public abstract class PersistentConfig {
 
 		for (Field field : fields) {
 			field.setAccessible(true);
-			PersistentConfigEntry annotation = field.getAnnotation(PersistentConfigEntry.class);
+			PersistentConfigEntry annotation = field
+					.getAnnotation(PersistentConfigEntry.class);
 			String key = field.getName();
+
+			// ignore the field without PersistentConfigEntry
 			if (null == annotation) {
-				String tempKey = annotation.key();
-				key = tempKey.length() == 0 ? key : tempKey;
+				continue;
 			}
+
+			// use the PersistentConfigEntry key first
+			String tempKey = annotation.key();
+			key = tempKey.length() == 0 ? key : tempKey;
+
+			String defaultValue = annotation.defaultValue();
+			Object value = preferences.get(key);
+
+			// not saved in preference and has default value in PersistentConfigEntry
+			if (null == value && defaultValue.length() != 0) {
+				Class<?> type = field.getType();
+				if (type == String.class) {
+					value = defaultValue;
+				} else if (type == Integer.class || type == int.class) {
+					value = Integer.parseInt(defaultValue);
+				} else if (type == Float.class || type == float.class) {
+					value = Float.parseFloat(defaultValue);
+				} else if (type == Boolean.class || type == boolean.class) {
+					value = Boolean.parseBoolean(defaultValue);
+				} else if (type == Long.class || type == long.class) {
+					value = Long.parseLong(defaultValue);
+				}
+			}
+
 			try {
-				field.set(this, preferences.get(key));
+				field.set(this, value);
 			} catch (IllegalArgumentException e) {
 			} catch (IllegalAccessException e) {
 			}
@@ -86,7 +112,8 @@ public abstract class PersistentConfig {
 				TAG, Context.MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
 		for (Field field : fields) {
-			PersistentConfigEntry annotation = field.getAnnotation(PersistentConfigEntry.class);
+			PersistentConfigEntry annotation = field
+					.getAnnotation(PersistentConfigEntry.class);
 			if (null == annotation) {
 				continue;
 			}

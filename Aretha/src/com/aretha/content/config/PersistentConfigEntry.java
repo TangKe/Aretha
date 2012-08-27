@@ -29,4 +29,5 @@ public @interface PersistentConfigEntry {
 	 * @return key name
 	 */
 	String key() default "";
+	String defaultValue() default "";
 }
