@@ -88,6 +88,9 @@ public class AsyncImageLoader {
 	 * @param listener
 	 */
 	public void loadImage(String url, OnImageLoadListener listener) {
+		if (null == url) {
+			return;
+		}
 		loadImage(URI.create(url), listener);
 	}
 
@@ -122,6 +125,9 @@ public class AsyncImageLoader {
 	 */
 	private ImageLoadingTask obtainImageLoadingTask(URI uri,
 			OnImageLoadListener listener) {
+		if (null == uri || null == listener) {
+			return null;
+		}
 		ImageLoadingTask task = new ImageLoadingTask();
 		task.listener = listener;
 		task.uri = uri;
@@ -133,10 +139,6 @@ public class AsyncImageLoader {
 	 */
 	private void doLoadImage(ImageLoadingTask imageLoadingTask) {
 		if (null == imageLoadingTask) {
-			return;
-		}
-
-		if (null == imageLoadingTask.uri || null == imageLoadingTask.listener) {
 			return;
 		}
 
@@ -207,11 +209,17 @@ public class AsyncImageLoader {
 		 * Invoked when the image has been loaded
 		 * 
 		 * @param bitmap
-		 * @param loadedImageUrl
+		 * @param imageUrl
 		 * @param fromCache
 		 */
-		public void onLoaded(Bitmap bitmap, String loadedImageUrl,
+		public void onLoadSuccess(Bitmap bitmap, String imageUrl,
 				boolean fromCache);
+
+		/**
+		 * 
+		 * @param imageUrl
+		 */
+		public void onLoadError(String imageUrl);
 
 		/**
 		 * You can decide whether to intercept the image load request in this
@@ -221,7 +229,7 @@ public class AsyncImageLoader {
 		 * @param imageUrl
 		 * @return true to cancel this request, otherwise.
 		 */
-		public boolean preImageLoad(String imageUrl);
+		public boolean preLoad(String imageUrl);
 	}
 
 	private class ImageLoadingTask implements Runnable {
@@ -243,7 +251,7 @@ public class AsyncImageLoader {
 		public void run() {
 			Message message = mImageLoadedHandler.obtainMessage(STATUS_SUCCESS,
 					this);
-			if (listener != null && listener.preImageLoad(uri.toString())) {
+			if (listener != null && listener.preLoad(uri.toString())) {
 				message.what = STATUS_CANCEL;
 				message.sendToTarget();
 				return;
@@ -310,12 +318,12 @@ public class AsyncImageLoader {
 				// if this ImageLoadingTask has been canceled before it done. we
 				// can not invoke the callback.
 				if (isRemove) {
-					task.listener.onLoaded(task.bitmap, task.uri.toString(),
-							task.isLoadFromCache);
+					task.listener.onLoadSuccess(task.bitmap,
+							task.uri.toString(), task.isLoadFromCache);
 				}
 				break;
 			case STATUS_ERROR:
-
+				task.listener.onLoadError(task.uri.toString());
 				break;
 			case STATUS_CANCEL:
 				break;
