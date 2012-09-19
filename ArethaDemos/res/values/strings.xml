@@ -75,14 +75,10 @@
     <!-- BitmapEffectBuilder -->
     <string name="bitmap_effect_builder">BitmapEffectBuilder</string>
     <string name="bitmap_effect_builder_original">Original</string>
-    <string name="bitmap_effect_builder_highlight_without_original">Highlight without Original</string>
-    <string name="bitmap_effect_builder_highlight_with_original">Highlight with Original</string>
-    <string name="bitmap_effect_builder_shadow_without_original">Shadow without Original</string>
-    <string name="bitmap_effect_builder_shadow_with_original">Shadow with Original</string>
-    <string name="bitmap_effect_builder_glow_without_original">Glow without Original</string>
-    <string name="bitmap_effect_builder_glow_with_original">Glow with Original</string>
-    <string name="bitmap_effect_builder_reflection_without_original">Reflection without Original</string>
-    <string name="bitmap_effect_builder_reflection_with_original">Reflection with Original</string>
+    <string name="bitmap_effect_builder_highlight">Highlight</string>
+    <string name="bitmap_effect_builder_shadow">Shadow</string>
+    <string name="bitmap_effect_builder_glow">Glow</string>
+    <string name="bitmap_effect_builder_reflection">Reflection</string>
 
     <!-- WaveLayout -->
     <string name="wave_layout">WaveLayout</string>
@@ -125,5 +121,6 @@
     <!-- TileButton -->
     <string name="tile_button">TileButton</string>
     <string name="tile_button_description">Just like the Windows Phone 7, Button has a 3D effects when user touch on it!</string>
+    <string name="tile_button_click">You click the button!</string>
 
 </resources>

@@ -48,26 +48,16 @@ public class BitmapEffectBuilderDemo extends Activity implements
 		generateAndAddImage(bitmapEffectBuilder.buildHighlight(bitmap,
 						Color.argb(50, 255, 255, 255),
 						Color.argb(150, 255, 255, 255), 0.5f, false),
-				R.string.bitmap_effect_builder_highlight_with_original, context);
-		generateAndAddImage(bitmapEffectBuilder.buildDropShadow(bitmap, 3,
-				color, 0, 5, false),
-				R.string.bitmap_effect_builder_shadow_without_original, context);
+				R.string.bitmap_effect_builder_highlight, context);
 		generateAndAddImage(bitmapEffectBuilder.buildDropShadow(bitmap, 3,
 				color, 0, 5, true),
-				R.string.bitmap_effect_builder_shadow_with_original, context);
-		generateAndAddImage(
-				bitmapEffectBuilder.buildOuterGlow(bitmap, 3, color, false),
-				R.string.bitmap_effect_builder_glow_without_original, context);
+				R.string.bitmap_effect_builder_shadow, context);
 		generateAndAddImage(
 				bitmapEffectBuilder.buildOuterGlow(bitmap, 10, color, true),
-				R.string.bitmap_effect_builder_glow_with_original, context);
-		generateAndAddImage(
-				bitmapEffectBuilder.buildReflection(bitmap, 0.5f, false),
-				R.string.bitmap_effect_builder_reflection_without_original,
-				context);
+				R.string.bitmap_effect_builder_glow, context);
 		generateAndAddImage(
 				bitmapEffectBuilder.buildReflection(bitmap, 0.5f, true),
-				R.string.bitmap_effect_builder_reflection_with_original,
+				R.string.bitmap_effect_builder_reflection,
 				context);
 	}
 
