@@ -23,8 +23,6 @@ import java.util.concurrent.Executors;
 
 import org.apache.http.HttpResponse;
 
-import com.aretha.net.HttpConnectionHelper;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,8 +32,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.aretha.net.HttpConnectionHelper;
+
 /**
- * Load remote image to local cache async, then notify the UI thread, then read
+ * Load remote image to local cache, then notify the UI thread, then read
  * from cache and decode bitmap avoid {@link OutOfMemoryError}
  * 
  * @author Tank

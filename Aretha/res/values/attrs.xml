@@ -87,5 +87,7 @@
         <attr name="maxRotateDegree" format="integer" />
         <attr name="maxDepth" format="integer" />
     </declare-styleable>
-
+	<declare-styleable name="FontTextView">
+	    <attr name="fontPath" format="string" />
+	</declare-styleable>
 </resources>
