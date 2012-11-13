@@ -42,12 +42,17 @@ public class WebImageView extends ImageView implements OnImageLoadListener {
 	}
 
 	@Override
-	public boolean preLoad(String imageUrl) {
+	public void onLoadError(String imageUrl) {
+
+	}
+
+	@Override
+	public boolean onPreLoad(String imageUrl) {
 		return false;
 	}
 
 	@Override
-	public void onLoadError(String imageUrl) {
-
+	public void onLoading(String imageUrl, long loadedLength, long totalLength) {
+		
 	}
 }

@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
 import android.content.Context;
@@ -30,13 +31,15 @@ import android.graphics.BitmapFactory.Options;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.ContactsContract.RawContacts.Entity;
 import android.util.Log;
 
+import com.aretha.content.FileCacheManager.OnWriteListener;
 import com.aretha.net.HttpConnectionHelper;
 
 /**
- * Load remote image to local cache, then notify the UI thread, then read
- * from cache and decode bitmap avoid {@link OutOfMemoryError}
+ * Load remote image to local cache, then notify the UI thread, then read from
+ * cache and decode bitmap avoid {@link OutOfMemoryError}
  * 
  * @author Tank
  */
@@ -156,7 +159,21 @@ public class AsyncImageLoader {
 	 */
 	public boolean saveBitmapStream(String imageIdentifier,
 			InputStream inputStream) {
-		return mFileCacheManager.writeCacheFile(imageIdentifier, inputStream);
+		return saveBitmapStream(imageIdentifier, inputStream, null);
+	}
+
+	/**
+	 * Save the image {@link InputStream}
+	 * 
+	 * @param imageIdentifier
+	 * @param inputStream
+	 * @param onWriteListener
+	 * @return
+	 */
+	public boolean saveBitmapStream(String imageIdentifier,
+			InputStream inputStream, OnWriteListener onWriteListener) {
+		return mFileCacheManager.writeCacheFile(imageIdentifier, inputStream,
+				onWriteListener);
 	}
 
 	/**
@@ -229,14 +246,26 @@ public class AsyncImageLoader {
 		 * @param imageUrl
 		 * @return true to cancel this request, otherwise.
 		 */
-		public boolean preLoad(String imageUrl);
+		public boolean onPreLoad(String imageUrl);
+
+		/**
+		 * Publish the progress of one image loading task. invoke from
+		 * <b>NOT</b> main thread
+		 * 
+		 * @param imageUrl
+		 * @param loadedLength
+		 * @param totalLength
+		 */
+		public void onLoading(String imageUrl, long loadedLength,
+				long totalLength);
 	}
 
-	private class ImageLoadingTask implements Runnable {
+	private class ImageLoadingTask implements Runnable, OnWriteListener {
 		public URI uri;
 		public OnImageLoadListener listener;
 		public Bitmap bitmap;
 		public boolean isLoadFromCache;
+		public long totleBytes;
 
 		@Override
 		public boolean equals(Object o) {
@@ -251,7 +280,7 @@ public class AsyncImageLoader {
 		public void run() {
 			Message message = mImageLoadedHandler.obtainMessage(STATUS_SUCCESS,
 					this);
-			if (listener != null && listener.preLoad(uri.toString())) {
+			if (listener != null && listener.onPreLoad(uri.toString())) {
 				message.what = STATUS_CANCEL;
 				message.sendToTarget();
 				return;
@@ -274,8 +303,10 @@ public class AsyncImageLoader {
 			if (null != response) {
 				InputStream inputStream = null;
 				try {
-					inputStream = response.getEntity().getContent();
-					saveBitmapStream(uri.toString(), inputStream);
+					HttpEntity entity = response.getEntity();
+					inputStream = entity.getContent();
+					totleBytes = entity.getContentLength();
+					saveBitmapStream(uri.toString(), inputStream, this);
 					bitmap = readCachedBitmap(uri.toString(), 1);
 					if (null == bitmap) {
 						Log.d(LOG_TAG, String.format(
@@ -301,6 +332,11 @@ public class AsyncImageLoader {
 			}
 			message.what = STATUS_ERROR;
 			message.sendToTarget();
+		}
+
+		@Override
+		public void onWriting(int saveBytes) {
+			listener.onLoading(uri.toString(), saveBytes, totleBytes);
 		}
 	}
 

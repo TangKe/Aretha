@@ -67,6 +67,20 @@ public class FileCacheManager {
 	 */
 	public boolean writeCacheFile(String cacheIdentifier,
 			InputStream inputStream) {
+		return writeCacheFile(cacheIdentifier, inputStream, null);
+	}
+
+	/**
+	 * Save a file to the cache folder
+	 * 
+	 * @param cacheIdentifier
+	 * @param inputStream
+	 * @param onWriteListener
+	 *            listener to listen the progress of write
+	 * @return
+	 */
+	public boolean writeCacheFile(String cacheIdentifier,
+			InputStream inputStream, OnWriteListener onWriteListener) {
 		File cacheFile = createFile(cacheIdentifier);
 		try {
 			if (!cacheFile.exists()) {
@@ -77,9 +91,15 @@ public class FileCacheManager {
 					new FileOutputStream(cacheFile));
 
 			int read;
+			int totalCount = 0;
 			byte[] buffer = new byte[512];
 			while ((read = inputStream.read(buffer)) != -1) {
 				fileOutputStream.write(buffer, 0, read);
+				totalCount += read;
+
+				if (null != onWriteListener) {
+					onWriteListener.onWriting(totalCount);
+				}
 			}
 			fileOutputStream.flush();
 			return true;
@@ -155,12 +175,13 @@ public class FileCacheManager {
 	}
 
 	/**
-	 * Create a {@link File} as the rule
+	 * Create a {@link File} as the rule, you can override it to change the
+	 * default rule
 	 * 
 	 * @param cacheIdentifier
 	 * @return
 	 */
-	private File createFile(String cacheIdentifier) {
+	protected File createFile(String cacheIdentifier) {
 		if (null == cacheIdentifier) {
 			throw new IllegalArgumentException(
 					"cacheIdentifier can not be null");
@@ -168,5 +189,9 @@ public class FileCacheManager {
 
 		String cacheFileName = Utils.getUUID(cacheIdentifier).toString();
 		return new File(mCacheFilePath, cacheFileName);
+	}
+
+	public interface OnWriteListener {
+		public void onWriting(int saveBytes);
 	}
 }
