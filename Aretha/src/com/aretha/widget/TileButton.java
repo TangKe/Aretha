@@ -46,7 +46,7 @@ public class TileButton extends Button {
 	public TileButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.TileButton);
+				R.styleable.TileButton, defStyle, 0);
 
 		mMaxDepth = a.getInt(R.styleable.TileButton_maxDepth, 100);
 		mMaxRotateDegree = Math.abs(a.getInt(

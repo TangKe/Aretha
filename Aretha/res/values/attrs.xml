@@ -13,9 +13,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
--->
+ */-->
 <resources>
+    
+    <attr name="accelerateLinearDecelerateProgressBarStyle" format="reference" />
+    <attr name="clickWheelViewStyle" format="reference" />
+    <attr name="fontTextViewStyle" format="reference" />
+    <attr name="pageIndicatorStyle" format="reference" />
+    <attr name="sectorViewStyle" format="reference" />
+    <attr name="shelfGalleryStyle" format="reference" />
+    <attr name="slideTileViewStyle" format="reference" />
+    <attr name="tileButtonStyle" format="reference" />
+    <attr name="toggleViewStyle" format="reference" />
+    <attr name="waveLayoutStyle" format="reference" />
+    <attr name="webImageViewStyle" format="reference" />
+    <attr name="workspaceStyle" format="reference" />
 
     <attr name="duration" format="integer" />
     <attr name="dotRadius" format="dimension" />
@@ -89,5 +101,7 @@
     </declare-styleable>
 	<declare-styleable name="FontTextView">
 	    <attr name="fontPath" format="string" />
+	</declare-styleable>
+	<declare-styleable name="SlideTileView">
 	</declare-styleable>
 </resources>

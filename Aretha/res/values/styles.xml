@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Widget.SectorView" parent="android:Widget">
+        <item name="radius">200dp</item>
+        <item name="animationOffset">30</item>
+        <item name="duration">600</item>
+        <item name="interpolator">@anim/overshoot_interpolator</item>
+        <item name="gravity">left|bottom</item>
+    </style>
+</resources>

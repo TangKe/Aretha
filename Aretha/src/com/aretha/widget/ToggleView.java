@@ -66,7 +66,7 @@ public class ToggleView extends ViewGroup {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.ToggleView);
+				R.styleable.ToggleView, defStyle, 0);
 
 		mToggleState = a.getInt(R.styleable.ToggleView_toggle, 1) != 0 ? true
 				: false;
@@ -77,7 +77,7 @@ public class ToggleView extends ViewGroup {
 	}
 
 	public ToggleView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.toggleViewStyle);
 	}
 
 	public ToggleView(Context context) {

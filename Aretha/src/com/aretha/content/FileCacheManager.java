@@ -181,7 +181,7 @@ public class FileCacheManager {
 	 * @param cacheIdentifier
 	 * @return
 	 */
-	protected File createFile(String cacheIdentifier) {
+	public File createFile(String cacheIdentifier) {
 		if (null == cacheIdentifier) {
 			throw new IllegalArgumentException(
 					"cacheIdentifier can not be null");

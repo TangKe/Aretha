@@ -156,9 +156,8 @@ public class CacheManager {
 		
 		if (mReleaseThread == null || !mReleaseThread.isAlive()) {
 			mReleaseThread = new Thread(mReleaseRunnable);
+			mReleaseThread.start();
 		}
-		
-		mReleaseThread.start();
 	}
 
 	public void disableBrokenReferenceAutoRelease() {

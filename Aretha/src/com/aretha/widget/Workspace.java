@@ -69,7 +69,7 @@ public class Workspace extends ViewGroup {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.Workspace);
+				R.styleable.Workspace, defStyle, 0);
 		mDuration = a.getInteger(R.styleable.Workspace_duration, 300);
 		mCurrentChildIndex = a.getInteger(R.styleable.Workspace_showPage, 0);
 		mSnapVelocity = a.getInteger(R.styleable.Workspace_snapVelocity, 500);
@@ -91,7 +91,7 @@ public class Workspace extends ViewGroup {
 	}
 
 	public Workspace(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.workspaceStyle);
 	}
 
 	public Workspace(Context context) {

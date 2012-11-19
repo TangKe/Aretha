@@ -16,7 +16,7 @@ public class FontTextView extends TextView {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.FontTextView);
+				R.styleable.FontTextView, defStyle, 0);
 		String fontPath = a.getString(R.styleable.FontTextView_fontPath);
 		if (null != fontPath && 0 != fontPath.length()) {
 			setAssetFont(fontPath);

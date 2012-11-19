@@ -61,7 +61,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.SectorView);
+				R.styleable.SectorView, defStyle, 0);
 
 		mRadius = a.getDimension(R.styleable.SectorView_radius, 300);
 		mGravity = a.getInt(R.styleable.SectorView_gravity, Gravity.LEFT
@@ -84,7 +84,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 	}
 
 	public SectorView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.sectorViewStyle);
 	}
 
 	public SectorView(Context context) {

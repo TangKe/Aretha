@@ -52,7 +52,7 @@ public class PageIndicator extends View {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.PageIndicator);
+				R.styleable.PageIndicator, defStyle, 0);
 
 		mActiveDotIndex = a.getInt(R.styleable.PageIndicator_activePage, 0);
 		mDotNumber = a.getInt(R.styleable.PageIndicator_pageCount, 0);
@@ -65,7 +65,7 @@ public class PageIndicator extends View {
 	}
 
 	public PageIndicator(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.pageIndicatorStyle);
 	}
 
 	public PageIndicator(Context context) {

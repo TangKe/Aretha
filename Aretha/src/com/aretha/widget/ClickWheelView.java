@@ -73,7 +73,7 @@ public class ClickWheelView extends ViewGroup {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.ClickWheelView);
+				R.styleable.ClickWheelView, defStyle, 0);
 
 		mCenterX = a.getInt(R.styleable.ClickWheelView_centerX, -1);
 		mCenterY = a.getInt(R.styleable.ClickWheelView_centerY, -1);
@@ -86,7 +86,7 @@ public class ClickWheelView extends ViewGroup {
 	}
 
 	public ClickWheelView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.clickWheelViewStyle);
 	}
 
 	public ClickWheelView(Context context) {

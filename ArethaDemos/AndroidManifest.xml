@@ -12,7 +12,7 @@
         android:label="@string/app_name" >
         <activity
             android:name=".ArethaDemos"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:theme="@style/Theme.Aretha">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name=".widget.SectorViewDemo"
-            android:label="@string/sector_view" >
+            android:label="@string/sector_view" android:theme="@style/Theme.Aretha">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

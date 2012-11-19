@@ -67,7 +67,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		super(context, attrs, defStyle);
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.AccelerateLinearDecelerateProgressBar);
+				R.styleable.AccelerateLinearDecelerateProgressBar, defStyle, 0);
 
 		mDotRadius = a.getDimension(
 				R.styleable.AccelerateLinearDecelerateProgressBar_dotRadius, 2);
@@ -90,7 +90,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 
 	public AccelerateLinearDecelerateProgressBar(Context context,
 			AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.accelerateLinearDecelerateProgressBarStyle);
 	}
 
 	public AccelerateLinearDecelerateProgressBar(Context context) {

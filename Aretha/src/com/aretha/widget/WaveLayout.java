@@ -54,7 +54,7 @@ public class WaveLayout extends ViewGroup {
 	public WaveLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.WaveLayout);
+				R.styleable.WaveLayout,defStyle, 0);
 		mMaxWaveAmplitude = (int) a.getDimension(
 				R.styleable.WaveLayout_maxAmplitude, TypedValue.applyDimension(
 						TypedValue.COMPLEX_UNIT_DIP, 80, context.getResources()
@@ -66,7 +66,7 @@ public class WaveLayout extends ViewGroup {
 	}
 
 	public WaveLayout(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		this(context, attrs, R.attr.waveLayoutStyle);
 	}
 
 	public WaveLayout(Context context) {
