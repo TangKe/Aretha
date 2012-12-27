@@ -122,5 +122,9 @@
     <string name="tile_button">TileButton</string>
     <string name="tile_button_description">Just like the Windows Phone 7, Button has a 3D effects when user touch on it!</string>
     <string name="tile_button_click">You click the button!</string>
+    
+    <!-- FontTextView -->
+    <string name="font_text_view">FontTextView</string>
+    <string name="custom_font">This is some custom font of HelveticaNeueCondensedBold</string>
 
 </resources>

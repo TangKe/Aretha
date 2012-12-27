@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.aretha.widget.AccelerateLinearDecelerateProgressBar
         android:id="@id/accelerateLinearDecelerateProgressBar"
@@ -20,7 +19,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/dot_plus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -28,7 +26,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/dot_minus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -36,7 +33,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/space_plus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -44,7 +40,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/space_minus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -52,7 +47,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/radius_plus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -60,7 +54,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/radius_minus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -68,7 +61,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/duration_plus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -76,7 +68,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/duration_minus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -84,7 +75,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/yellow"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"

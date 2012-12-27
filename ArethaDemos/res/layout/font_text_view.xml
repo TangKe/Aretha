@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aretha="http://schemas.android.com/apk/res/com.arethademo" >
+
+    <com.aretha.widget.FontTextView
+        android:id="@id/clickWheelView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/custom_font"
+        android:textSize="20sp"
+        aretha:fontPath="HelveticaNeueCondensedBold.ttf" />
+
+</merge>

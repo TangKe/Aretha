@@ -14,8 +14,6 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -32,6 +30,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 /**
  * A simple widget to show the progress just like Windows Phone 7
@@ -65,7 +65,6 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 	public AccelerateLinearDecelerateProgressBar(Context context,
 			AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.AccelerateLinearDecelerateProgressBar, defStyle, 0);
 

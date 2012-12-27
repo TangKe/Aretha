@@ -266,12 +266,13 @@ public class ClickWheelView extends ViewGroup {
 		return super.onTouchEvent(event);
 	}
 
-//	@Override
-//	protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-//		canvas.drawLine(mCenterX, mCenterY, child.getLeft() + child.getWidth()
-//				/ 2, child.getTop() + child.getHeight() / 2, mPaint);
-//		return super.drawChild(canvas, child, drawingTime);
-//	}
+	// @Override
+	// protected boolean drawChild(Canvas canvas, View child, long drawingTime)
+	// {
+	// canvas.drawLine(mCenterX, mCenterY, child.getLeft() + child.getWidth()
+	// / 2, child.getTop() + child.getHeight() / 2, mPaint);
+	// return super.drawChild(canvas, child, drawingTime);
+	// }
 
 	@Override
 	public void computeScroll() {
@@ -307,7 +308,8 @@ public class ClickWheelView extends ViewGroup {
 		super.onSizeChanged(w, h, oldw, oldh);
 		mCenterX = mCenterX == -1 ? w / 2 : mCenterX;
 		mCenterY = mCenterY == -1 ? h : mCenterY;
-		mDegreePerChild = 360 / getChildCount();
+		final int childCount = getChildCount();
+		mDegreePerChild = childCount == 0 ? childCount : 360 / getChildCount();
 	}
 
 	public int getCenterX() {

@@ -15,9 +15,9 @@
 package com.aretha.content;
 
 import java.lang.ref.SoftReference;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.util.Log;

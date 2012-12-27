@@ -36,10 +36,20 @@ public class FileCacheManager {
 	private File mCacheFilePath;
 
 	public FileCacheManager(Context context) {
+		this(context, null);
+	}
+
+	public FileCacheManager(Context context, File cacheDirectory) {
 		if (null == context) {
 			throw new IllegalArgumentException("context can not be null");
 		}
-		mCacheFilePath = context.getFilesDir();
+		
+		if(null != cacheDirectory && cacheDirectory.canWrite()){
+			mCacheFilePath = cacheDirectory;
+		}else{
+			mCacheFilePath = context.getFilesDir();
+		}
+		
 	}
 
 	/**

@@ -9,10 +9,12 @@
     <application
         android:debuggable="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Aretha" >
         <activity
             android:name=".ArethaDemos"
-            android:label="@string/app_name" android:theme="@style/Theme.Aretha">
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Aretha" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +23,8 @@
         </activity>
         <activity
             android:name=".widget.SectorViewDemo"
-            android:label="@string/sector_view" android:theme="@style/Theme.Aretha">
+            android:label="@string/sector_view"
+            android:theme="@style/Theme.Aretha" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -103,6 +106,15 @@
         <activity
             android:name=".widget.TileButtonDemo"
             android:label="@string/tile_button" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.aretha.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.FontTextViewDemo"
+            android:label="@string/font_text_view" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

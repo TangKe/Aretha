@@ -28,7 +28,6 @@
             android:layout_height="wrap_content" />
 
         <com.aretha.widget.TileButton
-            style="@style/aretha_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name" />
@@ -75,7 +74,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/radius_plus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -83,7 +81,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/radius_minus"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
@@ -91,7 +88,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/fling"
-                style="@style/aretha_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"

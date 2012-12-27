@@ -14,8 +14,6 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
@@ -27,6 +25,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 public class TileButton extends Button {
 	private Camera mCamera;
@@ -69,7 +69,7 @@ public class TileButton extends Button {
 	public TileButton(Context context) {
 		this(context, null);
 	}
-
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		final int centerX = mCenterX;
@@ -77,7 +77,6 @@ public class TileButton extends Button {
 		final float x = event.getX();
 		final float y = event.getY();
 		final int[] currentRotate = mCurrentRotate;
-
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			final int[] rotate = new int[2];

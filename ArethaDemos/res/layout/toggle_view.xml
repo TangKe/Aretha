@@ -77,7 +77,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/on"
-                style="@style/aretha_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,7 +85,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/off"
-                style="@style/aretha_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -95,7 +93,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@+id/toggle"
-                style="@style/aretha_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -104,7 +101,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@id/radius_plus"
-                style="@style/aretha_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,7 +109,6 @@
 
             <com.aretha.widget.TileButton
                 android:id="@id/radius_minus"
-                style="@style/aretha_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
