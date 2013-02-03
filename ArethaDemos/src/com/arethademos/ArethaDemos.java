@@ -1,4 +1,4 @@
-package com.arethademo;
+package com.arethademos;
 
 import java.text.Collator;
 import java.util.ArrayList;

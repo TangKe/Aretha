@@ -69,7 +69,7 @@ public class TileButton extends Button {
 	public TileButton(Context context) {
 		this(context, null);
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		final int centerX = mCenterX;
@@ -155,8 +155,10 @@ public class TileButton extends Button {
 
 	@Override
 	public void draw(Canvas canvas) {
+		canvas.save();
 		canvas.concat(mMatrix);
 		super.draw(canvas);
+		canvas.restore();
 	}
 
 	public int getMaxDepth() {

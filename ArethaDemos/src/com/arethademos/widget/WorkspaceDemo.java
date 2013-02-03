@@ -1,7 +1,7 @@
-package com.arethademo.widget;
+package com.arethademos.widget;
 
 import com.aretha.widget.Workspace;
-import com.arethademo.R;
+import com.arethademos.R;
 
 import android.app.Activity;
 import android.os.Bundle;

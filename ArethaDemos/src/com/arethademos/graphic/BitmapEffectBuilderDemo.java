@@ -1,10 +1,10 @@
-package com.arethademo.graphic;
+package com.arethademos.graphic;
 
 import com.aretha.widget.PageIndicator;
 import com.aretha.widget.Workspace;
 import com.aretha.widget.Workspace.OnWorkspaceChangeListener;
 import com.aretha.widget.graphic.BitmapEffectBuilder;
-import com.arethademo.R;
+import com.arethademos.R;
 
 import android.app.Activity;
 import android.content.Context;
