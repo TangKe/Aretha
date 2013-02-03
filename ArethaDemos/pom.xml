@@ -46,9 +46,4 @@
 			<type>apklib</type>
 		</dependency>
 	</dependencies>
-	<parent>
-		<groupId>com.aretha</groupId>
-		<artifactId>aretha</artifactId>
-		<version>1.0</version>
-	</parent>
 </project>
