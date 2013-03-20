@@ -31,7 +31,6 @@ import android.graphics.BitmapFactory.Options;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.ContactsContract.RawContacts.Entity;
 import android.util.Log;
 
 import com.aretha.content.FileCacheManager.OnWriteListener;
@@ -199,6 +198,9 @@ public class AsyncImageLoader {
 
 		Options decodeOptions = new Options();
 		decodeOptions.inSampleSize = sampleSize;
+		//the system can purge the space of Bitmap use automatically
+		decodeOptions.inPurgeable = true;
+		decodeOptions.inInputShareable = true;
 
 		try {
 			Log.i(LOG_TAG, "Decode will began!");
