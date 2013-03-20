@@ -46,4 +46,11 @@
 			<type>apklib</type>
 		</dependency>
 	</dependencies>
+
+	<parent>
+		<artifactId>aretha</artifactId>
+		<groupId>com.aretha</groupId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 </project>

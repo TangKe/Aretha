@@ -13,9 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
+ */
+-->
 <resources>
-    
+
     <attr name="accelerateLinearDecelerateProgressBarStyle" format="reference" />
     <attr name="clickWheelViewStyle" format="reference" />
     <attr name="fontTextViewStyle" format="reference" />
@@ -28,7 +29,7 @@
     <attr name="waveLayoutStyle" format="reference" />
     <attr name="webImageViewStyle" format="reference" />
     <attr name="workspaceStyle" format="reference" />
-
+    <attr name="adapterViewFlipperStyle" format="reference" />
     <attr name="duration" format="integer" />
     <attr name="dotRadius" format="dimension" />
     <attr name="dotSpacing" format="dimension" />
@@ -99,9 +100,18 @@
         <attr name="maxRotateDegree" format="integer" />
         <attr name="maxDepth" format="integer" />
     </declare-styleable>
-	<declare-styleable name="FontTextView">
-	    <attr name="fontPath" format="string" />
-	</declare-styleable>
-	<declare-styleable name="SlideTileView">
-	</declare-styleable>
+    <declare-styleable name="FontTextView">
+        <attr name="fontPath" format="string" />
+    </declare-styleable>
+    <declare-styleable name="SlideTileView"></declare-styleable>
+    <declare-styleable name="AdapterViewFlipper_Layout">
+        <attr name="layout_gravity" format="flags" />
+    </declare-styleable>
+    <declare-styleable name="AdapterViewFlipper">
+        <attr name="inAnimation" format="reference" />
+        <attr name="outAnimation" format="reference" />
+        <attr name="flipInterval" format="integer" />
+        <attr name="autoStart" format="boolean" />
+    </declare-styleable>
+
 </resources>
