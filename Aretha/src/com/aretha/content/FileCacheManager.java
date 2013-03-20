@@ -102,7 +102,7 @@ public class FileCacheManager {
 
 			int read;
 			int totalCount = 0;
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[8 * 1024];
 			while ((read = inputStream.read(buffer)) != -1) {
 				fileOutputStream.write(buffer, 0, read);
 				totalCount += read;
