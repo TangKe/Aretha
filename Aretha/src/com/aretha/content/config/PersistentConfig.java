@@ -127,7 +127,7 @@ public abstract class PersistentConfig {
 				if (type == String.class) {
 					String value;
 					value = (String) field.get(this);
-					editor.putString(name, null == value ? "" : value);
+					editor.putString(name, value);
 				} else if (type == Integer.class || type == int.class) {
 					editor.putInt(name, field.getInt(this));
 				} else if (type == Float.class || type == float.class) {
