@@ -315,7 +315,7 @@ public class AdapterViewFlipper extends AdapterView<Adapter> {
 		}
 		requestLayout();
 		invalidate();
-		if(mIsAutoStart){
+		if (mIsAutoStart) {
 			startFlipping();
 		}
 	}
@@ -351,6 +351,16 @@ public class AdapterViewFlipper extends AdapterView<Adapter> {
 	protected void onWindowVisibilityChanged(int visibility) {
 		super.onWindowVisibilityChanged(visibility);
 		if (visibility == View.INVISIBLE || visibility == View.GONE) {
+			stopFlippingInner();
+		} else if (isFlipping()) {
+			startFlipping();
+		}
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasWindowFocus) {
+		super.onWindowFocusChanged(hasWindowFocus);
+		if (!hasWindowFocus) {
 			stopFlippingInner();
 		} else if (isFlipping()) {
 			startFlipping();
