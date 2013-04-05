@@ -22,9 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.aretha.util.Utils;
-
 import android.content.Context;
+
+import com.aretha.util.Utils;
 
 /**
  * A simple class to manage the cached file which saved in the
@@ -33,7 +33,7 @@ import android.content.Context;
  * @author Tank
  */
 public class FileCacheManager {
-	private File mCacheFilePath;
+	private File mCacheFileDirectory;
 
 	public FileCacheManager(Context context) {
 		this(context, null);
@@ -43,13 +43,14 @@ public class FileCacheManager {
 		if (null == context) {
 			throw new IllegalArgumentException("context can not be null");
 		}
-		
-		if(null != cacheDirectory && cacheDirectory.canWrite()){
-			mCacheFilePath = cacheDirectory;
-		}else{
-			mCacheFilePath = context.getFilesDir();
+
+		if (null != cacheDirectory && cacheDirectory.canWrite()) {
+			mCacheFileDirectory = cacheDirectory;
+		} else {
+			final File externalCacheDir = context.getExternalCacheDir();
+			mCacheFileDirectory = null == externalCacheDir ? context
+					.getCacheDir() : externalCacheDir;
 		}
-		
 	}
 
 	/**
@@ -58,12 +59,21 @@ public class FileCacheManager {
 	 * 
 	 * @param directory
 	 */
-	public void setDefaultStorageDirectory(File directory) {
+	public void setCacheDirectory(File directory) {
 		if (directory == null || !directory.isDirectory()
 				|| !directory.canWrite()) {
 			return;
 		}
-		mCacheFilePath = directory;
+		mCacheFileDirectory = directory;
+	}
+
+	/**
+	 * Get current directory where cache file stored in
+	 * 
+	 * @return
+	 */
+	public File getCacheDirectory() {
+		return mCacheFileDirectory;
 	}
 
 	/**
@@ -91,7 +101,7 @@ public class FileCacheManager {
 	 */
 	public boolean writeCacheFile(String cacheIdentifier,
 			InputStream inputStream, OnWriteListener onWriteListener) {
-		File cacheFile = createFile(cacheIdentifier);
+		File cacheFile = createCacheFile(cacheIdentifier);
 		try {
 			if (!cacheFile.exists()) {
 				cacheFile.createNewFile();
@@ -127,7 +137,7 @@ public class FileCacheManager {
 	 */
 	public InputStream readCacheFile(String cacheIdentifier) {
 		try {
-			return new FileInputStream(createFile(cacheIdentifier));
+			return new FileInputStream(createCacheFile(cacheIdentifier));
 		} catch (FileNotFoundException e) {
 		}
 		return null;
@@ -140,7 +150,7 @@ public class FileCacheManager {
 	 * @return
 	 */
 	public boolean hasCacheFile(String cacheIdentifier) {
-		File cacheFile = createFile(cacheIdentifier);
+		File cacheFile = createCacheFile(cacheIdentifier);
 		return hasCacheFile(cacheFile);
 	}
 
@@ -161,7 +171,7 @@ public class FileCacheManager {
 	 * @return
 	 */
 	public boolean deleteCache(String cacheIdentifier) {
-		File cacheFile = createFile(cacheIdentifier);
+		File cacheFile = createCacheFile(cacheIdentifier);
 		boolean isExists = hasCacheFile(cacheFile);
 
 		boolean isDelete = cacheFile.delete();
@@ -175,13 +185,13 @@ public class FileCacheManager {
 	 * @return
 	 */
 	public boolean clearAllCaches() {
-		File[] files = mCacheFilePath.listFiles();
+		File[] files = mCacheFileDirectory.listFiles();
 		for (File file : files) {
 			if (!file.isDirectory()) {
 				file.delete();
 			}
 		}
-		return mCacheFilePath.delete();
+		return mCacheFileDirectory.delete();
 	}
 
 	/**
@@ -191,14 +201,14 @@ public class FileCacheManager {
 	 * @param cacheIdentifier
 	 * @return
 	 */
-	public File createFile(String cacheIdentifier) {
+	public File createCacheFile(String cacheIdentifier) {
 		if (null == cacheIdentifier) {
 			throw new IllegalArgumentException(
 					"cacheIdentifier can not be null");
 		}
 
 		String cacheFileName = Utils.getUUID(cacheIdentifier).toString();
-		return new File(mCacheFilePath, cacheFileName);
+		return new File(mCacheFileDirectory, cacheFileName);
 	}
 
 	public interface OnWriteListener {
