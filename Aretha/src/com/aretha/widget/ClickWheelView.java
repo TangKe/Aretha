@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2012 Tank Tang
+/* Copyright (c) 2011-2012 Tang Ke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,9 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,8 +27,12 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 /**
  * A simple view position the child view on edge of circle, user can rotate it

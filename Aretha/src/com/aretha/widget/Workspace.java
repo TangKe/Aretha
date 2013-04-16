@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2012 Tank Tang
+/* Copyright (c) 2011-2012 Tang Ke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 import com.aretha.R;
-import com.aretha.util.Utils;
 
 public class Workspace extends ViewGroup {
 	protected final static int TOUCH_STATE_IDLE = 0;
