@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -59,7 +60,7 @@ public class ToggleView extends ViewGroup {
 	private Scroller mScroller;
 
 	private float mClipRadius;
-
+	private RectF mClipRect;
 	private View mHandle;
 
 	public ToggleView(Context context, AttributeSet attrs, int defStyle) {
@@ -72,6 +73,8 @@ public class ToggleView extends ViewGroup {
 				: false;
 		mClipRadius = a.getDimension(R.styleable.ToggleView_radius, 10);
 		a.recycle();
+
+		mClipRect = new RectF();
 
 		initialize(context);
 	}
@@ -93,10 +96,16 @@ public class ToggleView extends ViewGroup {
 	@Override
 	public void draw(Canvas canvas) {
 		Path clipPath = new Path();
-		RectF rect = new RectF(getScrollX(), 0, getScrollX() + getWidth(),
-				getHeight());
-		clipPath.addRoundRect(rect, mClipRadius, mClipRadius, Path.Direction.CW);
-		canvas.clipPath(clipPath);
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB
+				&& canvas.isHardwareAccelerated()) {
+			// find method to resolve clipPath not support exception
+		} else {
+			mClipRect.set(getScrollX(), 0, getScaleX() + getWidth(),
+					getHeight());
+			clipPath.addRoundRect(mClipRect, mClipRadius, mClipRadius,
+					Path.Direction.CW);
+			canvas.clipPath(clipPath);
+		}
 		super.draw(canvas);
 	}
 
@@ -150,11 +159,12 @@ public class ToggleView extends ViewGroup {
 			if (child.getId() == R.id.toggleHandle) {
 				handleWidth = child.getMeasuredWidth();
 			} else {
-				measuredWidth = Math.max(handleWidth + child.getMeasuredWidth(),
-						measuredWidth);
+				measuredWidth = Math.max(
+						handleWidth + child.getMeasuredWidth(), measuredWidth);
 			}
 
-			measuredHeight = Math.max(child.getMeasuredHeight(), measuredHeight);
+			measuredHeight = Math
+					.max(child.getMeasuredHeight(), measuredHeight);
 		}
 
 		measuredWidth += getPaddingLeft() + getPaddingRight();
@@ -162,7 +172,7 @@ public class ToggleView extends ViewGroup {
 
 		measuredWidth = Math.max(getSuggestedMinimumWidth(), measuredWidth);
 		measuredHeight = Math.max(getSuggestedMinimumHeight(), measuredHeight);
-		
+
 		setMeasuredDimension(resolveSize(measuredWidth, widthMeasureSpec),
 				resolveSize(measuredHeight, heightMeasureSpec));
 	}

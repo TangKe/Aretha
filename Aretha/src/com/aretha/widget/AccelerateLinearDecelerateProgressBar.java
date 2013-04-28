@@ -227,6 +227,7 @@ public class AccelerateLinearDecelerateProgressBar extends View {
 		final Resources resources = getContext().getResources();
 		this.mDotRadius = TypedValue.applyDimension(unit, dotRadius,
 				resources.getDisplayMetrics());
+		requestLayout();
 	}
 
 	/**

@@ -7,5 +7,6 @@
     <color name="aretha_purple">#ffaa66cc</color>
     <color name="aretha_blue">#ff33b5e5</color>
     <color name="aretha_white">#ffffffff</color>
+    <color name="aretha_gray">#ff434343</color>
 
 </resources>

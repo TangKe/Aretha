@@ -196,6 +196,7 @@
         android:layout_gravity="center"
         android:background="@drawable/button_background"
         android:textSize="25sp"
+        android:textColor="?android:attr/textColorSecondaryInverse"
         android:visibility="invisible" />
 
 </merge>
