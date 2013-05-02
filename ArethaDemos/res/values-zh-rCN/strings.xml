@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Aretha演示</string>
+
+    <!-- SectorView -->
+    <string name="sector_view">SectorView</string>
+    <string name="toggle">开关</string>
+    <string name="gravity">重力</string>
+    <string name="radius_plus">半径+</string>
+    <string name="radius_minus">半径-</string>
+    <string name="support_all_views">支持所有的View!</string>
+    <string name="sector_click">第 %1$s 被点击!</string>
+
+    <string-array name="position_item">
+        <item>居中</item>
+        <item>左下</item>
+        <item>右下</item>
+        <item>右上</item>
+        <item>左上</item>
+        <item>上</item>
+        <item>左</item>
+        <item>下</item>
+        <item>右</item>
+    </string-array>
+
+    <!-- PageIndicator -->
+    <string name="page_indicator">PageIndicator</string>
+    <string name="page_plus">点数+</string>
+    <string name="page_minus">点数-</string>
+    <string name="red">红色</string>
+    <string name="white">白色</string>
+    <string name="dot_radius">点半径</string>
+    <string name="dot_spacing">点半径</string>
+    <string name="page_change">页面改变, 当前页面索引是 %1$s!</string>
+    <string name="next_page">下一页回调!</string>
+    <string name="prev_page">上一页回调!</string>
+
+    <!-- ShelfGallery -->
+    <string name="shelf_gallery">Shelf Gallery</string>
+
+    <!-- AccelerateLinearDecelerateProgressBar -->
+    <string name="accelerate_linear_decelerate_progressbar">Accelerate Linear Decelerate Progress Bar</string>
+    <string name="dot_plus">点数+</string>
+    <string name="dot_minus">点数-</string>
+    <string name="dot_radius_plus">点半径+</string>
+    <string name="dot_radius_minus">点半径-</string>
+    <string name="space_plus">间距+</string>
+    <string name="space_minus">间距-</string>
+    <string name="duration_plus">持续时间+</string>
+    <string name="duration_minus">持续时间-</string>
+    <string name="yellow">黄色</string>
+
+    <!-- ToggleView -->
+    <string name="toggle_view">ToggleView</string>
+    <string name="toggle_on">开</string>
+    <string name="toggle_off">关</string>
+
+    <!-- Workspace -->
+    <string name="workspace">Workspace</string>
+    <string name="showing_child">← 试试左右滑动 →</string>
+    <string name="last_child">你可以放任何View!</string>
+    <string name="back_child">这个是处于Workspace的背面</string>
+    <string name="next_child">→</string>
+    <string name="prev_child">←</string>
+
+    <!-- ClickWheelView -->
+    <string name="click_wheel_view">ClickWheelView</string>
+    <string name="click_wheel_view_radius_plus">半径+</string>
+    <string name="click_wheel_view_radius_minus">半径-</string>
+    <string name="click_wheel_view_enable_fling">启用惯性滑动</string>
+    <string name="click_wheel_view_disable_fling">禁用惯性滑动</string>
+
+    <!-- BitmapEffectBuilder -->
+    <string name="bitmap_effect_builder">BitmapEffectBuilder</string>
+    <string name="bitmap_effect_builder_original">原始</string>
+    <string name="bitmap_effect_builder_highlight">高光</string>
+    <string name="bitmap_effect_builder_shadow">阴影</string>
+    <string name="bitmap_effect_builder_glow">发光</string>
+    <string name="bitmap_effect_builder_reflection">倒影</string>
+
+    <!-- WaveLayout -->
+    <string name="wave_layout">WaveLayout</string>
+    <string name="wave_layout_a">A</string>
+    <string name="wave_layout_b">B</string>
+    <string name="wave_layout_c">C</string>
+    <string name="wave_layout_d">D</string>
+    <string name="wave_layout_e">E</string>
+    <string name="wave_layout_f">F</string>
+    <string name="wave_layout_g">G</string>
+    <string name="wave_layout_h">H</string>
+    <string name="wave_layout_i">I</string>
+    <string name="wave_layout_j">J</string>
+    <string name="wave_layout_k">K</string>
+    <string name="wave_layout_l">L</string>
+    <string name="wave_layout_m">M</string>
+    <string name="wave_layout_n">N</string>
+    <string name="wave_layout_o">O</string>
+    <string name="wave_layout_p">P</string>
+    <string name="wave_layout_q">Q</string>
+    <string name="wave_layout_r">R</string>
+    <string name="wave_layout_s">S</string>
+    <string name="wave_layout_t">T</string>
+    <string name="wave_layout_u">U</string>
+    <string name="wave_layout_v">V</string>
+    <string name="wave_layout_w">W</string>
+    <string name="wave_layout_x">X</string>
+    <string name="wave_layout_y">Y</string>
+    <string name="wave_layout_z">Z</string>
+    <string name="wave_layout_position">位置</string>
+    <string name="wave_layout_position_dialog_title">位置</string>
+
+    <string-array name="wave_layout_positions">
+        <item>左</item>
+        <item>上</item>
+        <item>右</item>
+        <item>下</item>
+    </string-array>
+
+    <!-- TileButton -->
+    <string name="tile_button">TileButton</string>
+    <string name="tile_button_description">类似Windows Phone 7的按钮, 当用户触摸到按钮上呈现出3D效果!</string>
+    <string name="tile_button_click">点击事件触发!</string>
+    
+    <!-- FontTextView -->
+    <string name="font_text_view">FontTextView</string>
+    <string name="custom_font">这是HelveticaNeueCondensedBold字体</string>
+
+</resources>

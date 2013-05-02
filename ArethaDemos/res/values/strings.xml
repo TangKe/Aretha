@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, ArethaDemosActivity!</string>
     <string name="app_name">ArethaDemos</string>
 
     <!-- SectorView -->
@@ -50,7 +49,7 @@
     <string name="space_minus">Space-</string>
     <string name="duration_plus">Duration+</string>
     <string name="duration_minus">Duration-</string>
-    <string name="yellow">yellow</string>
+    <string name="yellow">Yellow</string>
 
     <!-- ToggleView -->
     <string name="toggle_view">ToggleView</string>
