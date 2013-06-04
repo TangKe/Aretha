@@ -67,6 +67,6 @@ public class WebImageView extends ImageView implements OnImageLoadListener {
 
 	@Override
 	public void onLoading(String imageUrl, long loadedLength, long totalLength) {
-		
+
 	}
 }

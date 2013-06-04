@@ -80,7 +80,8 @@ public abstract class PersistentConfig {
 			String defaultValue = annotation.defaultValue();
 			Object value = preferences.get(key);
 
-			// not saved in preference and has default value in PersistentConfigEntry
+			// not saved in preference and has default value in
+			// PersistentConfigEntry
 			if (null == value && defaultValue.length() != 0) {
 				Class<?> type = field.getType();
 				if (type == String.class) {

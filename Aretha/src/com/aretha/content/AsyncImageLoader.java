@@ -45,9 +45,9 @@ import com.aretha.net.HttpConnectionHelper;
 public class AsyncImageLoader {
 	private final static int MAX_ACCEPTABLE_SAMPLE_SIZE = 5;
 
-	private final static int STATUS_SUCCESS = 0x00010000;
-	private final static int STATUS_ERROR = 0x00020000;
-	private final static int STATUS_CANCEL = 0x00030000;
+	private final static int STATUS_SUCCESS = 1 << 0;
+	private final static int STATUS_ERROR = 1 << 1;
+	private final static int STATUS_CANCEL = 1 << 2;
 	private final static String LOG_TAG = "AsyncImageLoader";
 
 	private static AsyncImageLoader mImageLoader;
@@ -198,7 +198,7 @@ public class AsyncImageLoader {
 
 		Options decodeOptions = new Options();
 		decodeOptions.inSampleSize = sampleSize;
-		//the system can purge the space of Bitmap use automatically
+		// the system can purge the space of Bitmap use automatically
 		decodeOptions.inPurgeable = true;
 		decodeOptions.inInputShareable = true;
 

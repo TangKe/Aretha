@@ -225,13 +225,11 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 	 *            Request parameters
 	 * @return
 	 */
-	public HttpGet obtainHttpGetRequest(String url, List<NameValuePair> params) {
-		try {
-			return obtainHttpGetRequest(new URI(url), params);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+	public HttpGet obtainHttpGetRequest(URI uri, List<NameValuePair> params) {
+		if (null == uri) {
+			return null;
 		}
-		return null;
+		return obtainHttpGetRequest(uri.toString(), params);
 	}
 
 	/**
@@ -242,12 +240,13 @@ public class HttpConnectionHelper implements HttpRequestInterceptor,
 	 * @param params
 	 * @return
 	 */
-	public HttpGet obtainHttpGetRequest(URI uri, List<NameValuePair> params) {
-		StringBuilder urlBuilder = new StringBuilder(uri.toString());
+	public HttpGet obtainHttpGetRequest(String url, List<NameValuePair> params) {
+		if (null == url) {
+			return null;
+		}
+		StringBuilder urlBuilder = new StringBuilder(url);
 		if (isParamsNull(params)) {
-			if (!uri.toString().endsWith("?")) {
-				urlBuilder.append("?");
-			}
+			urlBuilder.append(url.contains("?") ? "&" : "?");
 			for (NameValuePair param : params) {
 				urlBuilder.append(URLEncoder.encode(param.getName()));
 				urlBuilder.append("=");

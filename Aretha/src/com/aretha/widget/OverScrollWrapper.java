@@ -68,7 +68,7 @@ public class OverScrollWrapper extends FrameLayout {
 
 		switch (ev.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			
+
 			break;
 		case MotionEvent.ACTION_MOVE:
 			break;

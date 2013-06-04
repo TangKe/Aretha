@@ -41,7 +41,7 @@ public class AnimationTextView extends TextView {
 		super.onVisibilityChanged(changedView, visibility);
 		invalidateDrawablesState();
 	}
-	
+
 	@Override
 	protected void onFocusChanged(boolean focused, int direction,
 			Rect previouslyFocusedRect) {
@@ -65,6 +65,7 @@ public class AnimationTextView extends TextView {
 
 	/**
 	 * Animate the drawable passed
+	 * 
 	 * @param drawable
 	 */
 	private void invalidateAnimationDrawableState(Drawable drawable) {

@@ -149,11 +149,11 @@ public class CacheManager {
 	}
 
 	public void enableBrokenReferenceAutoRelease() {
-		if(mReleaseRunnable == null){
+		if (mReleaseRunnable == null) {
 			mReleaseRunnable = new BrokenReferenceReleaseRunnable(
 					RELEASE_INTERVAL, mDataMap);
 		}
-		
+
 		if (mReleaseThread == null || !mReleaseThread.isAlive()) {
 			mReleaseThread = new Thread(mReleaseRunnable);
 			mReleaseThread.start();

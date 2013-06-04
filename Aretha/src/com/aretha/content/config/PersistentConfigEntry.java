@@ -23,11 +23,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface PersistentConfigEntry {
 	/**
-	 * specified the key name, {@link PersistentConfig} will set the key as the field name
-	 * by default
+	 * specified the key name, {@link PersistentConfig} will set the key as the
+	 * field name by default
 	 * 
 	 * @return key name
 	 */
 	String key() default "";
+
 	String defaultValue() default "";
 }

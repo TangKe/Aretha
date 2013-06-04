@@ -77,7 +77,7 @@ public class TileButton extends Button {
 		final float x = event.getX();
 		final float y = event.getY();
 		final int[] currentRotate = mCurrentRotate;
-		switch (event.getAction()) {
+		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
 			final int[] rotate = new int[2];
 			mDepthScroller.startScroll(mCurrentDepth, 0, mMaxDepth
