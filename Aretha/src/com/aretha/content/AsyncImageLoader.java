@@ -90,7 +90,7 @@ public class AsyncImageLoader {
 	 * @param listener
 	 */
 	public void loadImage(String url, OnImageLoadListener listener) {
-		if (null == url) {
+		if (null == url || 0 == url.length()) {
 			return;
 		}
 		loadImage(URI.create(url), listener);
