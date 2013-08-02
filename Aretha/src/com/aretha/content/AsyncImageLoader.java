@@ -85,6 +85,18 @@ public class AsyncImageLoader {
 	}
 
 	/**
+	 * @see #loadImage(URI, OnImageLoadListener)
+	 * @param url
+	 * @param listener
+	 */
+	public void loadImage(String url, OnImageLoadListener listener) {
+		if (null == url || 0 == url.length()) {
+			return;
+		}
+		loadImage(URI.create(url), listener);
+	}
+
+	/**
 	 * Add image load request
 	 * 
 	 * @param uri
@@ -95,23 +107,6 @@ public class AsyncImageLoader {
 	public void loadImage(URI uri, OnImageLoadListener listener,
 			boolean readCacheIfExist) {
 		doLoadImage(obtainImageLoadingTask(uri, listener, readCacheIfExist));
-	}
-
-	/**
-	 * @see #loadImage(URI, OnImageLoadListener)
-	 * @param url
-	 * @param listener
-	 */
-	public void loadImage(String url, OnImageLoadListener listener) {
-		loadImage(url, listener, true);
-	}
-
-	public void loadImage(String url, OnImageLoadListener listener,
-			boolean readCacheIfExist) {
-		if (null == url || 0 == url.length()) {
-			return;
-		}
-		loadImage(URI.create(url), listener, readCacheIfExist);
 	}
 
 	/**
