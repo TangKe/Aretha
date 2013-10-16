@@ -19,10 +19,12 @@ import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.Scroller;
 
@@ -57,7 +59,7 @@ public class TileButton extends Button {
 		mCamera = new Camera();
 		mMatrix = new Matrix();
 		mScroller = new Scroller(context);
-		mDepthScroller = new Scroller(context);
+		mDepthScroller = new Scroller(context, new OvershootInterpolator());
 
 		mCurrentRotate = new int[2];
 	}
@@ -140,17 +142,34 @@ public class TileButton extends Button {
 	}
 
 	private void applyRotate(float x, float y, float depth) {
-		final Camera camera = mCamera;
-		final Matrix matrix = mMatrix;
-		camera.save();
-		camera.translate(0.0f, 0.0f, depth);
-		camera.rotateY(y);
-		camera.rotateX(x);
-		camera.getMatrix(matrix);
-		camera.restore();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			setRotationX(x);
+			setRotationY(y);
 
-		matrix.preTranslate(-mCenterX, -mCenterY);
-		matrix.postTranslate(mCenterX, mCenterY);
+			float scale = depthToScale(depth);
+			setScaleX(scale);
+			setScaleY(scale);
+		} else {
+			final Camera camera = mCamera;
+			final Matrix matrix = mMatrix;
+			camera.save();
+			camera.translate(0.0f, 0.0f, depth);
+			camera.rotateY(y);
+			camera.rotateX(x);
+			camera.getMatrix(matrix);
+			camera.restore();
+
+			matrix.preTranslate(-mCenterX, -mCenterY);
+			matrix.postTranslate(mCenterX, mCenterY);
+		}
+	}
+
+	private float depthToScale(float depth) {
+		if (depth <= 0) {
+			return 1;
+		}
+
+		return (1000 - depth) / 1000;
 	}
 
 	@Override
