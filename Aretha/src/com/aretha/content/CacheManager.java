@@ -93,6 +93,9 @@ public class CacheManager {
 	 * @return
 	 */
 	public Object getData(String tag) {
+		if (null == tag) {
+			return null;
+		}
 		SoftReference<Object> dataReference = mDataMap.get(tag);
 
 		// Can not found

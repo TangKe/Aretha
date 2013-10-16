@@ -75,13 +75,26 @@ public class AsyncImageLoader {
 	}
 
 	/**
-	 * Add image request
+	 * Add image load request
 	 * 
 	 * @param uri
 	 * @param listener
 	 */
 	public void loadImage(URI uri, OnImageLoadListener listener) {
-		doLoadImage(obtainImageLoadingTask(uri, listener));
+		loadImage(uri, listener, true);
+	}
+
+	/**
+	 * Add image load request
+	 * 
+	 * @param uri
+	 * @param listener
+	 * @param readCache
+	 *            true read cache file if exist
+	 */
+	public void loadImage(URI uri, OnImageLoadListener listener,
+			boolean readCacheIfExist) {
+		doLoadImage(obtainImageLoadingTask(uri, listener, readCacheIfExist));
 	}
 
 	/**
@@ -90,10 +103,15 @@ public class AsyncImageLoader {
 	 * @param listener
 	 */
 	public void loadImage(String url, OnImageLoadListener listener) {
+		loadImage(url, listener, true);
+	}
+
+	public void loadImage(String url, OnImageLoadListener listener,
+			boolean readCacheIfExist) {
 		if (null == url || 0 == url.length()) {
 			return;
 		}
-		loadImage(URI.create(url), listener);
+		loadImage(URI.create(url), listener, readCacheIfExist);
 	}
 
 	/**
@@ -103,7 +121,7 @@ public class AsyncImageLoader {
 	 * @param uri
 	 */
 	public void cancel(URI uri) {
-		ImageLoadingTask task = obtainImageLoadingTask(uri, null);
+		ImageLoadingTask task = obtainImageLoadingTask(uri, null, false);
 		mTaskList.remove(task);
 	}
 
@@ -123,16 +141,18 @@ public class AsyncImageLoader {
 	 * 
 	 * @param uri
 	 * @param listener
+	 * @param readCacheIfExist
 	 * @return
 	 */
 	private ImageLoadingTask obtainImageLoadingTask(URI uri,
-			OnImageLoadListener listener) {
+			OnImageLoadListener listener, boolean readCacheIfExist) {
 		if (null == uri || null == listener) {
 			return null;
 		}
 		ImageLoadingTask task = new ImageLoadingTask();
 		task.listener = listener;
 		task.uri = uri;
+		task.readCacheIfExist = readCacheIfExist;
 		return task;
 	}
 
@@ -267,6 +287,7 @@ public class AsyncImageLoader {
 		public OnImageLoadListener listener;
 		public Bitmap bitmap;
 		public boolean isLoadFromCache;
+		public boolean readCacheIfExist;
 		public long totleBytes;
 
 		@Override
@@ -287,13 +308,14 @@ public class AsyncImageLoader {
 				message.sendToTarget();
 				return;
 			}
-
-			bitmap = readCachedBitmap(uri.toString(), 1);
-			if (null != bitmap) {
-				Log.d(LOG_TAG, "Image cache found!");
-				isLoadFromCache = true;
-				message.sendToTarget();
-				return;
+			if (readCacheIfExist) {
+				bitmap = readCachedBitmap(uri.toString(), 1);
+				if (null != bitmap) {
+					Log.d(LOG_TAG, "Image cache found!");
+					isLoadFromCache = true;
+					message.sendToTarget();
+					return;
+				}
 			}
 
 			Log.d(LOG_TAG, "Image cache not found, get it in async method!");
