@@ -1,9 +1,5 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.WaveLayout;
-import com.aretha.widget.WaveLayout.OnWaveLayoutChangeListener;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -17,6 +13,10 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
+
+import com.aretha.widget.WaveLayout;
+import com.aretha.widget.WaveLayout.OnWaveLayoutChangeListener;
+import com.arethademos.R;
 
 public class WaveLayoutDemo extends Activity implements
 		OnWaveLayoutChangeListener, AnimationListener, OnClickListener {
@@ -77,21 +77,18 @@ public class WaveLayoutDemo extends Activity implements
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder builder = new Builder(this);
-		switch (id) {
-		case R.id.change_wave_layout_position_dialog:
+		if (id == R.id.change_wave_layout_position_dialog) {
 			builder.setTitle(R.string.wave_layout_position_dialog_title)
 					.setSingleChoiceItems(R.array.wave_layout_positions, 2,
 							this);
-			break;
 		}
 		return builder.create();
 	}
 
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.position:
+		final int id = v.getId();
+		if (id == R.id.position) {
 			showDialog(R.id.change_wave_layout_position_dialog);
-			break;
 		}
 	}
 

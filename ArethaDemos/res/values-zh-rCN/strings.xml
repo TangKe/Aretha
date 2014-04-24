@@ -125,5 +125,9 @@
     <!-- FontTextView -->
     <string name="font_text_view">FontTextView</string>
     <string name="custom_font">这是HelveticaNeueCondensedBold字体</string>
+    
+    <!-- BlurDrawble -->
+    <string name="blur_drawable">BlurDrawable</string>
+    
 
 </resources>

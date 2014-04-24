@@ -1,9 +1,5 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.SectorView;
-import com.aretha.widget.SectorView.OnSectorClickListener;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -14,6 +10,10 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
+
+import com.aretha.widget.SectorView;
+import com.aretha.widget.SectorView.OnSectorClickListener;
+import com.arethademos.R;
 
 public class SectorViewDemo extends Activity implements OnClickListener,
 		OnSectorClickListener {
@@ -29,34 +29,26 @@ public class SectorViewDemo extends Activity implements OnClickListener,
 	}
 
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.position:
+		final int id = v.getId();
+		if (id == R.id.position) {
 			showDialog(R.id.change_sector_view_position_dialog);
-			break;
-		case R.id.toggle:
+		} else if (id == R.id.toggle) {
 			mSectorView.toggle(!mSectorView.isExpanded());
-			break;
-		case R.id.radius_plus:
+		} else if (id == R.id.radius_plus) {
 			mSectorView.setRadius(mSectorView.getRadius() + 50,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
-		case R.id.radius_minus:
+		} else if (id == R.id.radius_minus) {
 			mSectorView.setRadius(mSectorView.getRadius() - 50,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
 		}
 	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Builder builder = new Builder(this);
-		switch (id) {
-		case R.id.change_sector_view_position_dialog:
+		if (id == R.id.change_sector_view_position_dialog) {
 			builder.setTitle(R.string.gravity);
 			builder.setSingleChoiceItems(R.array.position_item, 1, this);
-			break;
-		default:
-			break;
 		}
 		return builder.create();
 	}

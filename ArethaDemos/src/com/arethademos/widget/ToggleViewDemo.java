@@ -1,12 +1,12 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.ToggleView;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+
+import com.aretha.widget.ToggleView;
+import com.arethademos.R;
 
 public class ToggleViewDemo extends Activity {
 	private ToggleView mToggleView;
@@ -19,24 +19,19 @@ public class ToggleViewDemo extends Activity {
 	}
 
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.toggle:
+		final int id = v.getId();
+		if (id == R.id.toggle) {
 			mToggleView.toggle();
-			break;
-		case R.id.on:
+		} else if (id == R.id.on) {
 			mToggleView.setToggle(true, true);
-			break;
-		case R.id.off:
+		} else if (id == R.id.off) {
 			mToggleView.setToggle(false, true);
-			break;
-		case R.id.radius_minus:
+		} else if (id == R.id.radius_minus) {
 			mToggleView.setRadius(mToggleView.getRadius() - 3,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
-		case R.id.radius_plus:
+		} else if (id == R.id.radius_plus) {
 			mToggleView.setRadius(mToggleView.getRadius() + 3,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
 		}
 	}
 }

@@ -14,8 +14,6 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -26,13 +24,15 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 /**
  * {@link SectorView} is a {@link ViewGroup} that position the children in a
@@ -81,6 +81,7 @@ public class SectorView extends ViewGroup implements OnClickListener {
 
 		mSectorToggleRunnalbe = new SectorToggleRunnalbe();
 		mScroller = new Scroller(context, new LinearInterpolator());
+		setWillNotDraw(true);
 	}
 
 	public SectorView(Context context, AttributeSet attrs) {

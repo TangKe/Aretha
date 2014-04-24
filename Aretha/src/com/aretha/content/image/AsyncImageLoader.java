@@ -12,14 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.aretha.content;
+package com.aretha.content.image;
 
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,11 +30,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.ParcelFileDescriptor;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.aretha.content.CacheManager;
+import com.aretha.content.FileCacheManager;
 import com.aretha.content.FileCacheManager.OnWriteListener;
 import com.aretha.net.HttpConnectionHelper;
 
@@ -43,12 +50,12 @@ import com.aretha.net.HttpConnectionHelper;
  * @author Tank
  */
 public class AsyncImageLoader {
-	private final static int MAX_ACCEPTABLE_SAMPLE_SIZE = 5;
-
 	private final static int STATUS_SUCCESS = 1 << 0;
 	private final static int STATUS_ERROR = 1 << 1;
 	private final static int STATUS_CANCEL = 1 << 2;
+
 	private final static String LOG_TAG = "AsyncImageLoader";
+	private Context mContext;
 
 	private static AsyncImageLoader mImageLoader;
 
@@ -59,6 +66,11 @@ public class AsyncImageLoader {
 
 	private Handler mImageLoadedHandler;
 
+	private ReentrantReadWriteLock mMainLock = new ReentrantReadWriteLock();
+
+	private int mScreenWidth;
+	private int mScreenHeight;
+
 	public static AsyncImageLoader getInstance(Context context) {
 		if (mImageLoader == null) {
 			mImageLoader = new AsyncImageLoader(context);
@@ -67,9 +79,14 @@ public class AsyncImageLoader {
 	}
 
 	private AsyncImageLoader(Context context) {
+		mContext = context.getApplicationContext();
 		mFileCacheManager = new FileCacheManager(context);
 		mExecutor = Executors.newCachedThreadPool();
 		mTaskList = new LinkedList<ImageLoadingTask>();
+		DisplayMetrics displayMetrics = context.getResources()
+				.getDisplayMetrics();
+		mScreenWidth = displayMetrics.widthPixels;
+		mScreenHeight = displayMetrics.heightPixels;
 		// will notify the main thread
 		mImageLoadedHandler = new ImageLoadHandler(context.getMainLooper());
 	}
@@ -80,8 +97,8 @@ public class AsyncImageLoader {
 	 * @param uri
 	 * @param listener
 	 */
-	public void loadImage(URI uri, OnImageLoadListener listener) {
-		loadImage(uri, listener, true);
+	public void loadImage(Uri uri, OnImageLoadListener listener) {
+		loadImage(uri, 0, 0, listener, true);
 	}
 
 	/**
@@ -92,9 +109,10 @@ public class AsyncImageLoader {
 	 * @param readCache
 	 *            true read cache file if exist
 	 */
-	public void loadImage(URI uri, OnImageLoadListener listener,
-			boolean readCacheIfExist) {
-		doLoadImage(obtainImageLoadingTask(uri, listener, readCacheIfExist));
+	public void loadImage(Uri uri, int targetWidth, int targetHeight,
+			OnImageLoadListener listener, boolean readCacheIfExist) {
+		doLoadImage(obtainImageLoadingTask(uri, targetWidth, targetHeight,
+				listener, readCacheIfExist));
 	}
 
 	/**
@@ -103,15 +121,10 @@ public class AsyncImageLoader {
 	 * @param listener
 	 */
 	public void loadImage(String url, OnImageLoadListener listener) {
-		loadImage(url, listener, true);
-	}
-
-	public void loadImage(String url, OnImageLoadListener listener,
-			boolean readCacheIfExist) {
-		if (null == url || 0 == url.length()) {
+		if (null == url || url.length() <= 0) {
 			return;
 		}
-		loadImage(URI.create(url), listener, readCacheIfExist);
+		loadImage(Uri.parse(url), listener);
 	}
 
 	/**
@@ -120,9 +133,12 @@ public class AsyncImageLoader {
 	 * 
 	 * @param uri
 	 */
-	public void cancel(URI uri) {
-		ImageLoadingTask task = obtainImageLoadingTask(uri, null, false);
+	public void cancel(Uri uri) {
+		Lock lock = mMainLock.writeLock();
+		ImageLoadingTask task = obtainImageLoadingTask(uri, 0, 0, null, false);
+		lock.lock();
 		mTaskList.remove(task);
+		lock.unlock();
 	}
 
 	/**
@@ -133,7 +149,7 @@ public class AsyncImageLoader {
 		if (null == url) {
 			return;
 		}
-		cancel(URI.create(url));
+		cancel(Uri.parse(url));
 	}
 
 	/**
@@ -144,14 +160,16 @@ public class AsyncImageLoader {
 	 * @param readCacheIfExist
 	 * @return
 	 */
-	private ImageLoadingTask obtainImageLoadingTask(URI uri,
-			OnImageLoadListener listener, boolean readCacheIfExist) {
+	private ImageLoadingTask obtainImageLoadingTask(Uri uri, int width,
+			int height, OnImageLoadListener listener, boolean readCacheIfExist) {
 		if (null == uri || null == listener) {
 			return null;
 		}
 		ImageLoadingTask task = new ImageLoadingTask();
 		task.listener = listener;
 		task.uri = uri;
+		task.targetWidth = width <= 0 ? mScreenWidth : width;
+		task.targetHeight = height <= 0 ? mScreenHeight : height;
 		task.readCacheIfExist = readCacheIfExist;
 		return task;
 	}
@@ -208,7 +226,8 @@ public class AsyncImageLoader {
 	 *            original image, returning a smaller image to save memory.
 	 * @return The cached bitmap, or null not found.
 	 */
-	public Bitmap readCachedBitmap(String imageIdentifier, int sampleSize) {
+	public Bitmap readCachedBitmap(String imageIdentifier, int targetWidth,
+			int targetHeight) {
 		InputStream inputStream = mFileCacheManager
 				.readCacheFile(imageIdentifier);
 
@@ -217,24 +236,19 @@ public class AsyncImageLoader {
 		}
 
 		Options decodeOptions = new Options();
-		decodeOptions.inSampleSize = sampleSize;
+		decodeOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeStream(inputStream, null, decodeOptions);
+		int factor = (int) Math.ceil(decodeOptions.outWidth * 1.0f
+				/ targetWidth);
+		factor = (int) Math.max(factor, decodeOptions.outHeight * 1.0f
+				/ targetHeight);
+		decodeOptions.inJustDecodeBounds = false;
+		decodeOptions.inSampleSize = factor;
 		// the system can purge the space of Bitmap use automatically
 		decodeOptions.inPurgeable = true;
 		decodeOptions.inInputShareable = true;
 
-		try {
-			Log.i(LOG_TAG, "Decode will began!");
-			return BitmapFactory.decodeStream(inputStream, null, decodeOptions);
-		} catch (OutOfMemoryError e) {
-			Log.w(LOG_TAG,
-					"Bitmap decode out of memory! decrease image size! current sample size: "
-							+ sampleSize);
-			if (sampleSize > MAX_ACCEPTABLE_SAMPLE_SIZE) {
-				Log.e(LOG_TAG, "Bitmap decode out of memory!");
-				return null;
-			}
-			return readCachedBitmap(imageIdentifier, ++sampleSize);
-		}
+		return BitmapFactory.decodeStream(inputStream, null, decodeOptions);
 	}
 
 	/**
@@ -283,12 +297,14 @@ public class AsyncImageLoader {
 	}
 
 	private class ImageLoadingTask implements Runnable, OnWriteListener {
-		public URI uri;
+		public Uri uri;
 		public OnImageLoadListener listener;
 		public Bitmap bitmap;
 		public boolean isLoadFromCache;
 		public boolean readCacheIfExist;
 		public long totleBytes;
+		public int targetWidth;
+		public int targetHeight;
 
 		@Override
 		public boolean equals(Object o) {
@@ -309,7 +325,8 @@ public class AsyncImageLoader {
 				return;
 			}
 			if (readCacheIfExist) {
-				bitmap = readCachedBitmap(uri.toString(), 1);
+				bitmap = readCachedBitmap(uri.toString(), targetWidth,
+						targetHeight);
 				if (null != bitmap) {
 					Log.d(LOG_TAG, "Image cache found!");
 					isLoadFromCache = true;
@@ -319,39 +336,48 @@ public class AsyncImageLoader {
 			}
 
 			Log.d(LOG_TAG, "Image cache not found, get it in async method!");
-			// Began to load from network
-			HttpConnectionHelper connection = HttpConnectionHelper
-					.getInstance();
-			HttpResponse response = connection.execute(connection
-					.obtainHttpGetRequest(uri, null));
-			if (null != response) {
-				InputStream inputStream = null;
-				try {
+			InputStream inputStream = null;
+			try {
+				if (uri.getScheme().startsWith("content:")) {
+					ParcelFileDescriptor fileDescriptor = mContext
+							.getContentResolver().openFileDescriptor(uri, "r");
+					totleBytes = fileDescriptor.getStatSize();
+					inputStream = new FileInputStream(
+							fileDescriptor.getFileDescriptor());
+				} else {
+					// Began to load from network
+					HttpConnectionHelper connection = HttpConnectionHelper
+							.getInstance();
+					HttpResponse response = connection.execute(connection
+							.obtainHttpGetRequest(URI.create(uri.toString()),
+									null));
+
 					HttpEntity entity = response.getEntity();
 					inputStream = entity.getContent();
 					totleBytes = entity.getContentLength();
-					saveBitmapStream(uri.toString(), inputStream, this);
-					bitmap = readCachedBitmap(uri.toString(), 1);
-					if (null == bitmap) {
-						Log.d(LOG_TAG, String.format(
-								"Delete the broken image cache! url: %s",
-								uri.toString()));
-						mFileCacheManager.deleteCache(uri.toString());
-						message.what = STATUS_ERROR;
-						message.sendToTarget();
-						return;
-					}
+				}
+
+				saveBitmapStream(uri.toString(), inputStream, this);
+				bitmap = readCachedBitmap(uri.toString(), targetWidth,
+						targetHeight);
+				if (null == bitmap) {
+					Log.d(LOG_TAG, String.format(
+							"Delete the broken image cache! url: %s",
+							uri.toString()));
+					mFileCacheManager.deleteCache(uri.toString());
+					message.what = STATUS_ERROR;
 					message.sendToTarget();
 					return;
-				} catch (IOException e) {
-					Log.d(LOG_TAG, e.getMessage());
-				} finally {
-					try {
-						if (null != inputStream) {
-							inputStream.close();
-						}
-					} catch (IOException e) {
-					}
+				}
+				message.sendToTarget();
+				return;
+			} catch (Exception e) {
+				Log.d(LOG_TAG, e.getMessage());
+			} finally {
+				try {
+					inputStream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 			message.what = STATUS_ERROR;

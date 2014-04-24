@@ -76,6 +76,14 @@ public class FileCacheManager {
 		return mCacheFileDirectory;
 	}
 
+	public long getCacheFileLength(String cacheIdentifier) {
+		File cacheFile = createCacheFile(cacheIdentifier);
+		if (null != cacheFile) {
+			return cacheFile.length();
+		}
+		return 0;
+	}
+
 	/**
 	 * Save a file to the cache folder
 	 * 

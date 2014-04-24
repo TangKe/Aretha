@@ -14,8 +14,8 @@
  */
 package com.aretha.widget;
 
-import com.aretha.content.AsyncImageLoader;
-import com.aretha.content.AsyncImageLoader.OnImageLoadListener;
+import com.aretha.content.image.AsyncImageLoader;
+import com.aretha.content.image.AsyncImageLoader.OnImageLoadListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;

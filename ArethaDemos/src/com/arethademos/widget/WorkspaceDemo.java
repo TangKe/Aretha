@@ -1,11 +1,11 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.Workspace;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.aretha.widget.Workspace;
+import com.arethademos.R;
 
 public class WorkspaceDemo extends Activity {
 	private Workspace mWorkspace;
@@ -19,16 +19,13 @@ public class WorkspaceDemo extends Activity {
 	}
 
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.next_child:
+		final int id = v.getId();
+		if (id == R.id.next_child) {
 			mWorkspace.animationToNextPage();
-			break;
-		case R.id.prev_child:
+		} else if (id == R.id.prev_child) {
 			mWorkspace.animationToPrevPage();
-			break;
-		case R.id.artha_child:
+		} else if (id == R.id.aretha_child) {
 			mWorkspace.scrollToPage(1, true);
-			break;
 		}
 	}
 }

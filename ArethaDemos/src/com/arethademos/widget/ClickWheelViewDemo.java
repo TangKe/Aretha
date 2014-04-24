@@ -1,13 +1,13 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.ClickWheelView;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+
+import com.aretha.widget.ClickWheelView;
+import com.arethademos.R;
 
 public class ClickWheelViewDemo extends Activity {
 	private ClickWheelView mClickWheelView;
@@ -20,8 +20,8 @@ public class ClickWheelViewDemo extends Activity {
 	}
 
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.fling:
+		final int id = v.getId();
+		if (id == R.id.fling) {
 			Boolean tag = (Boolean) v.getTag();
 			Boolean isFlingEnabled = null == tag ? false : !tag;
 			mClickWheelView.setFlingEnabled(isFlingEnabled);
@@ -30,15 +30,12 @@ public class ClickWheelViewDemo extends Activity {
 			flingButton
 					.setText(isFlingEnabled ? R.string.click_wheel_view_disable_fling
 							: R.string.click_wheel_view_enable_fling);
-			break;
-		case R.id.radius_plus:
+		} else if (id == R.id.radius_plus) {
 			mClickWheelView.setRadius(mClickWheelView.getRadius() + 10,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
-		case R.id.radius_minus:
+		} else if (id == R.id.radius_minus) {
 			mClickWheelView.setRadius(mClickWheelView.getRadius() - 10,
 					TypedValue.COMPLEX_UNIT_PX);
-			break;
 		}
 	}
 }
