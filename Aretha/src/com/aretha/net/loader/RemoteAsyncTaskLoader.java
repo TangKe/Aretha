@@ -9,9 +9,9 @@ import org.apache.http.client.methods.HttpUriRequest;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
-import com.aretha.net.Fetch;
 import com.aretha.net.HttpConnectionHelper;
 import com.aretha.net.loader.util.BaseFetchParameterExtractor;
+import com.aretha.net.loader.util.Fetch;
 import com.aretha.net.loader.util.FetchParameterExtractor;
 import com.aretha.net.parser.Parser;
 import com.aretha.util.Utils;
