@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.aretha.net.loader.model.Fetch;
+
 public class BaseFetchParameterExtractor implements FetchParameterExtractor {
 
 	@Override

@@ -1,4 +1,4 @@
-package com.aretha.net.loader.util;
+package com.aretha.net.loader.model;
 
 import java.lang.reflect.Array;
 

@@ -3,7 +3,7 @@ package com.aretha.net.parser;
 import java.io.Closeable;
 import java.io.IOException;
 
-import com.aretha.net.loader.util.Fetch;
+import com.aretha.net.loader.model.Fetch;
 
 public abstract class Parser<Input extends Closeable, Result, Parser> {
 	public Result parse(Fetch fetch, Input input) {

@@ -242,13 +242,16 @@ public class AsyncImageLoader {
 				/ targetWidth);
 		factor = (int) Math.max(factor, decodeOptions.outHeight * 1.0f
 				/ targetHeight);
+		Log.d(LOG_TAG, "Current image factor: " + factor);
 		decodeOptions.inJustDecodeBounds = false;
 		decodeOptions.inSampleSize = factor;
 		// the system can purge the space of Bitmap use automatically
 		decodeOptions.inPurgeable = true;
 		decodeOptions.inInputShareable = true;
 
-		return BitmapFactory.decodeStream(inputStream, null, decodeOptions);
+		return BitmapFactory.decodeStream(
+				mFileCacheManager.readCacheFile(imageIdentifier), null,
+				decodeOptions);
 	}
 
 	/**
