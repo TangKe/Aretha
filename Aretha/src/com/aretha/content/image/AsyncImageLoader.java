@@ -248,7 +248,9 @@ public class AsyncImageLoader {
 		decodeOptions.inPurgeable = true;
 		decodeOptions.inInputShareable = true;
 
-		return BitmapFactory.decodeStream(inputStream, null, decodeOptions);
+		return BitmapFactory.decodeStream(
+				mFileCacheManager.readCacheFile(imageIdentifier), null,
+				decodeOptions);
 	}
 
 	/**
