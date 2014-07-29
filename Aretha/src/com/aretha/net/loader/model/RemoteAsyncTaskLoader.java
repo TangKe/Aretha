@@ -1,7 +1,8 @@
 package com.aretha.net.loader.model;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -19,11 +20,11 @@ public class RemoteAsyncTaskLoader<Result> extends AsyncTaskLoader<Result> {
 	private HttpConnectionHelper mHelper;
 	private Fetch mFetch;
 	private Result mResult;
-	private Parser<InputStream, Result, ?> mParser;
+	private Parser<Reader, ? extends Result, ?> mParser;
 	private FetchParameterExtractor mParameterExtractor;
 
 	public RemoteAsyncTaskLoader(Context context, Fetch fetch,
-			Parser<InputStream, Result, ?> parser) {
+			Parser<Reader, ? extends Result, ?> parser) {
 		super(context);
 		mHelper = HttpConnectionHelper.getInstance();
 		mFetch = fetch;
@@ -67,8 +68,8 @@ public class RemoteAsyncTaskLoader<Result> extends AsyncTaskLoader<Result> {
 			return null;
 		}
 		try {
-			Result result = mResult = mParser.parse(fetch, response.getEntity()
-					.getContent());
+			Result result = mResult = mParser.parse(fetch,
+					new InputStreamReader(response.getEntity().getContent()));
 			Utils.debug(result);
 			return result;
 		} catch (IllegalStateException e) {
