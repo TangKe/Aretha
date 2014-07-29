@@ -326,8 +326,11 @@ public class AsyncImageLoader {
 				message.sendToTarget();
 				return;
 			}
-			if (readCacheIfExist) {
-				bitmap = readCachedBitmap(uri.toString(), targetWidth,
+			String cacheIdentifier = uri.toString();
+			long cacheLength = mFileCacheManager
+					.getCacheFileLength(cacheIdentifier);
+			if (cacheLength > 0 && readCacheIfExist) {
+				bitmap = readCachedBitmap(cacheIdentifier, targetWidth,
 						targetHeight);
 				if (null != bitmap) {
 					Log.d(LOG_TAG, "Image cache found!");

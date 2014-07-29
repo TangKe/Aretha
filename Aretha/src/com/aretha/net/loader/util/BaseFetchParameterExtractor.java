@@ -32,20 +32,18 @@ public class BaseFetchParameterExtractor implements FetchParameterExtractor {
 		for (Field field : fields) {
 			Class fieldClass = field.getType();
 			Object value = field.get(object);
-			if ((!fieldClass.isPrimitive() && fieldClass != String.class && !fieldClass
-					.isArray())
-					|| Modifier.isFinal(field.getModifiers())
-					|| null == value) {
+			if (Modifier.isFinal(field.getModifiers()) || null == value) {
 				continue;
 			}
 
 			field.setAccessible(true);
 			FetchParameter annotation = field
 					.getAnnotation(FetchParameter.class);
+
 			NameValuePair nameValuePair = new BasicNameValuePair(
 					null == annotation ? field.getName()
 							: annotation.aliasName(),
-					fieldClass.isArray() ? arrayToString(value, "", "")
+					fieldClass.isArray() ? arrayToString(value, "", "", ",")
 							: String.valueOf(value));
 			parameters.add(nameValuePair);
 		}
@@ -57,7 +55,7 @@ public class BaseFetchParameterExtractor implements FetchParameterExtractor {
 	}
 
 	public static String arrayToString(Object array, String prefix,
-			String postfix) {
+			String postfix, String separator) {
 		StringBuilder builder = new StringBuilder();
 		if (null == array) {
 			return builder.toString();
@@ -67,10 +65,11 @@ public class BaseFetchParameterExtractor implements FetchParameterExtractor {
 		builder.append(prefix);
 		for (int index = 0; index < length; index++) {
 			builder.append(Array.get(array, index));
-			builder.append(",");
+			builder.append(separator);
 		}
 		if (0 != length) {
-			builder.delete(builder.length() - 1, builder.length());
+			builder.delete(builder.length() - separator.length(),
+					builder.length());
 		}
 		builder.append(postfix);
 		return builder.toString();
