@@ -1,4 +1,4 @@
-package com.aretha.net.loader.model;
+package com.aretha.net.loader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,6 +11,7 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.aretha.net.HttpConnectionHelper;
+import com.aretha.net.loader.model.Fetch;
 import com.aretha.net.loader.util.BaseFetchParameterExtractor;
 import com.aretha.net.loader.util.FetchParameterExtractor;
 import com.aretha.net.parser.Parser;
