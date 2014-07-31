@@ -2,7 +2,7 @@ package com.aretha.net.parser;
 
 import java.io.Reader;
 
-import com.aretha.net.loader.util.Fetch;
+import com.aretha.net.loader.model.Fetch;
 import com.google.gson.stream.JsonReader;
 
 public abstract class JsonParser<Result> extends
