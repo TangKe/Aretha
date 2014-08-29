@@ -127,26 +127,22 @@ public abstract class PersistentConfig {
 			// Only accept these types
 			field.setAccessible(true);
 			try {
+				Object value = field.get(this);
+				if (null == value) {
+					editor.remove(name);
+					continue;
+				}
+
 				if (type == String.class) {
-					String value;
-					value = (String) field.get(this);
-					editor.putString(name, value);
-				} else if (type == Integer.class) {
-					editor.putInt(name, (Integer) field.get(this));
-				} else if (type == int.class) {
-					editor.putInt(name, field.getInt(this));
-				} else if (type == Float.class) {
-					editor.putFloat(name, (Float) field.get(this));
-				} else if (type == float.class) {
-					editor.putFloat(name, field.getFloat(this));
-				} else if (type == Boolean.class) {
-					editor.putBoolean(name, (Boolean) field.get(this));
-				} else if (type == boolean.class) {
-					editor.putBoolean(name, field.getBoolean(this));
-				} else if (type == Long.class) {
-					editor.putLong(name, (Long) field.get(this));
-				} else if (type == long.class) {
-					editor.putLong(name, field.getLong(this));
+					editor.putString(name, (String) value);
+				} else if (type == Integer.class || type == int.class) {
+					editor.putInt(name, (Integer) value);
+				} else if (type == Float.class || type == float.class) {
+					editor.putFloat(name, (Float) value);
+				} else if (type == Boolean.class || type == boolean.class) {
+					editor.putBoolean(name, (Boolean) value);
+				} else if (type == Long.class||type == long.class) {
+					editor.putLong(name, (Long) value);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
