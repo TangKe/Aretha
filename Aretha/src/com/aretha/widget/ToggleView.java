@@ -14,8 +14,6 @@
  */
 package com.aretha.widget;
 
-import com.aretha.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -34,6 +32,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
+
+import com.aretha.R;
 
 public class ToggleView extends ViewGroup {
 	private final static String LOG_TAG = "ToggleView";

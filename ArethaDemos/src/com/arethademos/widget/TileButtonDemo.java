@@ -1,13 +1,13 @@
 package com.arethademos.widget;
 
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.arethademos.R;
 
 public class TileButtonDemo extends Activity implements OnClickListener {
 	@Override

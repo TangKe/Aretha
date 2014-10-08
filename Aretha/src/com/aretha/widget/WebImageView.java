@@ -14,13 +14,13 @@
  */
 package com.aretha.widget;
 
-import com.aretha.content.image.AsyncImageLoader;
-import com.aretha.content.image.AsyncImageLoader.OnImageLoadListener;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.aretha.content.image.AsyncImageLoader;
+import com.aretha.content.image.AsyncImageLoader.OnImageLoadListener;
 
 public class WebImageView extends ImageView implements OnImageLoadListener {
 	private String mImageUrl;

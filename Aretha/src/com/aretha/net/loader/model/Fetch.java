@@ -1,8 +1,10 @@
 package com.aretha.net.loader.model;
 
 import java.lang.reflect.Array;
+import java.util.List;
 
 import org.apache.http.HttpRequest;
+import org.apache.http.NameValuePair;
 
 import com.aretha.net.HttpRequestMethod;
 
@@ -33,7 +35,15 @@ public abstract class Fetch {
 		return builder.toString();
 	}
 
-	public boolean onPreFetch(HttpRequest request) {
+	/**
+	 * 
+	 * @param request
+	 * @param parameters
+	 *            can not modify
+	 * @return
+	 */
+	public boolean onPreFetch(HttpRequest request,
+			List<NameValuePair> parameters) {
 		return false;
 	}
 

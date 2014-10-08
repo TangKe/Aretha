@@ -3,8 +3,11 @@ package com.aretha.net.loader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
@@ -26,11 +29,18 @@ public class RemoteAsyncTaskLoader<Result> extends AsyncTaskLoader<Result> {
 
 	public RemoteAsyncTaskLoader(Context context, Fetch fetch,
 			Parser<Reader, ? extends Result, ?> parser) {
+		this(context, fetch, parser, null);
+	}
+
+	public RemoteAsyncTaskLoader(Context context, Fetch fetch,
+			Parser<Reader, ? extends Result, ?> parser,
+			FetchParameterExtractor extractor) {
 		super(context);
 		mHelper = HttpConnectionHelper.getInstance();
 		mFetch = fetch;
 		mParser = parser;
-		mParameterExtractor = new BaseFetchParameterExtractor();
+		mParameterExtractor = null == extractor ? new BaseFetchParameterExtractor()
+				: extractor;
 	}
 
 	@Override
@@ -56,11 +66,11 @@ public class RemoteAsyncTaskLoader<Result> extends AsyncTaskLoader<Result> {
 		final Fetch fetch = mFetch;
 		final HttpConnectionHelper helper = mHelper;
 
+		List<NameValuePair> parameters = mParameterExtractor.extract(fetch);
 		HttpUriRequest request = helper.obtainHttpRequest(
-				fetch.getFetchMethod(), fetch.getUrl(),
-				mParameterExtractor.extract(fetch));
+				fetch.getFetchMethod(), fetch.getUrl(), parameters);
 		Utils.debug(request.getURI().toString());
-		if (fetch.onPreFetch(request)) {
+		if (fetch.onPreFetch(request, Collections.unmodifiableList(parameters))) {
 			return mResult;
 		}
 		HttpResponse response = helper.execute(request);

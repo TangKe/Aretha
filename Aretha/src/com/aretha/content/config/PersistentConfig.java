@@ -57,7 +57,7 @@ public abstract class PersistentConfig {
 
 	private void read() {
 		Class<?> clazz = getClass();
-		Field[] fields = clazz.getDeclaredFields();
+		Field[] fields = clazz.getFields();
 		SharedPreferences sharedPreferences = mContext.getSharedPreferences(
 				TAG, Context.MODE_PRIVATE);
 		Map<String, ?> preferences = sharedPreferences.getAll();
@@ -77,23 +77,33 @@ public abstract class PersistentConfig {
 			String tempKey = annotation.key();
 			key = tempKey.length() == 0 ? key : tempKey;
 
-			String defaultValue = annotation.defaultValue();
 			Object value = preferences.get(key);
+			String valueString = String.valueOf(value);
 
 			// not saved in preference and has default value in
 			// PersistentConfigEntry
-			if (null == value && defaultValue.length() != 0) {
+			if (null != value) {
 				Class<?> type = field.getType();
 				if (type == String.class) {
-					value = defaultValue;
+					value = valueString;
 				} else if (type == Integer.class || type == int.class) {
-					value = Integer.parseInt(defaultValue);
+					value = Integer.parseInt(valueString);
 				} else if (type == Float.class || type == float.class) {
-					value = Float.parseFloat(defaultValue);
+					value = Float.parseFloat(valueString);
 				} else if (type == Boolean.class || type == boolean.class) {
-					value = Boolean.parseBoolean(defaultValue);
+					value = Boolean.parseBoolean(valueString);
 				} else if (type == Long.class || type == long.class) {
-					value = Long.parseLong(defaultValue);
+					value = Long.parseLong(valueString);
+				} else if (isPersistentable(type)) {
+					try {
+						value = type.newInstance();
+						((Persistentable) value).depersistent(valueString);
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					}
+
 				}
 			}
 
@@ -109,7 +119,7 @@ public abstract class PersistentConfig {
 
 	public void save() {
 		Class<?> clazz = getClass();
-		Field[] fields = clazz.getDeclaredFields();
+		Field[] fields = clazz.getFields();
 
 		SharedPreferences sharedPreferences = mContext.getSharedPreferences(
 				TAG, Context.MODE_PRIVATE);
@@ -141,8 +151,11 @@ public abstract class PersistentConfig {
 					editor.putFloat(name, (Float) value);
 				} else if (type == Boolean.class || type == boolean.class) {
 					editor.putBoolean(name, (Boolean) value);
-				} else if (type == Long.class||type == long.class) {
+				} else if (type == Long.class || type == long.class) {
 					editor.putLong(name, (Long) value);
+				} else if (isPersistentable(type)) {
+					String persistent = ((Persistentable) value).persistent();
+					editor.putString(name, persistent);
 				}
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
@@ -151,5 +164,16 @@ public abstract class PersistentConfig {
 			}
 		}
 		editor.commit();
+	}
+
+	private Boolean isPersistentable(Class<?> type) {
+		Class<?>[] interfaces = type.getInterfaces();
+
+		for (Class<?> interfaceClass : interfaces) {
+			if (interfaceClass == Persistentable.class) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

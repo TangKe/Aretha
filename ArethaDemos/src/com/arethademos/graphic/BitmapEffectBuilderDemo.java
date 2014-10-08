@@ -1,11 +1,5 @@
 package com.arethademos.graphic;
 
-import com.aretha.widget.PageIndicator;
-import com.aretha.widget.Workspace;
-import com.aretha.widget.Workspace.OnWorkspaceChangeListener;
-import com.aretha.widget.graphic.BitmapEffectBuilder;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,9 +10,15 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ImageView.ScaleType;
+
+import com.aretha.widget.PageIndicator;
+import com.aretha.widget.Workspace;
+import com.aretha.widget.Workspace.OnWorkspaceChangeListener;
+import com.aretha.widget.graphic.BitmapEffectBuilder;
+import com.arethademos.R;
 
 public class BitmapEffectBuilderDemo extends Activity implements
 		OnWorkspaceChangeListener {

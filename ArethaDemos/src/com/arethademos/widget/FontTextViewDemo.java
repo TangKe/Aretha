@@ -1,10 +1,9 @@
 package com.arethademos.widget;
 
-import com.arethademos.R;
-
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
+
+import com.arethademos.R;
 
 public class FontTextViewDemo extends Activity {
 	@Override

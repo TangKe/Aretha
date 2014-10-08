@@ -1,17 +1,17 @@
 package com.arethademos.widget;
 
-import com.aretha.widget.ShelfGallery;
-import com.arethademos.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.aretha.widget.ShelfGallery;
+import com.arethademos.R;
 
 public class ShelfGalleryDemo extends Activity implements OnItemClickListener {
 	private ShelfGallery mShelfGallery;
