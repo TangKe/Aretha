@@ -1,7 +1,6 @@
 package com.aretha.adapter;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 /**
- * Provide a general use of adapter， improve the performance of scroll
+ * Provide a general use of adapter锟斤拷 improve the performance of scroll
  * 
  * @author Tank
  * 
@@ -43,9 +42,8 @@ public abstract class AbstractBaseAdapter<Data, Holder extends ViewHolder<Data>>
 		if (position >= mData.size() || 0 > position) {
 			return null;
 		}
-		Iterator<Data> iterator = mData.iterator();
-		while (iterator.hasNext()) {
-			Data data = iterator.next();
+
+		for (Data data : mData) {
 			if (0 == position--) {
 				return data;
 			}
@@ -78,7 +76,7 @@ public abstract class AbstractBaseAdapter<Data, Holder extends ViewHolder<Data>>
 		}
 		holder.item = item;
 		holder.onResetViews();
-		onConfigView(position, holder, item, type);
+		holder.onConfigViews(position, item, type);
 
 		return convertView;
 	}
@@ -97,23 +95,6 @@ public abstract class AbstractBaseAdapter<Data, Holder extends ViewHolder<Data>>
 	public abstract List<Data> onLoadData();
 
 	/**
-	 * Sub class should use this method to configured recycled views with
-	 * provided item
-	 * 
-	 * @param position
-	 *            position of adapter item
-	 * @param holder
-	 *            recycled ViewHolder
-	 * @param item
-	 *            data in this position
-	 * @param type
-	 *            type of current position returned by
-	 *            {@link #getItemViewType(int)}
-	 */
-	public abstract void onConfigView(int position, Holder holder, Data item,
-			int type);
-
-	/**
 	 * just return the ViewHolder according to the type of view
 	 * 
 	 * @param view
@@ -127,7 +108,7 @@ public abstract class AbstractBaseAdapter<Data, Holder extends ViewHolder<Data>>
 	public abstract Holder onBindViewHolder(View view, int type);
 
 	/**
-	 * 当没有任何重用{@link View}可以使用时, 则调用该方法, 创建新的{@link View}
+	 * create a new view if AdapterView's recycler is empty
 	 * 
 	 * @param inflater
 	 * @param type

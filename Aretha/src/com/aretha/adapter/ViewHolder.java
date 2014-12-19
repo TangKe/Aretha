@@ -18,4 +18,6 @@ public abstract class ViewHolder<Data> {
 	public void onResetViews() {
 
 	}
+
+	public abstract void onConfigViews(int position, Data item, int type);
 }
